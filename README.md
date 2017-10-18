@@ -1,4 +1,4 @@
-# etude
+# Etude
 My notes, excercises, and problems.
 
 * [akka](https://github.com/apuex/etude/blob/master/akka/README.md)
