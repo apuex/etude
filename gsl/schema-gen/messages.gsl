@@ -1,0 +1,16 @@
+.template 0
+
+imports = ""
+
+for import
+  echo "import " + import.name
+  imports = imports + "import " + import.name + "\n"
+endfor
+echo "imports: " + imports
+
+for message 
+  echo "message name: " + name + ", key: " + key
+  include "message.gsl"
+endfor
+.endtemplate
+

@@ -1,0 +1,26 @@
+.template 1
+.pkgdir = string.replace(messages.package, ".|/")
+.directory.create(pkgdir)
+.output "$(pkgdir)/$(message.name:Pascal).scala"
+package $(messages.package)
+
+.echo imports
+$(imports:no)
+
+final case class $(message.name:Pascal) (
+.for field
+.if !last()
+.comma = ","
+.else
+.comma = ""
+.endif
+.if field.type = "array"
+  $(field.name:Camel): $(field.type:Pascal)[$(field.value:Pascal)]$(comma)
+.elsif field.type = "map"
+  $(field.name:Camel): $(field.type:Pascal)[$(field.key:Pascal), $(field.value:Pascal)]$(comma)
+.else
+  $(field.name:Camel): $(field.type:Pascal)$(comma)
+.endif
+.endfor
+) extends Command
+.endtemplate

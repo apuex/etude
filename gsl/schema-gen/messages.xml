@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<messages script="messages.gsl" package="com.apuex.messages">
+  <import name="com.apuex.common.Command"/>
+  <message name="signal" key="signal_id">
+    <field name="signal_id" type="string" length="64" optional="false"/>
+    <field name="signal_name" type="string" length="64" optional="true"/>
+  </message>
+  <message name="device" key="device_id">
+    <field name="device_id" type="string" length="64" optional="false"/>
+    <field name="device_name" type="string" length="64" optional="true"/>
+    <field name="vendor" type="string" length="64" optional="true"/>
+    <field name="vendor_model" type="string" length="64" optional="true"/>
+    <field name="signals" type="array" value="signal"/>
+    <field name="params" type="map" key="string" value="string"/>
+  </message>
+</messages>
