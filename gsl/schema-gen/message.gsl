@@ -15,9 +15,9 @@ final case class $(message.name:Pascal) (
 .comma = ""
 .endif
 .if field.type = "array"
-  $(field.name:Camel): $(field.type:Pascal)[$(field.value:Pascal)]$(comma)
+  $(field.name:Camel): $(field.type:Pascal)[$(field.valueType:Pascal)]$(comma)
 .elsif field.type = "map"
-  $(field.name:Camel): $(field.type:Pascal)[$(field.key:Pascal), $(field.value:Pascal)]$(comma)
+  $(field.name:Camel): $(field.type:Pascal)[$(field.keyType:Pascal), $(field.valueType:Pascal)]$(comma)
 .else
   $(field.name:Camel): $(field.type:Pascal)$(comma)
 .endif

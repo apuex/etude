@@ -32,5 +32,11 @@ Makefile.in
 
 /texinfo.tex
 
+# intermediate build files
+target
+bin
+dist
+build
+
 # IDE generated
 .idea
