@@ -7,5 +7,6 @@
 - [C++ Concurrency in Action: Practical Multithreading](https://www.amazon.com/gp/product/1933988770/ref=as_li_ss_tl?ie=UTF8&tag=preshonprogr-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=1933988770)
 - [`std::atomic`](http://en.cppreference.com/w/cpp/atomic/atomic)
 - [Non-blocking algorithm](https://en.wikipedia.org/wiki/Non-blocking_algorithm)
+- [What is the difference between using explicit fences and std::atomic?](https://stackoverflow.com/questions/14167767/what-is-the-difference-between-using-explicit-fences-and-stdatomic/14185300#14185300)
 
 
