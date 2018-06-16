@@ -11,3 +11,6 @@
 - [What is the consistency level generally followed by people using Cassandra (say you have 10 node cluster)?](https://www.quora.com/What-is-the-consistency-level-generally-followed-by-people-using-Cassandra-say-you-have-10-node-cluster)
 - [Datastax DevCenter & OpsCenter Installation Complete Guide](https://www.guru99.com/cassandra-devcenter-opscenter.html)
 - [OpsCenter 6.1 User Guide](https://docs.datastax.com/en/opscenter/6.1/index.html)
+- [Eventual Consistency: The Hinted Handoff Queue](https://dzone.com/articles/eventual-consistency-the-hinted-handoff-queue)
+- [Hinted Handoff: repair during write path](https://docs.datastax.com/en/cassandra/2.1/cassandra/operations/opsRepairNodesHintedHandoff.html)
+
