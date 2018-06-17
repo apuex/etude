@@ -17,3 +17,4 @@
 - [How do I accomplish lightweight transactions with linearizable consistency?](https://docs.datastax.com/en/cassandra/3.0/cassandra/dml/dmlLtwtTransactions.html)
 - [Trace reads at different consistency levels](https://docs.datastax.com/en/cql/3.3/cql/cql_using/useTracingTrace.html)
 - [https://github.com/riptano/ccm](https://github.com/riptano/ccm)
+- [Dynamic snitching in Cassandra: past, present, and future](https://www.datastax.com/dev/blog/dynamic-snitching-in-cassandra-past-present-and-future)
