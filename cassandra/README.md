@@ -13,4 +13,7 @@
 - [OpsCenter 6.1 User Guide](https://docs.datastax.com/en/opscenter/6.1/index.html)
 - [Eventual Consistency: The Hinted Handoff Queue](https://dzone.com/articles/eventual-consistency-the-hinted-handoff-queue)
 - [Hinted Handoff: repair during write path](https://docs.datastax.com/en/cassandra/2.1/cassandra/operations/opsRepairNodesHintedHandoff.html)
+- [Dude! Where’s my data?](https://academy.datastax.com/support-blog/dude-where%E2%80%99s-my-data)
+- [How do I accomplish lightweight transactions with linearizable consistency?](https://docs.datastax.com/en/cassandra/3.0/cassandra/dml/dmlLtwtTransactions.html)
+- [Trace reads at different consistency levels](https://docs.datastax.com/en/cql/3.3/cql/cql_using/useTracingTrace.html)
 
