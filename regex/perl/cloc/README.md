@@ -2,7 +2,7 @@
 
 ## examples
 
-1.cloc files with extension `.java`, `.scala` and `.properties`:
+1. cloc files with extension `.java`, `.scala` and `.properties`:
 ```
 $ cloc --match-f='.*\.(java|scala|properties)$' $(pwd)
     3108 text files.
@@ -19,7 +19,7 @@ SUM:                          3065          37751          11441         184569
 -------------------------------------------------------------------------------
 ```
 
-2.cloc C and C++ source code:
+2. cloc C and C++ source code:
 
 ```
 $ cloc --match-f='.*\.(c|cpp|h|hpp|cc)$' $(pwd)
