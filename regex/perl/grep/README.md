@@ -38,7 +38,7 @@ $ find $(pwd) -type f | grep -o -P "([\s0-9a-zA-Z\-\_\.]*)\.(gz|bz2|bz|zip|rar|7
 6. grep file name with email pattern.
 
 ```
-$ find gs-messaging-jms -type f | grep -o -P '[A-Za-z0-9\-\_\$]*\o{100}.*\.([a-z]{3})$'
+$ find gs-messaging-jms -type f | grep -o -P '[A-Za-z0-9\-\_\$]*\o{100}[A-Za-z0-9\-\_\$\.]*\.([a-z]{3})$'
 gates@mail.microsoft.com
 bill-gates@microsoft.com
 ```
