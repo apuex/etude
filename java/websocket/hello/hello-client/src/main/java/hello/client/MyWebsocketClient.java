@@ -22,23 +22,22 @@ public class MyWebsocketClient {
 	@OnMessage
 	public void onMessage(Message msg, Session session) throws IOException, EncodeException {
 		out.println(msg);
-		session.getBasicRemote().sendObject(msg);
 	}
 
 	@OnOpen
 	public void onOpen(Session session) throws IOException, EncodeException {
 		out.println(session.isOpen());
-		session.getBasicRemote().sendObject(new Message("Wangxy", "Yes!"));
+		session.getBasicRemote().sendObject(new Message(System.getProperty("user.name"), System.getProperty("java.vm.name")));
 	}
 
 	@OnClose
-	public void onClose(Session session) {
-		out.println(session.isOpen());
+	public void onClose(Session session) throws Exception {
+		out.println("onClose: " + session.isOpen());
 	}
 
 	@OnError
 	public void onError(Session session, Throwable t) {
-		out.println(session.isOpen());
+		out.println("onError: " + session.isOpen());
 		t.printStackTrace(out);
 	}
 	
