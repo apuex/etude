@@ -37,7 +37,7 @@ public class Main {
     String packageName = AnyTest.getDescriptor().getPackage();
     out.println(any.getTypeUrl());
     Descriptors.Descriptor descriptor = registry.find(type(any.getTypeUrl()));
-    Class<Message> clazz = (Class<Message>)Class.forName(String.format("%s.%s$%s", packageName, AnyTest.class.getSimpleName(), descriptor.getName()));
+    Class<Message> clazz = (Class<Message>) Class.forName(String.format("%s.%s$%s", packageName, AnyTest.class.getSimpleName(), descriptor.getName()));
     Message message = any.unpack(clazz);
 
     out.println(descriptor.getFullName());
