@@ -47,17 +47,20 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>com.google.protobuf.tools</groupId>
-        <artifactId>maven-protoc-plugin</artifactId>
-        <version>0.3.2</version>
+        <groupId>org.xolstice.maven.plugins</groupId>
+        <artifactId>protobuf-maven-plugin</artifactId>
+        <version>0.5.1</version>
         <configuration>
           <protocExecutable>/usr/local/bin/protoc</protocExecutable>
+          <includeDependenciesInDescriptorSet>true</includeDependenciesInDescriptorSet>
+          <attachDescriptorSet>true</attachDescriptorSet>
+          <writeDescriptorSet>true</writeDescriptorSet>
         </configuration>
         <executions>
           <execution>
             <goals>
               <goal>compile</goal>
-              <goal>testCompile</goal>
+              <goal>test-compile</goal>
             </goals>
           </execution>
         </executions>
@@ -123,12 +126,6 @@
     <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
   </properties>
 
-  <pluginRepositories>
-    <pluginRepository>
-      <id>mapr</id>
-      <url>http://repository.mapr.com/nexus/content/groups/mapr-public/releases</url>
-    </pluginRepository>
-  </pluginRepositories>
 </project>
 
        

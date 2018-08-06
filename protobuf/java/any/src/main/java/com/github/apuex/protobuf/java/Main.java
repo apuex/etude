@@ -1,12 +1,18 @@
 package com.github.apuex.protobuf.java;
 
 import com.google.protobuf.Any;
+import com.google.protobuf.DescriptorProtos;
 import com.google.protobuf.Descriptors;
 import com.google.protobuf.Message;
 import com.google.protobuf.util.JsonFormat;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import static java.lang.System.out;
 
@@ -34,28 +40,31 @@ public class Main {
     Any.Builder anyBuilder = Any.newBuilder();
     parser.merge(json, anyBuilder);
     Any any = anyBuilder.build();
-    String packageName = AnyTest.getDescriptor().getPackage();
+    String packageName = AnyTest.getDescriptor().getOptions().getJavaPackage();
     out.println(any.getTypeUrl());
     Descriptors.Descriptor descriptor = registry.find(type(any.getTypeUrl()));
-    Class<Message> clazz = (Class<Message>) Class.forName(String.format("%s.%s$%s", packageName, AnyTest.class.getSimpleName(), descriptor.getName()));
+    Class<Message> clazz = (Class<Message>) Class.forName(String.format("%s.%s", packageName, descriptor.getName()));
     Message message = any.unpack(clazz);
 
     out.println(descriptor.getFullName());
     //Message message = descriptor.toProto().getDefaultInstanceForType()parseFrom(any.getValue());
     out.println(message.getClass().getName());
+
+    loadDescriptors("target/generated-resources/protobuf/descriptor-sets/any.protobin")
+        .forEach((k, v) -> out.printf("%s => %s\n", k, v));
   }
 
-  private static AnyTest.AddressBook addressBook() {
-    return AnyTest.AddressBook.newBuilder()
+  private static AddressBook addressBook() {
+    return AddressBook.newBuilder()
         .setName("Wangxy")
         .addAllContacts(contactPerson())
         .build();
   }
 
-  private static List<AnyTest.Person> contactPerson() {
-    LinkedList<AnyTest.Person> list = new LinkedList();
+  private static List<Person> contactPerson() {
+    LinkedList<Person> list = new LinkedList();
     for (int i = 1; i < 3; ++i) {
-      list.add(AnyTest.Person.newBuilder()
+      list.add(Person.newBuilder()
           .setName(String.format("Stink Bastard %s", Integer.toString(i)))
           .addAllContacts(contacts())
           .build());
@@ -66,15 +75,34 @@ public class Main {
   private static List<Any> contacts() {
     LinkedList<Any> list = new LinkedList();
     for (int i = 1; i < 2; ++i) {
-      list.add(Any.pack(AnyTest.Phone.newBuilder()
-          .setContactType(AnyTest.ContactType.BUSINESS)
+      list.add(Any.pack(Phone.newBuilder()
+          .setContactType(ContactType.BUSINESS)
           .setPhoneNumber(String.format("123458%s", Integer.toString(i)))
           .build()));
-      list.add(Any.pack(AnyTest.Address.newBuilder()
-          .setContactType(AnyTest.ContactType.BUSINESS)
+      list.add(Any.pack(Address.newBuilder()
+          .setContactType(ContactType.BUSINESS)
           .setAddress(String.format("Planet %s", Integer.toString(i)))
           .build()));
     }
     return list;
   }
+
+  private static Map<String, String> loadDescriptors(String name) throws Exception {
+    Map<String, String> mapping = new HashMap<>();
+
+    InputStream input = new FileInputStream(name);
+    DescriptorProtos.FileDescriptorSet descriptorSet = DescriptorProtos.FileDescriptorSet.parseFrom(input);
+    for(DescriptorProtos.FileDescriptorProto fdp: descriptorSet.getFileList()) {
+      out.printf("descriptor name: %s\n", fdp.getName());
+      out.printf("java package: %s\n", fdp.getOptions().getJavaPackage());
+      out.printf("java outer class: %s\n", fdp.getOptions().getJavaOuterClassname());
+    }
+    for (DescriptorProtos.FileDescriptorProto fdp: descriptorSet.getFileList()) {
+      for(DescriptorProtos.DescriptorProto md : fdp.getMessageTypeList()) {
+        out.println(md.getName());
+      }
+    }
+    return mapping;
+  }
+
 }
