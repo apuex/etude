@@ -6,7 +6,6 @@ import com.google.protobuf.Descriptors;
 import com.google.protobuf.Message;
 import com.google.protobuf.util.JsonFormat;
 
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -49,7 +48,7 @@ public class Main {
     //Message message = descriptor.toProto().getDefaultInstanceForType()parseFrom(any.getValue());
     out.println(message.getClass().getName());
 
-    loadDescriptors("target/generated-resources/protobuf/descriptor-sets/any.protobin")
+    loadDescriptors("/protobuf/descriptor-sets/any.protobin")
         .forEach((k, v) -> out.printf("%s => %s\n", k, v));
 
     out.printf("load descriptors from %s: \n", AnyTest.class.getName());
@@ -92,7 +91,7 @@ public class Main {
   private static Map<String, Class<Message>> loadDescriptors(String name) throws Exception {
     Map<String, Class<Message>> mapping = new HashMap<>();
 
-    InputStream input = new FileInputStream(name);
+    InputStream input = Class.class.getResourceAsStream(name);
     DescriptorProtos.FileDescriptorSet descriptorSet = DescriptorProtos.FileDescriptorSet.parseFrom(input);
     for (DescriptorProtos.FileDescriptorProto fdp : descriptorSet.getFileList()) {
       out.printf("descriptor name: %s\n", fdp.getName());
