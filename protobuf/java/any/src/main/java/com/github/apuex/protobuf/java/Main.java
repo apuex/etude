@@ -7,7 +7,6 @@ import com.google.protobuf.Message;
 import com.google.protobuf.util.JsonFormat;
 
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -52,6 +51,9 @@ public class Main {
 
     loadDescriptors("target/generated-resources/protobuf/descriptor-sets/any.protobin")
         .forEach((k, v) -> out.printf("%s => %s\n", k, v));
+
+    out.printf("load descriptors from %s: \n", AnyTest.class.getName());
+    loadAnyTestDescriptors();
   }
 
   private static AddressBook addressBook() {
@@ -87,22 +89,54 @@ public class Main {
     return list;
   }
 
-  private static Map<String, String> loadDescriptors(String name) throws Exception {
-    Map<String, String> mapping = new HashMap<>();
+  private static Map<String, Class<Message>> loadDescriptors(String name) throws Exception {
+    Map<String, Class<Message>> mapping = new HashMap<>();
 
     InputStream input = new FileInputStream(name);
     DescriptorProtos.FileDescriptorSet descriptorSet = DescriptorProtos.FileDescriptorSet.parseFrom(input);
-    for(DescriptorProtos.FileDescriptorProto fdp: descriptorSet.getFileList()) {
+    for (DescriptorProtos.FileDescriptorProto fdp : descriptorSet.getFileList()) {
       out.printf("descriptor name: %s\n", fdp.getName());
       out.printf("java package: %s\n", fdp.getOptions().getJavaPackage());
       out.printf("java outer class: %s\n", fdp.getOptions().getJavaOuterClassname());
     }
-    for (DescriptorProtos.FileDescriptorProto fdp: descriptorSet.getFileList()) {
-      for(DescriptorProtos.DescriptorProto md : fdp.getMessageTypeList()) {
-        out.println(md.getName());
+    for (DescriptorProtos.FileDescriptorProto fdp : descriptorSet.getFileList()) {
+      String packageName = fdp.getOptions().getJavaPackage();
+      for (DescriptorProtos.DescriptorProto md : fdp.getMessageTypeList()) {
+        String className = String.format("%s.%s", packageName, md.getName());
+        out.println(className);
+        Class<Message> clazz = (Class<Message>) Class.forName(className);
+        mapping.put(className, clazz);
+      }
+    }
+    for (DescriptorProtos.FileDescriptorProto fdp : descriptorSet.getFileList()) {
+      String packageName = fdp.getOptions().getJavaPackage();
+      for (DescriptorProtos.EnumDescriptorProto md : fdp.getEnumTypeList()) {
+        String className = String.format("%s.%s", packageName, md.getName());
+        out.println(className);
+        Class<Message> clazz = (Class<Message>) Class.forName(className);
+        mapping.put(className, clazz);
       }
     }
     return mapping;
   }
 
+  private static Map<String, Class<Message>> loadAnyTestDescriptors() throws Exception {
+    Map<String, Class<Message>> mapping = new HashMap<>();
+    DescriptorProtos.FileDescriptorProto fdp = AnyTest.getDescriptor().toProto();
+    String packageName = fdp.getOptions().getJavaPackage();
+    for (DescriptorProtos.DescriptorProto md : fdp.getMessageTypeList()) {
+      String className = String.format("%s.%s", packageName, md.getName());
+      out.println(className);
+      Class<Message> clazz = (Class<Message>) Class.forName(className);
+      mapping.put(className, clazz);
+    }
+    for (DescriptorProtos.EnumDescriptorProto md : fdp.getEnumTypeList()) {
+      String className = String.format("%s.%s", packageName, md.getName());
+      out.println(className);
+      Class<Message> clazz = (Class<Message>) Class.forName(className);
+      mapping.put(className, clazz);
+    }
+
+    return mapping;
+  }
 }
