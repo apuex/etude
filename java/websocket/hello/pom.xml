@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.github.apuex.java.websocket</groupId>
+	<artifactId>hello</artifactId>
+	<version>1.0.0</version>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>hello-message</module>
+		<module>hello-client</module>
+		<module>hello-server</module>
+	</modules>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
+				<configuration>
+					<source>${java.source.version}</source>
+					<target>${java.class.version}</target>
+					<encoding>${source.encoding}</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>${maven-source-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<properties>
+		<java.source.version>1.8</java.source.version>
+		<java.class.version>1.8</java.class.version>
+		<source.encoding>UTF-8</source.encoding>
+		<junit.version>4.12</junit.version>
+		<commons-beanutils.version>1.9.2</commons-beanutils.version>
+		<joda-time.version>2.9.4</joda-time.version>
+		<cassandra-driver.version>3.5.0</cassandra-driver.version>
+
+		<maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+		<maven-jar-plugin.version>2.4</maven-jar-plugin.version>
+		<maven-surefire-plugin.version>2.12</maven-surefire-plugin.version>
+		<build-helper-maven-plugin.version>1.7</build-helper-maven-plugin.version>
+		<exec-maven-plugin.version>1.2.1</exec-maven-plugin.version>
+		<maven-source-plugin.version>3.0.1</maven-source-plugin.version>
+	</properties>
+</project>
+
+       

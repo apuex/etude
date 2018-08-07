@@ -1,0 +1,34 @@
+syntax = "proto3";
+import "google/protobuf/any.proto";
+
+package com.github.apuex.protobuf.java;
+option java_package = "com.github.apuex.protobuf.java";
+option java_outer_classname = "AnyTest";
+option java_multiple_files = true;
+
+enum ContactType {
+  FAMILY = 0;
+  FRIEND = 1;
+  BUSINESS = 2;
+};
+
+message Phone {
+  ContactType contactType = 1;
+  string phoneNumber = 2;
+};
+
+message Address {
+  ContactType contactType = 1;
+  string address = 2;
+};
+
+message Person {
+  string name = 1;
+  repeated google.protobuf.Any contacts = 2;
+};
+
+message AddressBook {
+  string name = 1;
+  repeated Person contacts = 2;
+};
+
