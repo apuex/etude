@@ -1,0 +1,5 @@
+AnotherEntity, createAnotherEntity
+, retrieveAnotherEntity
+, updateAnotherEntity
+, deleteAnotherEntity
+, queryAnotherEntity

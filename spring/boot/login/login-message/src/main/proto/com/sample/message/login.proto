@@ -1,0 +1,28 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+
+package com.sample.message;
+option java_package = "com.sample.message";
+option java_outer_classname = "Login";
+option java_multiple_files = true;
+
+enum ResponseType {
+    LOGIN_SUCCESS = 0;
+    LOGIN_FAILURE = 1;
+    LOGOUT_SUCCESS = 2;
+    LOGOUT_FAILURE = 3;
+}
+
+message Response {
+    ResponseType type = 1;
+    string text = 2;
+}
+
+message LoginCmd {
+    string username = 1;
+    string password = 2;
+}
+
+message LogoutCmd {
+
+}

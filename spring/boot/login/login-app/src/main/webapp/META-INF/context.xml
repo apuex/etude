@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context antiJARLocking="true" path="" reloadable="true"
+    crossContext="true" sessionCookieName="ssn-id" sessionCookiePath="/">
+
+    <Realm className="org.apache.catalina.realm.JAASRealm"
+           appName="SampleLogin"
+           userClassNames="com.sample.UserPrincipal"
+           roleClassNames="com.sample.RolePrincipal"/>
+
+</Context>
