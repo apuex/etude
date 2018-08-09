@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context antiJARLocking="true" path="" reloadable="true" crossContext="true">
+
+    <!--
+        <Resource name="jdbc/authority" auth="Container" type="javax.sql.DataSource"
+                  maxTotal="100" maxIdle="30" maxWaitMillis="10000"
+                  username="dcim_config" password="password" driverClassName="com.mysql.jdbc.Driver"
+                  url="jdbc:mysql://localhost:3306/dcim_config?useSSL=false"/>
+
+        <Realm className="org.apache.catalina.realm.DataSourceRealm"
+               localDataSource="true"
+               dataSourceName="jdbc/authority"
+               userTable="users" userNameCol="user_name" userCredCol="user_pass"
+               userRoleTable="user_roles" roleNameCol="role_name"/>
+
+        <Realm className="org.apache.catalina.realm.JAASRealm"
+               appName="SampleLogin"
+               userClassNames="com.sample.UserPrincipal"
+               roleClassNames="com.sample.RolePrincipal"/>
+    -->
+
+</Context>

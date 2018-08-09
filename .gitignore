@@ -37,6 +37,14 @@ target
 bin
 dist
 build
+**/*.class
+**/*.jar
+**/*.log
+logs
+work
+lib
+tmp
+temp
 
 # IDE generated
 .idea
