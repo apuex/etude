@@ -7,10 +7,11 @@ option java_outer_classname = "Login";
 option java_multiple_files = true;
 
 enum ResponseType {
-    LOGIN_SUCCESS = 0;
-    LOGIN_FAILURE = 1;
-    LOGOUT_SUCCESS = 2;
-    LOGOUT_FAILURE = 3;
+    LOGIN_UNDEFINED = 0;
+    LOGIN_SUCCESS = 1;
+    LOGIN_FAILURE = 2;
+    LOGOUT_SUCCESS = 3;
+    LOGOUT_FAILURE = 4;
 }
 
 message Response {

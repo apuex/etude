@@ -12,21 +12,26 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping(value = "authenticate", method = RequestMethod.POST)
 public class AuthenticateController {
 
     @RequestMapping(value = "login", produces = "application/json")
-    public ResponseEntity<Response> login(@RequestBody LoginCmd c, HttpServletRequest request) {
+    public ResponseEntity<Response> login(@RequestBody LoginCmd c, HttpServletRequest request, HttpServletResponse rsp) {
         try {
+            request.getSession();
             request.login(c.getUsername(), c.getPassword());
+            System.out.println(request);
+            System.out.println(request.getUserPrincipal());
+
             return new ResponseEntity<>(
                     Response.newBuilder()
                             .setType(ResponseType.LOGIN_SUCCESS)
                             .setText("Login was successful.").build(),
                     HttpStatus.OK);
-        } catch (ServletException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             return new ResponseEntity<>(
                     Response.newBuilder()
@@ -43,13 +48,13 @@ public class AuthenticateController {
             return new ResponseEntity<>(
                     Response.newBuilder()
                             .setType(ResponseType.LOGOUT_SUCCESS)
-                            .setText("Login was successful.").build(),
+                            .setText("Logout was successful.").build(),
                     HttpStatus.OK);
         } catch (ServletException ex) {
             return new ResponseEntity<>(
                     Response.newBuilder()
                             .setType(ResponseType.LOGOUT_FAILURE)
-                            .setText("Login failed.").build(),
+                            .setText("Logout failed.").build(),
                     HttpStatus.UNAUTHORIZED);
         }
     }
