@@ -139,26 +139,25 @@
       <Host appBase="webapps" autoDeploy="true" name="localhost" unpackWARs="true">
 
 			
-			  <Realm className="org.apache.catalina.realm.DataSourceRealm" dataSourceName="jdbc/MonitorDB72" localDataSource="true" roleNameCol="GroupName" userCredCol="Password" userNameCol="UserAlias" userRoleTable="CGroup" userTable="CUser"/>
+        <Realm className="org.apache.catalina.realm.DataSourceRealm"
+               localDataSource="true"
+               dataSourceName="jdbc/MonitorDB72"
+               userTable="CUser" 
+               userNameCol="UserAlias" 
+               userCredCol="Password"
+               userRoleTable="CGroup" 
+               roleNameCol="GroupName"
+        />
         <!-- SingleSignOn valve, share authentication between web applications
              Documentation at: /docs/config/valve.html -->
-        <Valve className="org.apache.catalina.authenticator.SingleSignOn"/>
+        <Valve className="org.apache.catalina.authenticator.SingleSignOn" />
 
         <!-- Access log processes all example.
              Documentation at: /docs/config/valve.html
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
 
-      <Context docBase="/home/wangxy/wincom/mstar/code/backend/power-env/power-env/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/ROOT" path="" reloadable="false"/><Context antiJARLocking="true" crossContext="true" docBase="/home/wangxy/wincom/mstar/code/backend/power-env/power-env/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/login-servlet" path="/login-servlet" reloadable="true" source="org.eclipse.jst.j2ee.server:login-servlet">
-
-  <Resource auth="Container" driverClassName="net.sourceforge.jtds.jdbc.Driver" maxIdle="30" maxTotal="100" maxWaitMillis="10000" name="jdbc/MonitorDB72" password="" type="javax.sql.DataSource" url="jdbc:jtds:sqlserver://192.168.0.33:1433/MonitorDB72" username="sa" validationQuery="SELECT 1"/>
-
-  <Realm className="org.apache.catalina.realm.DataSourceRealm" dataSourceName="jdbc/MonitorDB72" localDataSource="true" roleNameCol="GroupName" userCredCol="Password" userNameCol="UserAlias" userRoleTable="CGroup" userTable="CUser"/>
-
-</Context><Context antiJARLocking="true" crossContext="true" docBase="/home/wangxy/wincom/mstar/code/backend/power-env/power-env/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/sample-app" path="/sample-app" reloadable="true" source="org.eclipse.jst.j2ee.server:sample-app">
-
-
-</Context></Host>
+      </Host>
     </Engine>
   </Service>
 </Server>
