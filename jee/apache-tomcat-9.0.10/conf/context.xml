@@ -31,14 +31,14 @@
 
     <Realm   className="org.apache.catalina.realm.JNDIRealm"
              connectionURL="ldap://192.168.0.161:389"
-             connectionName="cn=admin,dc=wincomtek,dc=com"
-             connectionPassword="sp8956256"
+             connectionName="cn=admin,dc=apuex,dc=com"
+             connectionPassword="secret"
              roleSearchAsUser="true"
-             userBase="ou=people,dc=wincomtek,dc=com"
+             userBase="ou=people,dc=apuex,dc=com"
              userPassword="userPassword"
              userSearch="(uid={0})"
              userRoleAttribute="uid"
-             roleBase="ou=group,dc=wincomtek,dc=com"
+             roleBase="ou=group,dc=apuex,dc=com"
              roleName="cn"
              roleSearch="(memberUid={1})"
     />
