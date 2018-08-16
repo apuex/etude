@@ -1,0 +1,7 @@
+# Group employees
+dn: cn=admin,ou=People,dc=apuex,dc=com
+cn: admin
+gidNumber: 1
+objectClass: top
+objectclass: posixGroup
+

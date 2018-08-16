@@ -1,0 +1,21 @@
+# replace to your own domain name for "dc=***,dc=***" section
+dn: dc=apuex,dc=com
+objectClass: top
+objectClass: dcObject
+objectclass: organization
+o: apuex.com
+dc: apuex
+
+dn: cn=admin,dc=apuex,dc=com
+objectClass: organizationalRole
+cn: admin
+description: Directory admin
+
+dn: ou=People,dc=apuex,dc=com
+objectClass: organizationalUnit
+ou: People
+
+dn: ou=Group,dc=apuex,dc=com
+objectClass: organizationalUnit
+ou: Group
+

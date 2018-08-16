@@ -1,0 +1,7 @@
+# Group employees
+dn: cn=user,ou=Group,dc=apuex,dc=com
+cn: user
+gidNumber: 10001
+objectClass: top
+objectclass: posixGroup
+

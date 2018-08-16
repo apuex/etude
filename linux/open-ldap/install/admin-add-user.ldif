@@ -1,0 +1,9 @@
+dn: cn=admin,ou=People,dc=apuex,dc=com
+changetype: modify
+add: memberUid
+memberUid: admin
+
+dn: cn=admin,ou=People,dc=apuex,dc=com
+changetype: modify
+add: memberUid
+memberUid: wangxy
