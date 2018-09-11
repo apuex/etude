@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <bean id="jmsConnectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
+    <property name="targetConnectionFactory">
+      <bean class="com.github.apuex.jms.SunConnectionFactory">
+        <property name="configuration">
+          <props>
+            <prop key="imqBrokerHostName">192.168.0.166</prop>
+            <prop key="imqBrokerHostPort">7676</prop>
+            <prop key="imqDefaultUsername">admin</prop>
+            <prop key="imqDefaultPassword">admin</prop>
+            <prop key="imqReconnectEnabled">true</prop>
+            <prop key="imqReconnectInterval">3000</prop>
+            <prop key="imqReconnectAttempts">1000000</prop>
+          </props>
+        </property>
+      </bean>
+    </property>
+    <property name="sessionCacheSize" value="10"/>
+    <property name="cacheConsumers" value="false"/>
+  </bean>
+
+  <bean id="eventNotifyTopic" class="com.sun.messaging.BasicTopic">
+    <constructor-arg value="EVENT_NOTIFY_TOPIC"/>
+  </bean>
+
+  <bean id="jmsProtobufConverter" class="com.github.apuex.protobuf.jms.ProtoJmsMessageConverter">
+    <property name="protobufDescriptors">
+      <list>
+        <value>/BOOT-INF/classes/protobuf/descriptor-sets/converter-1.0.0.protobin</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="eventNotifyTemplate" class="org.springframework.jms.core.JmsTemplate">
+    <property name="connectionFactory" ref="jmsConnectionFactory"/>
+    <property name="defaultDestination" ref="eventNotifyTopic" />
+    <property name="messageConverter" ref="jmsProtobufConverter" />
+  </bean>
+
+  <bean id="eventSourceAdapter" class="com.github.apuex.eventsource.jms.EventSourceJmsAdapter">
+    <constructor-arg ref="eventNotifyTemplate"/>
+  </bean>
+
+  <bean id="messageListenerDelegate" class="com.github.apuex.jms.ProtobufMessageListenerDelegate"/>
+
+  <bean id="messageListenerAdapter" class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
+    <constructor-arg ref="messageListenerDelegate"/>
+    <property name="messageConverter" ref="jmsProtobufConverter"/>
+  </bean>
+
+  <bean id="taskScheduler" class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler">
+    <property name="poolSize" value="8"/>
+    <property name="threadNamePrefix" value="event-store"/>
+  </bean>
+
+  <bean id="jmsMessageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+    <property name="connectionFactory" ref="jmsConnectionFactory"/>
+    <property name="destination" ref="eventNotifyTopic"/>
+    <property name="messageListener" ref="messageListenerAdapter"/>
+    <property name="taskExecutor" ref="taskScheduler"/>
+  </bean>
+
+</beans>
+

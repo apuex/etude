@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package com.github.apuex.jms;
+option java_package = "com.github.apuex.jms";
+option java_outer_classname = "MessageOne";
+option java_multiple_files = true;
+
+message Greetings {
+  string name = 1;
+}
+
+message Gentlemen {
+  string name = 1;
+}
