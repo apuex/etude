@@ -32,6 +32,11 @@
       <version>4.5.1-b03</version>
     </dependency>
     <dependency>
+      <groupId>com.github.apuex.jms</groupId>
+      <artifactId>imq-patch</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+    <dependency>
       <groupId>com.google.protobuf</groupId>
       <artifactId>protobuf-java</artifactId>
       <version>3.6.0</version>
