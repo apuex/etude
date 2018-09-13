@@ -11,7 +11,7 @@
 
   <bean id="jmsConnectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
     <property name="targetConnectionFactory">
-      <bean class="com.github.apuex.jms.SunConnectionFactory">
+      <bean class="com.github.apuex.jms.SunTopicConnectionFactory">
         <property name="configuration">
           <props>
             <prop key="imqBrokerHostName">192.168.0.166</prop>
@@ -29,7 +29,7 @@
     <property name="cacheConsumers" value="false"/>
   </bean>
 
-  <bean id="eventNotifyTopic" class="com.sun.messaging.BasicQueue">
+  <bean id="eventNotifyTopic" class="com.sun.messaging.BasicTopic">
     <constructor-arg value="EVENT_NOTIFY_TOPIC"/>
   </bean>
 
@@ -58,6 +58,7 @@
 
   <bean id="jmsMessageListenerContainer" class="org.springframework.jms.config.DefaultJmsListenerContainerFactory">
     <property name="messageConverter" ref="jmsProtobufConverter"/>
+    <property name="pubSubDomain" value="true"/>
     <property name="connectionFactory" ref="jmsConnectionFactory"/>
     <property name="taskExecutor" ref="taskScheduler"/>
   </bean>
