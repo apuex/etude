@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/context
+			http://www.springframework.org/schema/context/spring-context.xsd">
+
+  <!--
+  <context:component-scan base-package="com.github.apuex.jms"/>
+  -->
+
+  <bean id="jmsConnectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
+    <property name="targetConnectionFactory">
+      <bean class="com.github.apuex.jms.SunConnectionFactory">
+        <property name="configuration">
+          <props>
+            <prop key="imqBrokerHostName">192.168.0.166</prop>
+            <prop key="imqBrokerHostPort">7676</prop>
+            <prop key="imqDefaultUsername">admin</prop>
+            <prop key="imqDefaultPassword">admin</prop>
+            <prop key="imqReconnectEnabled">true</prop>
+            <prop key="imqReconnectInterval">3000</prop>
+            <prop key="imqReconnectAttempts">1000000</prop>
+          </props>
+        </property>
+      </bean>
+    </property>
+    <property name="sessionCacheSize" value="10"/>
+    <property name="cacheConsumers" value="false"/>
+  </bean>
+
+  <bean id="eventNotifyTopic" class="com.sun.messaging.BasicTopic">
+    <constructor-arg value="EVENT_NOTIFY_TOPIC"/>
+  </bean>
+
+  <bean id="jmsProtobufConverter" class="com.github.apuex.protobuf.jms.ProtoJmsMessageConverter">
+    <property name="protobufDescriptors">
+      <list>
+        <value>/protobuf/descriptor-sets/converter-1.0.0.protobin</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="eventNotifyTemplate" class="org.springframework.jms.core.JmsTemplate">
+    <property name="connectionFactory" ref="jmsConnectionFactory"/>
+    <property name="defaultDestination" ref="eventNotifyTopic" />
+    <property name="messageConverter" ref="jmsProtobufConverter" />
+  </bean>
+
+  <bean id="multipleMessageHandler" class="com.github.apuex.jms.MultipleMessageHandler"/>
+</beans>
+
