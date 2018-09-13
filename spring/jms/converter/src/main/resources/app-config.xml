@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-			http://www.springframework.org/schema/beans/spring-beans.xsd">
+			http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/context
+			http://www.springframework.org/schema/context/spring-context.xsd">
+
+  <context:component-scan base-package="com.github.apuex.jms"/>
 
   <bean id="jmsConnectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
     <property name="targetConnectionFactory">
@@ -24,7 +29,7 @@
     <property name="cacheConsumers" value="false"/>
   </bean>
 
-  <bean id="eventNotifyTopic" class="com.sun.messaging.BasicTopic">
+  <bean id="eventNotifyTopic" class="com.sun.messaging.BasicQueue">
     <constructor-arg value="EVENT_NOTIFY_TOPIC"/>
   </bean>
 
@@ -46,24 +51,15 @@
     <constructor-arg ref="eventNotifyTemplate"/>
   </bean>
 
-  <bean id="messageListenerDelegate" class="com.github.apuex.jms.ProtobufMessageListenerDelegate"/>
-
-  <bean id="messageListenerAdapter" class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
-    <constructor-arg ref="messageListenerDelegate"/>
-    <property name="messageConverter" ref="jmsProtobufConverter"/>
-  </bean>
-
   <bean id="taskScheduler" class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler">
     <property name="poolSize" value="8"/>
     <property name="threadNamePrefix" value="event-store"/>
   </bean>
 
-  <bean id="jmsMessageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+  <bean id="jmsMessageListenerContainer" class="org.springframework.jms.config.DefaultJmsListenerContainerFactory">
+    <property name="messageConverter" ref="jmsProtobufConverter"/>
     <property name="connectionFactory" ref="jmsConnectionFactory"/>
-    <property name="destination" ref="eventNotifyTopic"/>
-    <property name="messageListener" ref="messageListenerAdapter"/>
     <property name="taskExecutor" ref="taskScheduler"/>
   </bean>
-
 </beans>
 

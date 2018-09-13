@@ -20,6 +20,7 @@ public class Application {
     // Launch the application
     ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
 
+    MultipleMessageHandler multipleMessageHandler = context.getBean(MultipleMessageHandler.class);
     EventSourceJmsAdapter eventSourceAdapter = context.getBean(EventSourceJmsAdapter.class);
 
     // Publish a message with a POJO

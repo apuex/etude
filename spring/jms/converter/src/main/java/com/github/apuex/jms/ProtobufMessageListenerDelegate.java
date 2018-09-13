@@ -2,17 +2,25 @@ package com.github.apuex.jms;
 
 import com.google.protobuf.Message;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class ProtobufMessageListenerDelegate {
+  private final Queue<Message> messages = new LinkedList<>();
 
-  public void handleMessage(Greetings message) {
-    System.out.printf("Supposed to be Greetings: %s\n", message);
+  public void handleMessage(Message m) {
+    synchronized (this) {
+      messages.add(m);
+      this.notify();
+    }
   }
 
-  public void handleMessage(Gentlemen message) {
-    System.out.printf("Supposed to be Gentlemen: %s\n", message);
-  }
-
-  public void handleMessage(Message message) {
-    System.out.printf("Supposed to be Message: %s\n", message);
+  public Message pop() throws InterruptedException {
+    synchronized (this) {
+      if (messages.isEmpty()) {
+        this.wait(5000);
+      }
+      return messages.remove();
+    }
   }
 }

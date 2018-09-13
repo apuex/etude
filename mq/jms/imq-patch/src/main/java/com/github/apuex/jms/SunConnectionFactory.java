@@ -10,6 +10,10 @@ public class SunConnectionFactory extends ConnectionFactory {
 
   }
 
+  protected SunConnectionFactory(String name) {
+    super(name);
+  }
+
   public void setConfiguration(Properties configuration) {
     configuration.entrySet().forEach(e -> {
       getConfiguration().setProperty((String)e.getKey(), (String)e.getValue());
