@@ -12,10 +12,12 @@ import static java.lang.System.out;
 @Component
 public class MultipleMessageHandler {
   private final Queue<Message> messages = new LinkedList<>();
+  private boolean discard = true;
 
   @JmsListener(destination = "EVENT_NOTIFY_TOPIC", containerFactory="jmsMessageListenerContainer")
   public void handleMessage(Message m) {
-    out.println(m);
+    out.printf("%s: %s\n", m.getClass().getName(), m);
+    if(!discard)
     synchronized (this) {
       messages.add(m);
       this.notify();
@@ -29,5 +31,9 @@ public class MultipleMessageHandler {
       }
       return messages.poll();
     }
+  }
+
+  public void setDiscard(boolean discard) {
+    this.discard = discard;
   }
 }

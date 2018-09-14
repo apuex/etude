@@ -24,6 +24,7 @@ public class MultipleMessageHandlerTest {
 
   @Test
   public void testToMessage() throws Exception {
+    handler.setDiscard(false);
     ArrayList<com.google.protobuf.Message> al = new ArrayList<>();
     al.add(Greetings.newBuilder().setName("me").build());
     al.add(Gentlemen.newBuilder().setName("me").build());

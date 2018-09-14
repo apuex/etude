@@ -23,6 +23,7 @@ public class ProtoJmsMessageConverterTest {
 
   @Test
   public void testToMessage() throws Exception {
+    delegate.setDiscard(false);
     Greetings payload = Greetings.newBuilder()
         .setName("me")
         .build();

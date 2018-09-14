@@ -9,6 +9,7 @@ import static java.lang.System.out;
 
 public class ProtobufMessageListenerDelegate {
   private final Queue<Message> messages = new LinkedList<>();
+  private boolean discard = true;
 
   public void handleMessage(Message m) {
     out.println(m);
@@ -25,5 +26,9 @@ public class ProtobufMessageListenerDelegate {
       }
       return messages.remove();
     }
+  }
+
+  public void setDiscard(boolean discard) {
+    this.discard = discard;
   }
 }
