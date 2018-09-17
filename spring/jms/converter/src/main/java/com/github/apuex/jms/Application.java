@@ -34,10 +34,11 @@ public class Application {
         .setName("Hello, Ladies!")
         .build();
     System.out.println(gentlemen);
-    System.out.println("greetings sent.");
 
     eventSourceAdapter.publish(greetings);
     eventSourceAdapter.publish(gentlemen);
+
+    System.out.println("greetings sent.");
   }
 }
 
