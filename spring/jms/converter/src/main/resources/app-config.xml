@@ -41,16 +41,6 @@
     </property>
   </bean>
 
-  <bean id="eventNotifyTemplate" class="org.springframework.jms.core.JmsTemplate">
-    <property name="connectionFactory" ref="jmsConnectionFactory"/>
-    <property name="defaultDestination" ref="eventNotifyTopic" />
-    <property name="messageConverter" ref="jmsProtobufConverter" />
-  </bean>
-
-  <bean id="eventSourceAdapter" class="com.github.apuex.eventsource.jms.EventSourceJmsAdapter">
-    <constructor-arg ref="eventNotifyTemplate"/>
-  </bean>
-
   <bean id="taskScheduler" class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler">
     <property name="poolSize" value="8"/>
     <property name="threadNamePrefix" value="event-store"/>
@@ -61,6 +51,8 @@
     <property name="pubSubDomain" value="true"/>
     <property name="connectionFactory" ref="jmsConnectionFactory"/>
     <property name="taskExecutor" ref="taskScheduler"/>
+    <property name="subscriptionDurable" value="true"/>
+    <property name="subscriptionShared" value="true"/>
   </bean>
 </beans>
 

@@ -14,7 +14,7 @@ public class MultipleMessageHandler {
   private final Queue<Message> messages = new LinkedList<>();
   private boolean discard = true;
 
-  @JmsListener(destination = "EVENT_NOTIFY_TOPIC", containerFactory="jmsMessageListenerContainer")
+  @JmsListener(subscription="diagnose-subscription", destination = "EVENT_NOTIFY_TOPIC", containerFactory="jmsMessageListenerContainer")
   public void handleMessage(Message m) {
     out.printf("%s: %s\n", m.getClass().getName(), m);
     if(!discard)
