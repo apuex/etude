@@ -14,6 +14,7 @@
       <bean class="com.github.apuex.jms.SunTopicConnectionFactory">
         <property name="configuration">
           <props>
+            <prop key="imqConfiguredClientID">converter-1.0.0</prop>
             <prop key="imqBrokerHostName">192.168.0.166</prop>
             <prop key="imqBrokerHostPort">7676</prop>
             <prop key="imqDefaultUsername">admin</prop>
@@ -49,6 +50,7 @@
   <bean id="jmsMessageListenerContainer" class="org.springframework.jms.config.DefaultJmsListenerContainerFactory">
     <property name="messageConverter" ref="jmsProtobufConverter"/>
     <property name="pubSubDomain" value="true"/>
+    <property name="clientId" value="converter-1.0.0"/>
     <property name="connectionFactory" ref="jmsConnectionFactory"/>
     <property name="taskExecutor" ref="taskScheduler"/>
     <property name="subscriptionDurable" value="true"/>
