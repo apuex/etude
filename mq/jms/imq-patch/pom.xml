@@ -16,15 +16,9 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.sun.messaging.mq</groupId>
-      <artifactId>jms</artifactId>
-      <version>4.5.1-b03</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.sun.messaging.mq</groupId>
+      <groupId>org.glassfish.mq</groupId>
       <artifactId>imq</artifactId>
-      <version>4.5.1-b03</version>
+      <version>5.1</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
