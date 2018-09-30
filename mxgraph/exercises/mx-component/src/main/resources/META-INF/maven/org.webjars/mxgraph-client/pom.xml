@@ -1,0 +1,18 @@
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <packaging>jar</packaging>
+  <artifactId>mxgraph-client</artifactId>
+  <name>mxGraph Client WebJar</name>
+  <version>3.9.8</version>
+  <properties>
+    <requirejs>
+      {
+        paths: {
+          mxgraph-client: 'mxClient',
+          mxgraph-client-min: 'mxClient.min'
+        }
+      }
+    </requirejs>
+  </properties>
+</project>
