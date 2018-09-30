@@ -35,5 +35,6 @@ requirejs.config({"paths":{"jquery-i18n-properties":["/mx-component/webjars/jque
 requirejs.config({"paths":{},"packages":[]});
 requirejs.config({"paths":{"jquery":["/mx-component/webjars/jquery/3.1.1/dist/jquery"]}});    }
 };
-var mxBasePath="/mx-component/webjars/mxgraph-client/3.9.8";
-var BASE_URI = '/mx-component';
+
+var mxBasePath = "/mx-component/webjars/mxgraph-client/3.9.8";
+var BASE_URI   = "/mx-component";

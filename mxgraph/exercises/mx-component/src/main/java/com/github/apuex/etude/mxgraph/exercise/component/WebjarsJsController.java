@@ -27,8 +27,8 @@ public class WebjarsJsController {
 		List<String> prefixes = new LinkedList<>();
 		String prefix = String.format("%s/webjars/", r.getContextPath());
 		prefixes.add(prefix);
-		String mxBasePath = String.format("var mxBasePath=\"%smxgraph-client/3.9.8\";", prefix);
-		String baseUri = String.format("var BASE_URI = '%s';", r.getContextPath());
+		String mxBasePath = String.format("var mxBasePath = \"%smxgraph-client/3.9.8\";", prefix);
+		String baseUri = String.format(   "var BASE_URI   = \"%s\";", r.getContextPath());
 		return String.format("%s\n%s\n%s\n", generateSetupJavaScript(prefixes, webJars), mxBasePath, baseUri);
 	}
 }
