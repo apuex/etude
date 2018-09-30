@@ -17,22 +17,18 @@ import org.webjars.WebJarAssetLocator;
 
 @RestController
 public class WebjarsJsController {
-  private final static Logger logger = LoggerFactory.getLogger(WebjarsJsController.class);
+	private final static Logger logger = LoggerFactory.getLogger(WebjarsJsController.class);
 
-  @ResponseBody
-  @RequestMapping(value = "/webjarsjs", produces = "application/javascript")
-  public String webjarjs(HttpServletRequest r) {
-    Map<String, String> webJars = new WebJarAssetLocator().getWebJars();
-    webJars.forEach((k, v) -> logger.info("{} => {}", k, v));
-    List<String> prefixes = new LinkedList<>();
-    String prefix = String.format("%s/webjars/", r.getContextPath());
-    prefixes.add(prefix);
-    String mxBasePath = String.format("var mxBasePath=\"%smxgraph-client/3.9.8\";", prefix);
-    String baseUri = String.format("var BASE_URI = %s;", r.getContextPath());
-    return String.format("%s\n%s\n%s\n",
-    		generateSetupJavaScript(prefixes, webJars),
-    		mxBasePath,
-        baseUri
-    		);
-  }
+	@ResponseBody
+	@RequestMapping(value = "/webjarsjs", produces = "application/javascript")
+	public String webjarjs(HttpServletRequest r) {
+		Map<String, String> webJars = new WebJarAssetLocator().getWebJars();
+		webJars.forEach((k, v) -> logger.info("{} => {}", k, v));
+		List<String> prefixes = new LinkedList<>();
+		String prefix = String.format("%s/webjars/", r.getContextPath());
+		prefixes.add(prefix);
+		String mxBasePath = String.format("var mxBasePath=\"%smxgraph-client/3.9.8\";", prefix);
+		String baseUri = String.format("var BASE_URI = '%s';", r.getContextPath());
+		return String.format("%s\n%s\n%s\n", generateSetupJavaScript(prefixes, webJars), mxBasePath, baseUri);
+	}
 }
