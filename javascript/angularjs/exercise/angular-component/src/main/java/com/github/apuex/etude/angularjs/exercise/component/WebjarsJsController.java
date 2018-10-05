@@ -23,7 +23,7 @@ public class WebjarsJsController {
 	@RequestMapping(value = "/webjarsjs", produces = "application/javascript")
 	public String webjarjs(HttpServletRequest r) {
 		Map<String, String> webJars = new WebJarAssetLocator().getWebJars();
-		webJars.forEach((k, v) -> logger.info("{} => {}", k, v));
+		webJars.forEach((k, v) -> logger.debug("{} => {}", k, v));
 		List<String> prefixes = new LinkedList<>();
 		String prefix = String.format("%s/webjars/", r.getContextPath());
 		prefixes.add(prefix);

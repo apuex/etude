@@ -1,15 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-  <title>Hello, World! example for mxGraph</title>
-  <script src="../webjars/angularjs/1.7.4/angular.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>A 'Hello, World!' example for AngularJS</title>
+  <link rel="stylesheet" href="../webjars/bootstrap/4.1.3/css/bootstrap.min.css">
+  <script src="../webjars/angularjs/1.7.4/angular.min.js"></script>
   <script src="main.js"></script>
-</body>
 </head>
 <body>
-<div ng-app="HelloApp" ng-controller="HelloController">
-  <input type="text" ng-model="greeting.text"/>
-  <p>{{greeting.text}}, World!</p>
+<div ng-app="HelloApp" ng-controller="HelloController" class="container">
+  <h1>A <span class="badge badge-primary">Hello, World!</span> example for <span class="badge badge-secondary">AngularJS</span></h1>
+  <div class="form-group">
+    <label for="greeting">Greeting:</label>
+    <input type="text" id="greeting" ng-model="greeting.text" class="form-control" aria-describedby="greetingHelp" placeholder="Enter greetings"/>
+    <small id="greetingHelp" class="form-text text-muted">We'll never share your greetings with anyone else.</small>
+  </div>
+  <div class="form-group">
+    <label for="name">To Name:</label>
+    <input type="text" id="name" ng-model="greeting.name" class="form-control" aria-describedby="nameHelp" placeholder="Enter your name"/>
+    <small id="nameHelp" class="form-text text-muted">We'll never share your name with anyone else.</small>
+  </div>
+  <div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <h1 class="display-4">{{greeting.text || 'Hello'}}, {{greeting.name || 'World'}}!</h1>
+      <p class="lead">This is the final output in response to your input.</p>
+    </div>
+  </div>
 </div>
+</body>
 </html>
