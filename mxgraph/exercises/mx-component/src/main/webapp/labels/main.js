@@ -1,4 +1,4 @@
-require(['mxgraph-client'], function($, mx){
+require(['jquery', 'mxgraph-client'], function($, mx){
   var container = document.getElementById('graphContainer');
   // Fixes ignored clipping if foreignObject used in Webkit
   mxClient.NO_FO = mxClient.NO_FO || mxClient.IS_SF || mxClient.IS_GC;

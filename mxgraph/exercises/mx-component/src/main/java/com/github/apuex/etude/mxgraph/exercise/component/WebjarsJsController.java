@@ -29,6 +29,6 @@ public class WebjarsJsController {
 		prefixes.add(prefix);
 		String mxBasePath = String.format("var mxBasePath = \"%smxgraph-client/3.9.8\";", prefix);
 		String baseUri = String.format(   "var BASE_URI   = \"%s\";", r.getContextPath());
-		return String.format("%s\n%s\n%s\n", generateSetupJavaScript(prefixes, webJars), mxBasePath, baseUri);
+		return String.format("%s\n\n%s\n%s\n", generateSetupJavaScript(prefixes, webJars), mxBasePath, baseUri);
 	}
 }
