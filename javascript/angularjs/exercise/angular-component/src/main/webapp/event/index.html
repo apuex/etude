@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Event example for AngularJS</title>
+  <link rel="stylesheet" href="../webjars/bootstrap/4.1.3/css/bootstrap.min.css">
+  <script src="../webjarsjs"></script>
+  <script href="../webjars/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+<body ng-app="eventApp" class="container">
+<div ng-controller="eventController">
+  <div class="form-group">
+    <label for="password">Enter Password: </label>
+    <input type="password" ng-model="password" class="form-control" id="password"/> <br/>
+    <button ng-click="DisplayMessage(password)" class="btn btn-primary">Show Password</button>
+  </div>
+  <div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <h1 class="display-4">Password</h1>
+      <div class="lead">
+        <h2>Your password is now: </h2>{{newPassword}}
+      </div>
+    </div>
+  </div>
+<script data-main="main.js" src="../webjars/requirejs/require.min.js"></script>
+</div>
+</body>
+</html>
