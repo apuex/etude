@@ -21,6 +21,9 @@
       <div class="lead">
         <h2>Your password is now: </h2>{{newPassword}}
       </div>
+      <div ng-class="{'btn btn-primary': enter, 'btn btn-secondary': leave}" ng-mouseenter="enter=true;leave=false;" ng-mouseleave="leave=true;enter=false">
+        Mouse <span ng-show="enter">Enter</span> <span ng-show="leave">Leave</span>
+      </div>
     </div>
   </div>
 <script data-main="main.js" src="../webjars/requirejs/require.min.js"></script>
