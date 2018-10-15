@@ -3,6 +3,7 @@ package com.sample.controller;
 import com.sample.message.LoginCmd;
 import com.sample.message.Response;
 import com.sample.message.ResponseType;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,11 +14,25 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Locale;
 
 @RestController
 @RequestMapping(value = "authenticate", method = RequestMethod.POST)
 public class AuthenticateController {
+    private ResourceBundleMessageSource messageSource;
+    public AuthenticateController() {
+        messageSource = new ResourceBundleMessageSource();
+        messageSource.setBasename("com.sample.controller.Resource");
+    }
 
+    @RequestMapping(value = "check", produces = "application/json")
+    public ResponseEntity<Response> check(LoginCmd c, HttpServletRequest request, HttpServletResponse rsp) {
+        return new ResponseEntity<>(
+                Response.newBuilder()
+                        .setType(ResponseType.LOGIN_SUCCESS)
+                        .setText(messageSource.getMessage("success", null, Locale.CHINESE)).build(),
+                HttpStatus.OK);
+    }
     @RequestMapping(value = "login", produces = "application/json")
     public ResponseEntity<Response> login(@RequestBody LoginCmd c, HttpServletRequest request, HttpServletResponse rsp) {
         try {

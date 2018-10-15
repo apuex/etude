@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<model name="login" package="com.sample" dbSchema="sampledb">
+  <entity name="AnotherEntity" aggregationRoot="true" generate="true">
+    <field no="1" name="AnotherEntityId" type="string" length="64" required="true"/>
+    <field no="2" name="AnotherEntityName" type="string" length="64" aggregation="true"/>
+    <field no="3" name="AnotherEntityDesc" type="string" length="64" aggregation="true"/>
+    <field no="4" name="AnotherEntityCode" type="string" length="64" aggregation="true"/>
+    <field no="5" name="AnotherEntityAbbreviation" type="string" length="64" aggregation="true"/>
+    <field no="6" name="AnotherEntityWeight" type="double" aggregation="true"/>
+    <primaryKey name="AnotherEntityPk">
+      <field name="AnotherEntityId"/>
+    </primaryKey>
+  </entity>
+</model>
