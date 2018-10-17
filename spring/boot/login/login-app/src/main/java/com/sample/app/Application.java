@@ -9,6 +9,7 @@ import org.springframework.http.converter.protobuf.*;
 
 @Configuration
 @ComponentScan({"com.sample.*"})
+@ImportResource("classpath:app-config.xml")
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer {
 
