@@ -20,6 +20,7 @@ public class LogoutServlet extends HttpServlet {
       rsp.setStatus(HttpServletResponse.SC_OK);
     } else {
       req.logout();
+      rsp.sendRedirect(req.getContextPath() + "/login-check");
     }
   }
 }
