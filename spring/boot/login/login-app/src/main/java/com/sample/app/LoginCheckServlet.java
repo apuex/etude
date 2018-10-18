@@ -37,6 +37,7 @@ public class LoginCheckServlet extends HttpServlet {
     pw.println(String.format("HttpServletRequest Class: %s", req.getClass().getName()));
     pw.println(String.format("is admin role: %s", req.isUserInRole("admin")));
     pw.println(requestCookies(req));
+    System.getProperties().store(pw, "# system properties:");
     pw.close();
   }
 
@@ -44,6 +45,7 @@ public class LoginCheckServlet extends HttpServlet {
     rsp.setStatus(HttpServletResponse.SC_OK);
     PrintWriter pw = rsp.getWriter();
     pw.println("No logged in.");
+    System.getProperties().store(pw, "# system properties:");
     pw.close();
   }
 
@@ -53,6 +55,7 @@ public class LoginCheckServlet extends HttpServlet {
     rsp.addCookie(new Cookie("passWord", "test"));
     PrintWriter pw = rsp.getWriter();
     pw.println("No logged in.");
+    System.getProperties().store(pw, "# system properties:");
     pw.close();
   }
 
