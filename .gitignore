@@ -47,6 +47,9 @@ work
 lib
 tmp
 temp
+.recommenders/
+.metadata/
+Servers/
 
 # IDE generated
 .idea

@@ -3,9 +3,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.github.apuex.jms</groupId>
-  <artifactId>imq-patch</artifactId>
-  <version>1.0.2</version>
+  <groupId>com.github.apuex.pa</groupId>
+  <artifactId>sso-filter</artifactId>
+  <version>1.0.0</version>
   <packaging>jar</packaging>
 
   <parent>
@@ -16,15 +16,21 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.glassfish.mq</groupId>
-      <artifactId>imq</artifactId>
-      <version>5.1</version>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>4.0.1</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.25</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
+      <version>4.12</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

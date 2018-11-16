@@ -2,27 +2,32 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
   <distributable/>
-  <welcome-file-list>
-    <welcome-file>/index.html</welcome-file>
-  </welcome-file-list>
+  <filter>
+  	<description>
+  	</description>
+  	<display-name>AutoLoginFilter</display-name>
+  	<filter-name>AutoLoginFilter</filter-name>
+  	<filter-class>com.sample.app.AutoLoginFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>AutoLoginFilter</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <!--
   <security-constraint>
     <display-name>SecurityConstraint</display-name>
     <web-resource-collection>
       <web-resource-name>WRCollection</web-resource-name>
       <url-pattern>/*</url-pattern>
     </web-resource-collection>
-    <!--
     <auth-constraint>
       <role-name>admin</role-name>
     </auth-constraint>
-    -->
-    <user-data-constraint>
-      <transport-guarantee>NONE</transport-guarantee>
-    </user-data-constraint>
   </security-constraint>
+  -->
   <login-config>
     <auth-method>FORM</auth-method>
-    <realm-name>wangxy-realm</realm-name>
+    <realm-name>realm</realm-name>
     <form-login-config>
       <form-login-page>/WEB-INF/login.jsp</form-login-page>
       <form-error-page>/WEB-INF/error.jsp</form-error-page>
