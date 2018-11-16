@@ -2,17 +2,17 @@ package com.github.apuex.akka.stream.jms
 
 import java.nio.ByteBuffer
 import java.util.UUID
+import java.util.UUID.randomUUID
 
 import akka.actor.ActorSystem
 import akka.stream.alpakka.cassandra.scaladsl.CassandraSink
 import akka.stream.alpakka.jms.JmsConsumerSettings
-import akka.stream.{ActorMaterializer, KillSwitch}
 import akka.stream.alpakka.jms.scaladsl.JmsConsumer
-import akka.stream.scaladsl.{Keep, Sink, Source}
+import akka.stream.scaladsl.{Keep, Source}
+import akka.stream.{ActorMaterializer, KillSwitch}
 import com.datastax.driver.core.{Cluster, PreparedStatement}
 import com.sun.messaging.QueueConnectionFactory
 import javax.jms.{BytesMessage, Message}
-import java.util.UUID.randomUUID
 
 object Main extends App {
   val parallelize = 8
@@ -60,5 +60,4 @@ object Main extends App {
         (randomUUID(), ByteBuffer.wrap(new Array[Byte](0)))
     }
     .toMat(insertSink)(Keep.left).run()(mat)
-    //.runWith(Sink.seq)
 }
