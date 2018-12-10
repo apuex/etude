@@ -39,6 +39,7 @@ bin
 dist
 build
 **/*.class
+**/*.o
 **/*.jar
 **/*.log
 **/*.protobin
