@@ -14,6 +14,7 @@ site =
     ifTop (writeBS "hello world") <|>
     route [ ("foo", writeBS "bar")
           , ("echo/:echoparam", echoHandler)
+          , ("favicon.ico", serveFile "favicon.ico")
           ] <|>
     dir "static" (serveDirectoryWith fancyDirectoryConfig ".")
 
