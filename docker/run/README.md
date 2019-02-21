@@ -13,6 +13,11 @@ to mount `log` directory to `$(pwd)/log`,
 ```
 $ docker run -d -v $(pwd)/log:/log --restart=always -p 8001:8000 -it apuex/snap-myproject:0.1.0.0
 ```
+Permission denied to access `$(pwd)/log` if SELinux enabled. 
+fixed with
+```
+# chcon -Rt svirt_sandbox_file_t $(pwd)/log
+```
 
 ## Inspect container
 
