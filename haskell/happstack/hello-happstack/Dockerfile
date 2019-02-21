@@ -1,4 +1,6 @@
-FROM accursoft/ghc
+FROM ubuntu:latest
+
+RUN echo "tcp 6 TCP # transmission control protocol" > /etc/protocols
 
 VOLUME /tmp
 
