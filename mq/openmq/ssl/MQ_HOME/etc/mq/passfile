@@ -137,7 +137,7 @@
 # A dummy password has been configured as an example.
 #
 
-imq.keystore.password=sp8956256
+imq.keystore.password=passw0rd
 
 #
 #---------------------------------------------------------------------
@@ -145,7 +145,7 @@ imq.keystore.password=sp8956256
 # A dummy password has been configured as an example
 # 
 
-imq.imqcmd.password=sp8956256
+imq.imqcmd.password=passw0rd
 
 #
 # Note: imqcmd is a remote administration tool. A passfile used by 
