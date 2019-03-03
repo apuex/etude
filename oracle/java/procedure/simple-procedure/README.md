@@ -24,7 +24,7 @@ SQL> exit
 ```
 ## load jar
 ```
-[oracle@452596a497a7 orclpdb1]$ loadjava wangxy/passw0rd@orclpdb1
+[oracle@452596a497a7 orclpdb1]$ loadjava -u wangxy/passw0rd@orclpdb1 simple-procedure-1.0-SNAPSHOT.jar
 [oracle@452596a497a7 orclpdb1]$ exit
 [master@113.108.158.19 ~]$ exit
 ```
@@ -34,11 +34,20 @@ SQL> exit
 SQL> CREATE OR REPLACE procedure wangxy.insert_into_table ( id NUMBER, name VARCHAR2, email VARCHAR2 ) AS
 LANGUAGE JAVA NAME 'com.github.apuex.oracle.SimpleProcedure.insert_into_table(int, java.lang.String, java.lang.String)';
 SQL> /
+SQL> CREATE OR REPLACE procedure wangxy.update_from_table ( id NUMBER, name VARCHAR2, email VARCHAR2 ) AS
+LANGUAGE JAVA NAME 'com.github.apuex.oracle.SimpleProcedure.update_from_table(int, java.lang.String, java.lang.String)';
+SQL> /
 ```
 ## execute java procedure
 ```
 SQL> exec wangxy.insert_into_table(1, 'wangxy', 'xtwxy@hotmail.com');
+SQL> exec wangxy.update_from_table(1, 'me', 'my@email.com');
 SQL> SELECT * FROM SAMPLETABLE;
+```
+
+## unload jar
+```
+[oracle@452596a497a7 orclpdb1]$ dropjava -u wangxy/passw0rd@orclpdb1 simple-procedure-1.0-SNAPSHOT.jar
 ```
 
 ## install oracle jdbc driver
