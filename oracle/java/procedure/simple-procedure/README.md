@@ -12,7 +12,7 @@ $ ssh master@113.108.158.19
 [master@113.108.158.19 ~]$ docker exec -it oracle-enterprise /bin/bash
 [oracle@452596a497a7 orclpdb1]$ sqlplus / as sysdba
 SQL> alter session set container=orclpdb1;
-SQL> create user wangxy identified by sp8956256;
+SQL> create user wangxy identified by passw0rd;
 SQL> grant all privileges to wangxy;
 SQL> CREATE TABLE wangxy.sampletable (
     id NUMBER,
