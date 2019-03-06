@@ -14,6 +14,22 @@
   </properties>
 
   <dependencies>
-
+    <dependency>
+      <groupId>com.oracle</groupId>
+      <artifactId>ojdbc6</artifactId>
+      <version>12.1.0.1-atlassian-hosted</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
+
+  <repositories>
+    <repository>
+      <id>Spring Plugins Repository</id>
+      <name>Spring Plugins Repository</name>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <url>http://repo.spring.io/plugins-release/</url>
+    </repository>
+  </repositories>
 </project>
