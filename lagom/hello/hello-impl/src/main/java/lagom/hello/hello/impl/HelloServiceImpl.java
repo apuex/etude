@@ -3,6 +3,7 @@ package lagom.hello.hello.impl;
 import akka.Done;
 import akka.NotUsed;
 import akka.japi.Pair;
+import com.github.apuex.springbootsolution.runtime.QueryCommand;
 import com.lightbend.lagom.javadsl.api.ServiceCall;
 import com.lightbend.lagom.javadsl.api.broker.Topic;
 import com.lightbend.lagom.javadsl.broker.TopicProducer;
@@ -10,11 +11,13 @@ import com.lightbend.lagom.javadsl.persistence.PersistentEntityRef;
 import com.lightbend.lagom.javadsl.persistence.PersistentEntityRegistry;
 
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 import javax.inject.Inject;
 import lagom.hello.hello.api.GreetingMessage;
 import lagom.hello.hello.api.HelloService;
 import lagom.hello.hello.impl.HelloCommand.*;
+import scala.concurrent.Future;
 
 /**
  * Implementation of the HelloService.
@@ -48,6 +51,11 @@ public class HelloServiceImpl implements HelloService {
       return ref.ask(new UseGreetingMessage(request.message));
     };
 
+  }
+
+  @Override
+  public ServiceCall<QueryCommand, Done> query() {
+    return request -> CompletableFuture.completedFuture(Done.done());
   }
 
   @Override
