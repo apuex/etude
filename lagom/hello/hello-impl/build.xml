@@ -56,8 +56,9 @@
       <manifest>
         <attribute name="Permissions" value="sandbox"/>
         <attribute name="Codebase" value="${project.codebase}"/>
-        <attribute name="Built-By" value="${user.name} on ${os.name}-${os.arch} version ${os.version}"/>
-        <attribute name="Implementation-Vendor" value="${user.name}"/>
+        <attribute name="Built-By" value="${user.name}"/>
+        <attribute name="Built-Host" value="${os.name}-${os.arch} version ${os.version}"/>
+        <attribute name="Implementation-Vendor" value="${project.creator}"/>
         <attribute name="Implementation-Language" value="${user.language}-${user.country}"/>
         <attribute name="Implementation-Title" value="${project.title}"/>
         <attribute name="Implementation-Version" value="${project.version}"/>
