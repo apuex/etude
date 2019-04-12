@@ -64,8 +64,8 @@ public class QCNGuiDemo {
   public static Dimension VGAP10 = new Dimension(1,10);
   private int PREFERRED_WIDTH = 680;
   private int PREFERRED_HEIGHT = 200;
-  static final String USERNAME= "wangxy";
-  static final String PASSWORD= "passw0rd";
+  static final String USERNAME= "scott";
+  static final String PASSWORD= "tiger";
 
   static String URL = null;
   OracleConnection getConn = null;
@@ -193,7 +193,7 @@ public class QCNGuiDemo {
       QCNGuiDemoDatabaseChangeListener list = new QCNGuiDemoDatabaseChangeListener(this);
       dcr.addListener(list);
       Statement stmt = conn.createStatement();
-      String query = "select sal from emp where empno=7369";
+      String query = "select sal from emp";
       ((OracleStatement)stmt).setDatabaseChangeRegistration(dcr);
       ResultSet rs = stmt.executeQuery(query);
       while (rs.next())
@@ -242,16 +242,18 @@ public class QCNGuiDemo {
    */
   void getUpdateForROWID( oracle.sql.ROWID rowid )
   {
+    int empno = Integer.MIN_VALUE;
     int newValue = Integer.MIN_VALUE;
     if( getConn == null ) getConn = connect();
-    String sql = "select sal from emp  where rowid = ?";
+    String sql = "select empno, sal from emp  where rowid = ?";
     try{
       if( getPstmt == null ) getPstmt = getConn.prepareStatement( sql );
       ((OraclePreparedStatement)getPstmt).setROWID( 1, rowid );
       ResultSet rst = getPstmt.executeQuery();
       if( rst.next() ) {
-        newValue = rst.getInt(1);
-        System.out.println(newValue);
+        empno = rst.getInt(1);
+        newValue = rst.getInt(2);
+        System.out.printf("(rowid, empno, sal) => (%s, %s, %s)\n", rowid, empno, newValue);
       }
       rst.close();
     } catch( SQLException ex ) { ex.printStackTrace(); }
