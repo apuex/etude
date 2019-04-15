@@ -1,0 +1,7 @@
+[
+  {
+    "name": "play.api.inject.guice.GuiceApplicationLoader",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true
+  }
+]
