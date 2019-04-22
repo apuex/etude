@@ -65,50 +65,6 @@
           <lagomService>true</lagomService>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>com.oracle.substratevm</groupId>
-        <artifactId>native-image-maven-plugin</artifactId>
-        <version>1.0.0-rc14</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>native-image</goal>
-            </goals>
-            <phase>package</phase>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>1.6.0</version>
-        <executions>
-          <execution>
-            <id>generateGraalReflectionConfig</id>
-            <phase>process-classes</phase>
-            <goals>
-              <goal>java</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <includeProjectDependencies>true</includeProjectDependencies>
-          <includePluginDependencies>true</includePluginDependencies>
-          <mainClass>picocli.codegen.aot.graalvm.ReflectionConfigGenerator</mainClass>
-          <arguments>
-            <argument>--output=target/cli-reflect.json</argument>
-          <argument>picocli.codegen.aot.graalvm.Example</argument>
-          </arguments>
-        </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>info.picocli</groupId>
-            <artifactId>picocli-codegen</artifactId>
-            <version>4.0.0-alpha-1</version>
-            <type>jar</type>
-          </dependency>
-        </dependencies>
-      </plugin>
     </plugins>
   </build>
 </project>

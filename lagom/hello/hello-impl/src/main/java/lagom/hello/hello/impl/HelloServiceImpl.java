@@ -9,15 +9,13 @@ import com.lightbend.lagom.javadsl.api.broker.Topic;
 import com.lightbend.lagom.javadsl.broker.TopicProducer;
 import com.lightbend.lagom.javadsl.persistence.PersistentEntityRef;
 import com.lightbend.lagom.javadsl.persistence.PersistentEntityRegistry;
-
-import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
-
-import javax.inject.Inject;
 import lagom.hello.hello.api.GreetingMessage;
 import lagom.hello.hello.api.HelloService;
-import lagom.hello.hello.impl.HelloCommand.*;
-import scala.concurrent.Future;
+import lagom.hello.hello.impl.HelloCommand.Hello;
+import lagom.hello.hello.impl.HelloCommand.UseGreetingMessage;
+
+import javax.inject.Inject;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * Implementation of the HelloService.

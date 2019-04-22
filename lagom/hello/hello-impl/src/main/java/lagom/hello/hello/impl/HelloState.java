@@ -1,11 +1,10 @@
 package lagom.hello.hello.impl;
 
-import lombok.Value;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Preconditions;
 import com.lightbend.lagom.serialization.CompressedJsonable;
+import lombok.Value;
 
 /**
  * The state for the {@link Hello} entity.

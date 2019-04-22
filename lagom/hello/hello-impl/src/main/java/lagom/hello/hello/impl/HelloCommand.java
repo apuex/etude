@@ -1,18 +1,13 @@
 package lagom.hello.hello.impl;
 
-import java.util.Optional;
-
-import lombok.Value;
-
+import akka.Done;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.lightbend.lagom.javadsl.persistence.PersistentEntity;
 import com.lightbend.lagom.serialization.CompressedJsonable;
 import com.lightbend.lagom.serialization.Jsonable;
-
-import akka.Done;
+import lombok.Value;
 
 /**
  * This interface defines all the commands that the Hello entity supports.
