@@ -47,7 +47,6 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
     // Send a single 'Hello!' message and then leave the socket open
     val out = Source(offset to 1000)
       .map(x => s"Hello, ${x}!")
-      .concat(Source.maybe)
     Flow.fromSinkAndSource(in, out)
   }
 }
