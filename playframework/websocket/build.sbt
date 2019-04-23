@@ -11,7 +11,7 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala)
 libraryDependencies += guice
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "4.0.1" % Test
 
-assemblyJarName in assembly := s"${name.value}-${version.value}"
+assemblyJarName in assembly := s"${name.value}-assembly-${version.value}.jar"
 mainClass in assembly := Some("play.core.server.ProdServerStart")
 fullClasspath in assembly += Attributed.blank(PlayKeys.playPackageAssets.value)
 
