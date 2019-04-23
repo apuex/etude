@@ -39,7 +39,10 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
   }
 
   def events(offset: Long = 1): WebSocket = WebSocket.accept[String, String] { request =>
-    // Log events to the console
+    // Draining input events by Log events to the console
+    // just in case that large volumes of un-consumed messages from client side
+    // that causing resource exhausting.
+    // because only unidirectional events pushing is allowed.
     val in = Sink.foreach[String](println)
     // Send a single 'Hello!' message and then leave the socket open
     val out = Source(offset to 1000)
