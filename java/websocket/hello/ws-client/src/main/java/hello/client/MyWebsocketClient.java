@@ -22,6 +22,7 @@ public class MyWebsocketClient {
   @OnClose
   public void onClose(Session session) throws Exception {
     out.println("onClose: " + session.isOpen());
+    System.exit(0);
   }
 
   @OnError
