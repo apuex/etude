@@ -10,6 +10,7 @@
 
 	<modules>
 		<module>hello-message</module>
+		<module>ws-client</module>
 		<module>hello-client</module>
 		<module>hello-server</module>
 	</modules>
