@@ -68,8 +68,12 @@ public class DBChangeNotification
 {
   static final String USERNAME= "scott";
   static final String PASSWORD= "tiger";
-  static String URL;
+  String URL;
   
+  public DBChangeNotification(String url) {
+    this.URL = url;
+  }
+
   public static void main(String[] argv)
   {
     if(argv.length < 1)
@@ -79,8 +83,7 @@ public class DBChangeNotification
 
       System.exit(1);
     }
-    URL = argv[0];
-    DBChangeNotification demo = new DBChangeNotification();
+    DBChangeNotification demo = new DBChangeNotification(argv[0]);
     try
     {
       demo.run();
@@ -194,7 +197,7 @@ public class DBChangeNotification
     Properties prop = new Properties();
     prop.setProperty("user",DBChangeNotification.USERNAME);
     prop.setProperty("password",DBChangeNotification.PASSWORD);
-    return (OracleConnection)dr.connect(DBChangeNotification.URL,prop);
+    return (OracleConnection)dr.connect(URL,prop);
   }
 }
 /**
