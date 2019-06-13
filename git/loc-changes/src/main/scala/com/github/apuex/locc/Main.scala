@@ -2,6 +2,19 @@ package com.github.apuex.locc
 
 import scala.io.Source
 
+/**
+  * Calculate LOC(lines of code) changed via `git log`.
+  *
+  * package it to a runnable jar, or AOT-compile to native image ^_^
+  *
+  * lines must be sorted first ^_^
+  *
+  * Usage:
+  *   `git log --numstat | grep -i ^[0-9] | awk '{print $1 "," $2 "," $3}' | java -jar locc.jar`
+  * for runnable jar, or:
+  *   `git log --numstat | grep -i ^[0-9] | awk '{print $1 "," $2 "," $3}' | ./locc`
+  * for native image
+  */
 object Main extends App {
 
   val add: ((Long, Long), (Long, Long)) => (Long, Long) = { (l, r) =>
@@ -15,7 +28,7 @@ object Main extends App {
   val updates = Source.fromInputStream(System.in)
     .getLines()
     .map(_.split(","))
-    .filter(_.length == 3)
+    .filter(_.length == 3)  // just in case...
     .map(x => (x(2) -> (x(0).toLong, x(1).toLong)))
     .foldLeft(Map[String, (Long, Long)]())(sum)
     .map(x => (x._1, (x._2._1, x._2._2, x._2._1 + x._2._2)))
