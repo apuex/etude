@@ -10,10 +10,14 @@ import scala.io.Source
   * lines must be sorted first ^_^
   *
   * Usage:
+  *
   *   `git log --numstat | grep -i ^[0-9] | awk '{print $1 "," $2 "," $3}' | java -jar locc.jar`
+  *
   * for runnable jar, or:
-  *   `git log --numstat | grep -i ^[0-9] | awk '{print $1 "," $2 "," $3}' | ./locc`
-  * for native image
+  *
+  *  `git log --numstat | grep -i ^[0-9] | awk '{print $1 "," $2 "," $3}' | ./locc`
+  *
+  *  for native image.
   */
 object Main extends App {
 
