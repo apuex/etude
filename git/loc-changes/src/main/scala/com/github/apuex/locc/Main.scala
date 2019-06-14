@@ -57,7 +57,7 @@ object Main extends App {
       .foldLeft(Map[String, (Long, Long)]())(sum)
       .map(x => (x._1, (x._2._1, x._2._2)))
       .map(x => {
-        if(x._2._1 < x._2._2) println(System.err, s"${x._2._1}\t${x._2._2}\t${x._2._1 + x._2._2}\t${x._1}")
+        if(x._2._1 < x._2._2) System.err.println(s"${x._2._1}\t${x._2._2}\t${x._2._1 + x._2._2}\t${x._1}")
         x
       })
       .toSeq
