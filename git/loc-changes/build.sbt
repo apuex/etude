@@ -11,15 +11,6 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "3.0.7" % Test
 )
 
-graalVMNativeImageOptions ++= Seq(
-  "-H:+ReportUnsupportedElementsAtRuntime",
-  "-H:IncludeResources=.*conf",
-  "-H:IncludeResources=.*\\.properties",
-  "-H:IncludeResources=.*\\.xml",
-  "-H:IncludeResourceBundles=com.sun.org.apache.xerces.internal.impl.msg.XMLMessages",
-  "-H:ReflectionConfigurationFiles=" + baseDirectory.value / "graal" / "reflection-xml.json"
-)
-
 assemblyMergeStrategy in assembly := {
   case PathList("META-INF", "io.netty.versions.properties") => MergeStrategy.rename
   case x =>
