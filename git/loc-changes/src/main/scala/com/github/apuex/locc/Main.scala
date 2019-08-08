@@ -15,7 +15,7 @@ import scala.io.Source
   *
   * for runnable jar, or:
   *
-  *  `git log --numstat -- .| grep -i ^[0-9] | awk '{print $1 "," $2 "," $3}' | ./loc-changes`
+  *  `git log --numstat -- .| grep -i ^[0-9] | awk '{print $1 "," $2 "," $3}' | loc-changes`
   *
   *  for native image.
   */
@@ -35,7 +35,7 @@ object Main extends App {
        |Example:
        |    `git log --numstat -- . | grep -i ^[0-9] | awk '{print $$1 "," $$2 "," $$3}' | grep -P '(java|scala|sbt|xml|properties)$$' | java -jar loc-changes.jar summary`
        |  for runnable jar, or:
-       |    `git log --numstat -- . | grep -i ^[0-9] | awk '{print $$1 "," $$2 "," $$3}' | grep -P '(java|scala|sbt|xml|properties)$$' | ./loc-changes summary`
+       |    `git log --numstat -- . | grep -i ^[0-9] | awk '{print $$1 "," $$2 "," $$3}' | grep -P '(java|scala|sbt|xml|properties)$$' | loc-changes summary`
        |  for native image.
      """.stripMargin.trim
   }
