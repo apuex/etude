@@ -62,4 +62,5 @@ W%d4fe6d18%1979
 .project
 .settings
 .swp
+**/*.lock
 
