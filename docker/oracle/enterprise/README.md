@@ -28,6 +28,50 @@ docker.io/store/oracle/database-enterprise:12.2.0.1
 ## Connect to PDBs
 
 ```
+[oracle@43c6342b94b9 /]$ sqlplus scott/tiger@"(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=192.168.0.184)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=orclpdb1.localdomain)))"
+
+SQL*Plus: Release 12.2.0.1.0 Production on Wed Sep 4 03:58:06 2019
+
+Copyright (c) 1982, 2016, Oracle.  All rights reserved.
+
+Last Successful login time: Tue May 21 2019 09:40:38 +00:00
+
+Connected to:
+Oracle Database 12c Enterprise Edition Release 12.2.0.1.0 - 64bit Production
+
+SQL> exit
+Disconnected from Oracle Database 12c Enterprise Edition Release 12.2.0.1.0 - 64bit Production
+[oracle@43c6342b94b9 /]$ sqlplus sys/sp8956256@"(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=192.168.0.184)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=orclpdb1.localdomain)))" as sysdba
+
+SQL*Plus: Release 12.2.0.1.0 Production on Wed Sep 4 03:58:42 2019
+
+Copyright (c) 1982, 2016, Oracle.  All rights reserved.
+
+Last Successful login time: Thu Apr 18 2019 05:17:49 +00:00
+
+Connected to:
+Oracle Database 12c Enterprise Edition Release 12.2.0.1.0 - 64bit Production
+
+SQL> exit
+Disconnected from Oracle Database 12c Enterprise Edition Release 12.2.0.1.0 - 64bit Production
+[oracle@43c6342b94b9 /]$ sqlplus sys@"(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=192.168.0.184)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=orclpdb1.localdomain)))" as sysdba
+
+SQL*Plus: Release 12.2.0.1.0 Production on Wed Sep 4 03:58:57 2019
+
+Copyright (c) 1982, 2016, Oracle.  All rights reserved.
+
+Enter password: 
+Last Successful login time: Wed Sep 04 2019 03:58:42 +00:00
+
+Connected to:
+Oracle Database 12c Enterprise Edition Release 12.2.0.1.0 - 64bit Production
+
+SQL> 
+```
+
+## Create table spaces
+
+```
 alter session set container = orclpdb1;
 
 CREATE TABLESPACE history_tbsp
