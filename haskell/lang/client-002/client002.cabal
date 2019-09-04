@@ -60,7 +60,7 @@ executable client002
   -- other-extensions:    
   
   -- Other library packages from which modules are imported.
-  build-depends:       base >=4.8 && <4.14
+  build-depends:       base
                      , client001 >= 0.1.0.0
   
   -- Directories containing source files.

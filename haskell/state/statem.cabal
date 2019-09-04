@@ -58,7 +58,7 @@ library
   -- other-extensions:
 
   -- Other library packages from which modules are imported.
-  build-depends: base ^>=4.12.0.0
+  build-depends: base
     , random >= 1.1
     , transformers >= 0.3.0.0
 
@@ -80,7 +80,7 @@ executable statem
   -- other-extensions:
 
   -- Other library packages from which modules are imported.
-  build-depends:       base ^>=4.12.0.0
+  build-depends:       base
 
   -- Directories containing source files.
   hs-source-dirs:      src
