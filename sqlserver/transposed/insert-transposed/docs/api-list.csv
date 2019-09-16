@@ -1,0 +1,5 @@
+ai-history-minute, create-ai-history-minute
+, retrieve-ai-history-minute
+, update-ai-history-minute
+, delete-ai-history-minute
+, query-ai-history-minute
