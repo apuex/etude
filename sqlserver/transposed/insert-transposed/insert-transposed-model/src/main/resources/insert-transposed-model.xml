@@ -5,7 +5,7 @@
     java -jar target/scala-2.12/transposed-model-0.1.0.jar <model name> <model package> <db schema> <table name>
 -->
 <model name="insert_transposed" package="com.github.xtwxy.insert.transposed" dbSchema="battery_system">
-  <entity name="ai_history_minute" aggregationRoot="true">
+  <entity name="ai_history_minute" aggregate="true">
     <field no="1" name="battery_id" type="string" length="64" required="true"/>
     <field no="2" name="record_time" type="timestamp" required="true"/>
     <field no="3" name="battery_current" type="double" required="true"/>

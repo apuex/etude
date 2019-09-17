@@ -23,7 +23,7 @@
   <bean id="dataSource" class="com.microsoft.sqlserver.jdbc.SQLServerDataSource">
     <property name="serverName" value="mssqlserver"/>
     <property name="portNumber" value="1433"/>
-    <property name="databaseName" value="insertTransposed"/>
+    <property name="databaseName" value="insert_transposed"/>
     <property name="user" value="sa"/>
     <property name="password" value=""/>
   </bean>
