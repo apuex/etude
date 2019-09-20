@@ -22,8 +22,8 @@ object Main extends App {
        |    <field no="2" name="record_time" type="timestamp" required="true"/>
        |    <field no="3" name="battery_current" type="double" required="true"/>
        |    ${indent(dataColumns(4, 24), 4)}
-       |    <primaryKey name="ai_history_minute_pk">
-       |      <field name="signal_id"/>
+       |    <primaryKey name="${tableName}_pk">
+       |      <field name="battery_id"/>
        |      <field name="record_time"/>
        |    </primaryKey>
        |  </entity>
