@@ -61,14 +61,17 @@ object Main extends App {
 
   def dataColumns(offset: Int = 0, length: Int): String = {
     (offset until (offset + length))
-      .map(n => dataColumn(n, s"voltage_${n - offset + 1}"))
+      .map(n => {
+        val idx = n - offset + 1
+        dataColumn(n, s"voltage", idx)
+      })
       .reduceOption((l, r) => s"${l}\n${r}")
       .getOrElse("")
   }
 
-  def dataColumn(no: Int, name: String, offset: Int = 0): String = {
+  def dataColumn(no: Int, name: String, idx: Int): String = {
     s"""
-       |<field no="${no}" name="${name}" type="double" required="false" comment="电池单体${no - offset + 1}电压"/>
+       |<field no="${no}" name="${name}_${idx}" type="double" required="false" comment="电池单体${idx}电压"/>
      """.stripMargin.trim
   }
 }
