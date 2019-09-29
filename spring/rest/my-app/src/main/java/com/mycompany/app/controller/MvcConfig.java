@@ -3,9 +3,7 @@ package com.mycompany.app.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 
 @Configuration
 @EnableWebMvc
@@ -14,9 +12,16 @@ public class MvcConfig implements WebMvcConfigurer {
 
     public void addViewControllers(ViewControllerRegistry registry) {
         logger.info("add view controllers.");
+        registry.addViewController("/").setViewName("index");
         registry.addViewController("/welcome").setViewName("welcome");
         registry.addViewController("/login").setViewName("login");
         registry.addViewController("/logout").setViewName("logged-out");
     }
 
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        logger.info("add resource handlers.");
+        //registry.addResourceHandler("/**").addResourceLocations("file:///");
+        registry.addResourceHandler("/**").addResourceLocations("classpath:/WEB-INF/classes/static/");
+    }
 }

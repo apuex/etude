@@ -24,6 +24,11 @@ public class UserController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
+	@RequestMapping(value="login-check", method=RequestMethod.GET)
+	public String loginCheck() {
+		return "welcome";
+	}
+
 	@RequestMapping(value = "create-user", method = RequestMethod.POST, consumes = "application/json")
 	public void createUser(@RequestBody UserVo user) {
 		UserVo encrypted = new UserVo(user.getName(), passwordEncoder.encode(user.getPassword()));
