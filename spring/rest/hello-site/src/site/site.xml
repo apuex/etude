@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="Maven">
+<project name="Hello">
   <bannerLeft>
-    <name>Maven</name>
+    <name>Hello</name>
     <src>http://maven.apache.org/images/apache-maven-project.png</src>
-    <href>http://maven.apache.org/</href>
+    <href>http://maven.apache.org/xxxxx</href>
   </bannerLeft>
   <bannerRight>
+    <name>Site</name>
     <src>http://maven.apache.org/images/maven-small.gif</src>
   </bannerRight>
   <body>
