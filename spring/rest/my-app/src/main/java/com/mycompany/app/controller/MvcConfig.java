@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.*;
 
+import java.io.File;
+
 @Configuration
 @EnableWebMvc
 public class MvcConfig implements WebMvcConfigurer {
@@ -20,8 +22,15 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        logger.info("add resource handlers.");
-        //registry.addResourceHandler("/**").addResourceLocations("file:///");
+        logger.info("add static resource handlers.");
+        String pathString = System.getProperty("static.content.dir", ".");
+        File path = new File(pathString);
+        if(null != pathString) {
+            if (path.isDirectory()) {
+                registry.addResourceHandler("/**").addResourceLocations(String.format("file://%s/", path.getAbsolutePath()));
+                return;
+            }
+        }
         registry.addResourceHandler("/**").addResourceLocations("classpath:/WEB-INF/classes/static/");
     }
 }
