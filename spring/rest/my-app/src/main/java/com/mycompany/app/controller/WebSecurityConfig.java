@@ -23,17 +23,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .addFilterBefore(new CaptchaFilter(failureHandler), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/user/**", "/employee/**", "/department/**", "/employee-department/**").authenticated()
+                .antMatchers("/user/**").authenticated()
+                .antMatchers("/employee/**").authenticated()
+                .antMatchers("/department/**").authenticated()
+                .antMatchers("/employee-department/**").authenticated()
                 .antMatchers("/login-check").authenticated()
-                .anyRequest().permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .failureHandler(failureHandler)
-                .permitAll()
-                .and()
-                .logout()
-                .permitAll();
+                .failureHandler(failureHandler);
+
         logger.info("configure security completed.");
     }
 }
