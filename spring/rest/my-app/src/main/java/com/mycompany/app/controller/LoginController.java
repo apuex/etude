@@ -54,7 +54,7 @@ public class LoginController {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     if(authentication != null) {
       resp.getWriter()
-              .printf("username: %s\n", authentication.getPrincipal());
+              .printf("username: %s\n", authentication.getName());
     } else {
       resp.getWriter()
               .printf("not logged in.\n");

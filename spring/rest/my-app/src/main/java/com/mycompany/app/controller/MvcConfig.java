@@ -23,14 +23,14 @@ public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         logger.info("add static resource handlers.");
-        String pathString = System.getProperty("static.content.dir", ".");
+        String pathString = System.getProperty("static.content.dir", "src/main/resources/static");
         File path = new File(pathString);
         if(null != pathString) {
             if (path.isDirectory()) {
+                logger.info("static content dir: '{}'", path.getAbsolutePath());
                 registry.addResourceHandler("/**").addResourceLocations(String.format("file://%s/", path.getAbsolutePath()));
                 return;
             }
         }
-        registry.addResourceHandler("/**").addResourceLocations("classpath:/WEB-INF/classes/static/");
     }
 }
