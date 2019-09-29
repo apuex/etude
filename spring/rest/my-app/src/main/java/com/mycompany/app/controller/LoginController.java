@@ -53,11 +53,9 @@ public class LoginController {
   public void who(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     if(authentication != null) {
-      resp.getWriter()
-              .printf("username: %s\n", authentication.getName());
+      resp.getWriter().println(authentication.getName());
     } else {
-      resp.getWriter()
-              .printf("not logged in.\n");
+      resp.getWriter().println("");
     }
   }
 
