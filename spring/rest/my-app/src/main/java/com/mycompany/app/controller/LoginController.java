@@ -2,6 +2,10 @@ package com.mycompany.app.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.Principal;
 
 @Controller
 public class LoginController {
@@ -42,6 +47,18 @@ public class LoginController {
     HttpSession ssn = r.getSession(false);
     if(ssn != null) ssn.invalidate();
     return "logged-out";
+  }
+
+  @GetMapping(value="who")
+  public void who(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if(authentication != null) {
+      resp.getWriter()
+              .printf("username: %s\n", authentication.getPrincipal());
+    } else {
+      resp.getWriter()
+              .printf("not logged in.\n");
+    }
   }
 
   private String hashed(String message, String algorithm) throws NoSuchAlgorithmException {
