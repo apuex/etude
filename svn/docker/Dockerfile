@@ -11,6 +11,7 @@ RUN dnf -y clean all
 
 RUN htpasswd -cmb /etc/svn-auth-users admin password
 RUN htpasswd -mb /etc/svn-auth-users user password
+RUN chown -R apache:apache /var/www/svn
 
 COPY ./conf.d/server.conf /etc/httpd/conf.d/
 COPY ./conf.d/svn.conf /etc/httpd/conf.d/
