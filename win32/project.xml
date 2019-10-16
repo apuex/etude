@@ -1,0 +1,14 @@
+<project script = "zproject.gsl" name="perf-counter">
+    <version major = "1" minor = "1" patch = "0" />
+    <abi current = "0" revision = "0" age = "0" />
+
+    <use project = "czmq" />
+
+    <class name = "perf_counter_it" private="1">performance counter enumerator</class>
+    <main name = "perf-counter-it" private="1">performance counter enumerator</main>
+
+    <!-- Targets -->
+    <bin name = "zproject_autotools.gsl" />
+    <bin name = "zproject_vs20xx.gsl" />
+    <bin name = "zproject_vs20xx_props.gsl" />
+</project>
