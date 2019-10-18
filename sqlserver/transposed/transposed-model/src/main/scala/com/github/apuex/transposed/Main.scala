@@ -23,14 +23,15 @@ object Main extends App {
        |  <entity name="${tableName}" aggregateRoot="true">
        |    <field no="1" name="battery_id" type="string" length="64" required="true" comment="电池组ID"/>
        |    <field no="2" name="record_time" type="timestamp" required="true" comment="记录时间"/>
-       |    <field no="3" name="battery_current" type="double" required="true" comment="电组组电流"/>
-       |    ${indent(dataColumns(4, 24), 4)}
+       |    <field no="3" name="battery_voltage" type="double" required="false" comment="电组组电压"/>
+       |    <field no="4" name="battery_current" type="double" required="false" comment="电组组电流"/>
+       |    ${indent(dataColumns(5, 24), 4)}
        |    <primaryKey name="${tableName}_pk">
        |      <field name="battery_id"/>
        |      <field name="record_time"/>
        |    </primaryKey>
        |  </entity>
-       |   <entity name="event_journal" aggregate="true">
+       |  <entity name="event_journal" aggregate="true">
        |    <field name="persistence_id" type="string" length="64" required="true" comment="实体ID" />
        |    <field name="occurred_time" type="timestamp" required="true" comment="事件发生时间" />
        |    <field name="offset" type="long" required="true" comment="事件顺序号"/>
