@@ -17,6 +17,7 @@ cabal-version:       >=1.10
 
 executable getopt1
   main-is:             Main.hs
+  -- ghc-options:         -fllvm
   -- other-modules:       
   -- other-extensions:    
   build-depends:       base >=4.8 && <4.9
