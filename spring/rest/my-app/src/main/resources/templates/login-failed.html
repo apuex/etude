@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>员工管理系统登录</title>
+</head>
+<body background="F:\2.jpg">
+<center>
+    <form class="form">
+        <h1 style="color:white">登录</h1>
+        <br>
+        <p class="text">请输入用户名、密码和验证码。</p>
+            <div th:if="${param.error}">
+                Invalid username and password.
+            </div>
+            <div th:if="${param.logout}">
+                You have been logged out.
+            </div>
+            <form th:action="@{/login}" method="post">
+                <font class="text">用户名：</font><input type="text" id="username" name="username" class="input"/><br><br>
+                <font class="text">&nbsp密码：</font><input type="password" id="password" name="password" class="input"/><br><br>
+                <font class="text">验证码：</font><input type="text" id="captcha" name="captcha" class="input"/><br><br>
+                <image src="captcha" alt="captcha letters"></image><br><br>
+                <button type="submit" class="button1">登录</button>
+            </form>
+    </form>
+</center>
+</body>
+</html>

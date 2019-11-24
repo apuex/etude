@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>WSN.</title>
+  <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+  <link rel="stylesheet" type="text/css" href="css/patternfly.min.css">
+  <link rel="stylesheet" type="text/css" href="css/patternfly-additions.min.css">
+</head>
+
+<body>
+<nav class="navbar navbar-default navbar-pf" role="navigation">
+  <div class="navbar-header">
+    <a class="navbar-brand" href="">
+      <p><strong>WSN.</strong></p>
+    </a>
+  </div>
+</nav>
+<div class="container">
+  <br/>
+  <div class="row">
+    <button id="connect" class="btn btn-primary" type="button">connect</button>
+  </div>
+  <br/>
+  <div class="row">
+    <pre id="events"></pre>
+  </div>
+</div>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/patternfly.min.js"></script>
+
+<script type="text/javascript">
+      var connected = false;
+      var socket;
+
+      $( document ).ready(function() {
+        $("#connect").click(connect);
+
+        $("#events").change(function() {
+            scrollToBottom();
+        });
+      });
+
+      var connect = function() {
+          if (! connected) {
+              socket = new WebSocket("ws://" + location.host + "/events/1");
+              socket.onopen = function() {
+                  connected = true;
+                  console.log("Connected to the web socket");
+                  $("#connect").attr("disabled", true);
+              };
+              socket.onmessage =function(m) {
+                  console.log("Got message: " + m.data);
+                  $("#events").append(m.data + "\n");
+                  scrollToBottom();
+              };
+              socket.onclose = function() {
+                  connected = false;
+                  console.log("Disconnected to the web socket");
+                  $("#connect").attr("disabled", false);
+              }
+          }
+      };
+
+      var scrollToBottom = function () {
+        $('#events').scrollTop($('#events')[0].scrollHeight);
+      };
+
+
+</script>
+</body>
+
+</html>

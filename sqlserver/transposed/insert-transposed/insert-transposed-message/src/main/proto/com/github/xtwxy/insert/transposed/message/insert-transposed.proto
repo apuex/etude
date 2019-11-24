@@ -1,0 +1,119 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+
+package com.github.xtwxy.insert.transposed.message;
+option java_package = "com.github.xtwxy.insert.transposed.message";
+option java_outer_classname = "InsertTransposed";
+option java_multiple_files = true;
+
+import "scalapb/scalapb.proto";
+option (scalapb.options) = {
+  flat_package: true
+};
+
+message AiHistoryMinuteVo {
+  string batteryId = 1;
+  google.protobuf.Timestamp recordTime = 2;
+  double batteryCurrent = 3;
+  double voltage4 = 4;
+  double voltage5 = 5;
+  double voltage6 = 6;
+  double voltage7 = 7;
+  double voltage8 = 8;
+  double voltage9 = 9;
+  double voltage10 = 10;
+  double voltage11 = 11;
+  double voltage12 = 12;
+  double voltage13 = 13;
+  double voltage14 = 14;
+  double voltage15 = 15;
+  double voltage16 = 16;
+  double voltage17 = 17;
+  double voltage18 = 18;
+  double voltage19 = 19;
+  double voltage20 = 20;
+  double voltage21 = 21;
+  double voltage22 = 22;
+  double voltage23 = 23;
+  double voltage24 = 24;
+  double voltage25 = 25;
+  double voltage26 = 26;
+  double voltage27 = 27;
+  double voltage28 = 28;
+}
+
+message AiHistoryMinuteListVo {
+  repeated AiHistoryMinuteVo items = 1;
+  bool hasMore = 2;
+  string pagingState = 3;
+}
+
+message CreateAiHistoryMinuteCmd {
+  string batteryId = 1;
+  google.protobuf.Timestamp recordTime = 2;
+  double batteryCurrent = 3;
+  double voltage4 = 4;
+  double voltage5 = 5;
+  double voltage6 = 6;
+  double voltage7 = 7;
+  double voltage8 = 8;
+  double voltage9 = 9;
+  double voltage10 = 10;
+  double voltage11 = 11;
+  double voltage12 = 12;
+  double voltage13 = 13;
+  double voltage14 = 14;
+  double voltage15 = 15;
+  double voltage16 = 16;
+  double voltage17 = 17;
+  double voltage18 = 18;
+  double voltage19 = 19;
+  double voltage20 = 20;
+  double voltage21 = 21;
+  double voltage22 = 22;
+  double voltage23 = 23;
+  double voltage24 = 24;
+  double voltage25 = 25;
+  double voltage26 = 26;
+  double voltage27 = 27;
+  double voltage28 = 28;
+}
+
+message UpdateAiHistoryMinuteCmd {
+  string batteryId = 1;
+  google.protobuf.Timestamp recordTime = 2;
+  double batteryCurrent = 3;
+  double voltage4 = 4;
+  double voltage5 = 5;
+  double voltage6 = 6;
+  double voltage7 = 7;
+  double voltage8 = 8;
+  double voltage9 = 9;
+  double voltage10 = 10;
+  double voltage11 = 11;
+  double voltage12 = 12;
+  double voltage13 = 13;
+  double voltage14 = 14;
+  double voltage15 = 15;
+  double voltage16 = 16;
+  double voltage17 = 17;
+  double voltage18 = 18;
+  double voltage19 = 19;
+  double voltage20 = 20;
+  double voltage21 = 21;
+  double voltage22 = 22;
+  double voltage23 = 23;
+  double voltage24 = 24;
+  double voltage25 = 25;
+  double voltage26 = 26;
+  double voltage27 = 27;
+  double voltage28 = 28;
+}
+
+message DeleteAiHistoryMinuteCmd {
+  google.protobuf.Timestamp recordTime = 2;
+}
+
+message RetrieveAiHistoryMinuteCmd {
+  google.protobuf.Timestamp recordTime = 2;
+}

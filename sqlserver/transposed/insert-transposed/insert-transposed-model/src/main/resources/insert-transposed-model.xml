@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!--
+  Generate wide-column table for history records.
+  Usage:
+    java -jar target/scala-2.12/transposed-model-0.1.0.jar <model name> <model package> <db schema> <table name>
+-->
+<model name="insert_transposed" package="com.github.xtwxy.insert.transposed" dbSchema="battery_system">
+  <entity name="ai_history_minute" aggregate="true">
+    <field no="1" name="battery_id" type="string" length="64" required="true"/>
+    <field no="2" name="record_time" type="timestamp" required="true"/>
+    <field no="3" name="battery_current" type="double" required="true"/>
+    <field no="4" name="voltage_4" type="double" required="false"/>
+    <field no="5" name="voltage_5" type="double" required="false"/>
+    <field no="6" name="voltage_6" type="double" required="false"/>
+    <field no="7" name="voltage_7" type="double" required="false"/>
+    <field no="8" name="voltage_8" type="double" required="false"/>
+    <field no="9" name="voltage_9" type="double" required="false"/>
+    <field no="10" name="voltage_10" type="double" required="false"/>
+    <field no="11" name="voltage_11" type="double" required="false"/>
+    <field no="12" name="voltage_12" type="double" required="false"/>
+    <field no="13" name="voltage_13" type="double" required="false"/>
+    <field no="14" name="voltage_14" type="double" required="false"/>
+    <field no="15" name="voltage_15" type="double" required="false"/>
+    <field no="16" name="voltage_16" type="double" required="false"/>
+    <field no="17" name="voltage_17" type="double" required="false"/>
+    <field no="18" name="voltage_18" type="double" required="false"/>
+    <field no="19" name="voltage_19" type="double" required="false"/>
+    <field no="20" name="voltage_20" type="double" required="false"/>
+    <field no="21" name="voltage_21" type="double" required="false"/>
+    <field no="22" name="voltage_22" type="double" required="false"/>
+    <field no="23" name="voltage_23" type="double" required="false"/>
+    <field no="24" name="voltage_24" type="double" required="false"/>
+    <field no="25" name="voltage_25" type="double" required="false"/>
+    <field no="26" name="voltage_26" type="double" required="false"/>
+    <field no="27" name="voltage_27" type="double" required="false"/>
+    <field no="28" name="voltage_28" type="double" required="false"/>
+    <primaryKey name="ai_history_minute_pk">
+      <field name="signal_id"/>
+      <field name="record_time"/>
+    </primaryKey>
+  </entity>
+</model>
+     

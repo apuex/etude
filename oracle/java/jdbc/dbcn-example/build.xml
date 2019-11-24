@@ -1,0 +1,70 @@
+<project basedir="." default="compile">
+  <property file="${basedir}/build.properties"/>
+  <property name="src" location="${basedir}/src/main/java"/>
+  <property name="resources" location="${basedir}/src/main/resources"/>
+  <property name="target" location="${basedir}/target"/>
+
+  <path id="build.classpath">
+    <fileset dir="${basedir}/lib">
+      <include name="**/*.jar"/>
+    </fileset>
+  </path>
+
+  <pathconvert property="manifest.classpath" pathsep=" ">
+    <path refid="build.classpath"/>
+    <!--
+    <map from="${basedir}/lib" to="lib"/>
+    -->
+    <flattenmapper/>
+  </pathconvert>
+
+  <target name="clean">
+    <delete dir="${target}"/>
+  </target>
+
+  <target name="prepare-compile">
+    <mkdir dir="${target}/classes"/>
+  </target>
+
+  <target name="compile" depends="prepare-compile">
+    <javac encoding="UTF-8"
+           srcdir="${src}"
+           destdir="${target}/classes"
+           includeantruntime="on"
+           classpathref="build.classpath"/>
+
+    <copy todir="${target}/classes">
+      <fileset dir="${src}">
+        <exclude name="**/*.java"/>
+        <exclude name="**/.svn"/>
+      </fileset>
+    </copy>
+
+    <copy todir="${target}/classes">
+      <fileset dir="${resources}">
+        <exclude name="**/.svn"/>
+      </fileset>
+    </copy>
+
+    <copy todir="${target}/">
+      <fileset dir="${basedir}/lib"/>
+    </copy>
+  </target>
+
+  <target name="package" depends="compile">
+    <jar destfile="${target}/${project.name}-${project.version}.jar" basedir="${target}/classes">
+      <manifest>
+        <attribute name="Permissions" value="sandbox"/>
+        <attribute name="Codebase" value="${project.codebase}"/>
+        <attribute name="Built-By" value="${user.name}"/>
+        <attribute name="Built-Host" value="${os.name}-${os.arch} version ${os.version}"/>
+        <attribute name="Implementation-Vendor" value="${project.creator}"/>
+        <attribute name="Implementation-Language" value="${user.language}-${user.country}"/>
+        <attribute name="Implementation-Title" value="${project.title}"/>
+        <attribute name="Implementation-Version" value="${project.version}"/>
+        <attribute name="Main-Class" value="${main.class}"/>
+        <attribute name="Class-Path" value="${manifest.classpath}"/>
+      </manifest>
+    </jar>
+  </target>
+</project>

@@ -1,0 +1,9 @@
+[
+  {
+    "name": "oracle.jdbc.driver.T4CDriverExtension",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredMethods": true,
+    "allPublicMethods": true
+  }
+]
