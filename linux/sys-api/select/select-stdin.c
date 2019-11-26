@@ -96,8 +96,8 @@ main (int argc, char *argv[])
 
       /* Wait up to five seconds. */
 
-      tv.tv_sec = 5;
-      tv.tv_usec = nsecs;
+      tv.tv_sec = nsecs;
+      tv.tv_usec = 0;
 
       retval = select (1, &rfds, NULL, NULL, &tv);
       /* Don't rely on the value of tv now! */
