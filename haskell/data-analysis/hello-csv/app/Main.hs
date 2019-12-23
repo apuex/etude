@@ -12,7 +12,7 @@ import Text.CSV
 
 main = do
     (args, files) <- getArgs >>= parse
-    mapM_ (\f -> withInputFile f doWork) files
+    mapM_ (\f -> withInputFile f $ doWork args) files
 
 withInputFile s f = do
   lines <- open s
@@ -24,7 +24,7 @@ withInputFile s f = do
 handleError csv = putStrLn "error parsing"
 
 -- tail just ignore the header line.
-doWork csv = (print.findOldest.tail) csv
+doWork args csv = (print.findOldest.if SkipHeader `elem` args then tail else id) csv
 
 findOldest :: [Record] -> Record
 findOldest [] = []
@@ -41,10 +41,12 @@ toInt s = read s::Int
 
 data Flag
     = Help                  -- --help
+    | SkipHeader            -- --skip header line
     deriving (Eq,Ord,Enum,Show,Bounded)
 
 flags =
-   [Option ['h']    ["help"] (NoArg Help) "Print this help message"]
+   [Option ['s']    ["skip-header"] (NoArg SkipHeader) "Skip header line"
+   , Option ['h']    ["help"] (NoArg Help) "Print this help message"]
 
 parse argv = case getOpt Permute flags argv of
     (args,fs,[]) -> do
