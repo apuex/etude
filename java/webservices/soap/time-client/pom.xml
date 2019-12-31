@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.apuex.java.webservice</groupId>
-    <artifactId>time-server</artifactId>
+    <artifactId>time-client</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 

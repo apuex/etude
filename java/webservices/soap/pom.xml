@@ -9,6 +9,8 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>time-client</module>
+        <module>time-server-api</module>
         <module>time-server</module>
     </modules>
 
@@ -48,6 +50,7 @@
         </plugins>
     </build>
     <properties>
+        <time-server-api.version>1.0.0</time-server-api.version>
         <java.source.version>1.8</java.source.version>
         <java.class.version>1.8</java.class.version>
         <source.encoding>UTF-8</source.encoding>
@@ -57,12 +60,13 @@
         <cassandra-driver.version>3.5.0</cassandra-driver.version>
 
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
-        <maven-jar-plugin.version>2.4</maven-jar-plugin.version>
-        <maven-surefire-plugin.version>2.12</maven-surefire-plugin.version>
-        <build-helper-maven-plugin.version>1.7</build-helper-maven-plugin.version>
-        <exec-maven-plugin.version>1.2.1</exec-maven-plugin.version>
-        <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
-        <maven-resources-plugin.version>3.0.1</maven-resources-plugin.version>
+        <maven-jar-plugin.version>3.1.0</maven-jar-plugin.version>
+        <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
+        <build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
+        <exec-maven-plugin.version>1.6.0</exec-maven-plugin.version>
+        <maven-source-plugin.version>3.1.0</maven-source-plugin.version>
+        <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
+        <maven-assembly-plugin.version>3.1.0</maven-assembly-plugin.version>
     </properties>
 </project>
 
