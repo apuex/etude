@@ -12,6 +12,9 @@
         <module>time-client</module>
         <module>time-server-api</module>
         <module>time-server</module>
+        <module>sc-service-api</module>
+        <module>su-service-api</module>
+        <module>su-client</module>
     </modules>
 
     <build>
@@ -51,6 +54,7 @@
     </build>
     <properties>
         <time-server-api.version>1.0.0</time-server-api.version>
+        <su-service-api.version>1.0.0</su-service-api.version>
         <java.source.version>1.8</java.source.version>
         <java.class.version>1.8</java.class.version>
         <source.encoding>UTF-8</source.encoding>

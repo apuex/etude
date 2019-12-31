@@ -5,7 +5,7 @@ import java.net.URL;
 
 public class Main {
     public static void main(String args[ ]) throws Exception {
-        URL url = new URL("http://localhost:9876/ts?wsdl");
+        URL url = new URL(args[0]);
         // Qualified name of the service:
         //   1st arg is the service URI
         //   2nd is the service name published in the WSDL
