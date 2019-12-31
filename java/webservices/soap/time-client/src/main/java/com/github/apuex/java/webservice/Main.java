@@ -9,7 +9,7 @@ public class Main {
         // Qualified name of the service:
         //   1st arg is the service URI
         //   2nd is the service name published in the WSDL
-        QName qname = new QName("http://ts.ch01/", "TimeServerImplService");
+        QName qname = new QName("http://webservice.java.apuex.github.com/", "TimeServerImplService");
         // Create, in effect, a factory for the service.
         Service service = Service.create(url, qname);
         // Extract the endpoint interface, the service "port".

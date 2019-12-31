@@ -15,7 +15,7 @@ import javax.jws.soap.SOAPBinding.Style;
  * simplifies the contract and makes deployment easier.
  */
 @WebService
-@SOAPBinding(style = Style.RPC) // more on this later
+@SOAPBinding(style = Style.DOCUMENT) // more on this later
 public interface TimeServer {
     @WebMethod
     String getTimeAsString();
