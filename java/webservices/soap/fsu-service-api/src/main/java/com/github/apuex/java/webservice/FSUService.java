@@ -14,10 +14,9 @@ import javax.jws.soap.SOAPBinding;
  * Generated source version: 2.2
  * 
  */
-@WebService(name = "SUService", targetNamespace = "http://SUService.chinaunicom.com")
-//@WebService(name = "FSUService", targetNamespace = "http://FSUService.chinamobile.com")
+@WebService(name = "FSUService", targetNamespace = "http://FSUService.chinamobile.com")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
-public interface SUService {
+public interface FSUService {
 
 
     /**

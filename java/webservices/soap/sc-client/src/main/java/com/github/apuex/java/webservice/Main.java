@@ -23,7 +23,7 @@ public class Main {
         // Create, in effect, a factory for the service.
         Service service = Service.create(url, qname);
         // Extract the endpoint interface, the service "port".
-        SUService eif = service.getPort(SUService.class);
+        SCService eif = service.getPort(SCService.class);
         FileInputStream f = new FileInputStream(requestFileName);
         byte[] bytes = new byte[f.available()];
         f.read(bytes);

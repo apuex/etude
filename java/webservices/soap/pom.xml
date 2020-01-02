@@ -13,8 +13,13 @@
         <module>time-server-api</module>
         <module>time-server</module>
         <module>sc-service-api</module>
+        <module>sc-service</module>
+        <module>sc-client</module>
         <module>su-service-api</module>
+        <module>su-service</module>
         <module>su-client</module>
+        <module>fsu-service-api</module>
+        <module>fsu-client</module>
     </modules>
 
     <build>
@@ -54,7 +59,9 @@
     </build>
     <properties>
         <time-server-api.version>1.0.0</time-server-api.version>
+        <fsu-service-api.version>1.0.0</fsu-service-api.version>
         <su-service-api.version>1.0.0</su-service-api.version>
+        <sc-service-api.version>1.0.0</sc-service-api.version>
         <java.source.version>1.8</java.source.version>
         <java.class.version>1.8</java.class.version>
         <source.encoding>UTF-8</source.encoding>

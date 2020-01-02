@@ -18,7 +18,6 @@ import javax.jws.soap.SOAPBinding;
 @SOAPBinding(style = SOAPBinding.Style.RPC)
 public interface SCService {
 
-
     /**
      * 
      * @param xmlData
