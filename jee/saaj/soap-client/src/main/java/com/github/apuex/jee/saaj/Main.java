@@ -9,6 +9,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class Main {
     public static void main(String args[]) throws Exception {
@@ -19,9 +20,10 @@ public class Main {
 
         if (cmd.hasOption("h")) {
             HelpFormatter formatter = new HelpFormatter();
-            formatter.printHelp("soap-message", options);
+            formatter.printHelp("soap-message <options>", options);
+            printDefaultOptions(defaultOptions());
         } else {
-            final Map<String, String> params = defaultSettings();
+            final Map<String, String> params = defaultOptions();
 
             options.getOptions().stream()
                     .forEach(o -> {
@@ -75,7 +77,7 @@ public class Main {
                 });
     }
 
-    public static Map<String, String> defaultSettings() {
+    public static Map<String, String> defaultOptions() {
         return new HashMap<String, String>() {{
             put("endpoint-url", "http://FSUService.chinamobile.com");
             put("namespace-uri", "http://FSUService.chinamobile.com");
@@ -85,6 +87,32 @@ public class Main {
             put("parameter-name", "xmlData");
             put("request-file", "GetFsuInfoRequest.xml");
         }};
+    }
+
+    public static void printDefaultOptions(Map<String, String> settings) {
+        System.out.println("default settings are:");
+        int maxLength = settings.entrySet().stream()
+                .map(x -> x.getKey().length())
+                .max((x, y) -> {
+                    if (x < y) return -1;
+                    else if (x > y) return 1;
+                    else return 0;
+                })
+                .get() + 1;
+
+        settings.entrySet().forEach(e -> System.out.printf("  %s = %s\n", paddingRight(e.getKey(), maxLength), e.getValue()));
+    }
+
+    public static String paddingRight(String s, int maxWidth) {
+        int length = s.length();
+        StringBuilder sb = new StringBuilder();
+        sb.append(s);
+        if(length < maxWidth) {
+            for (int i = length; i < maxWidth; ++i) {
+                sb.append(' ');
+            }
+        }
+        return sb.toString();
     }
 
     public static Options options() {
