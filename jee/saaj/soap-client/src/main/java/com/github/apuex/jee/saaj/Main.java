@@ -9,7 +9,6 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public class Main {
     public static void main(String args[]) throws Exception {
@@ -20,7 +19,7 @@ public class Main {
 
         if (cmd.hasOption("h")) {
             HelpFormatter formatter = new HelpFormatter();
-            formatter.printHelp("soap-message <options>", options);
+            formatter.printHelp("soap-client <options>", options);
             printOptions(defaultOptions());
         } else {
             final Map<String, String> params = defaultOptions();
