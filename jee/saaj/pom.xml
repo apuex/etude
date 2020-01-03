@@ -3,24 +3,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.apuex.java.webservice</groupId>
-    <artifactId>soap</artifactId>
+    <groupId>com.github.apuex.jee.saaj</groupId>
+    <artifactId>saaj</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
 
     <modules>
-        <module>time-client</module>
-        <module>time-server-api</module>
-        <module>time-server</module>
-        <module>sc-service-api</module>
-        <module>sc-service</module>
-        <module>sc-client</module>
-        <module>su-service-api</module>
-        <module>su-service</module>
-        <module>su-client</module>
-        <module>fsu-service-api</module>
-        <module>fsu-service</module>
-        <module>fsu-client</module>
+        <module>soap-message</module>
+        <module>soap-client</module>
     </modules>
 
     <build>
@@ -59,10 +49,7 @@
         </plugins>
     </build>
     <properties>
-        <time-server-api.version>1.0.0</time-server-api.version>
-        <fsu-service-api.version>1.0.0</fsu-service-api.version>
-        <su-service-api.version>1.0.0</su-service-api.version>
-        <sc-service-api.version>1.0.0</sc-service-api.version>
+        <saaj-api.version>1.4.0</saaj-api.version>
         <java.source.version>1.8</java.source.version>
         <java.class.version>1.8</java.class.version>
         <source.encoding>UTF-8</source.encoding>

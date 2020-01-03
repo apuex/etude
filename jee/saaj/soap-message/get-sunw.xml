@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">
+    <env:Header/>
+    <env:Body>
+        <m:invoke xmlns:m="http://FSUService.chinamobile.com">
+            <xmlData>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;Request&gt;&lt;PK_Type&gt;&lt;Name&gt;GET_FSUINFO&lt;/Name&gt;&lt;/PK_Type&gt;&lt;Info&gt;&lt;FSUID&gt;04201805100002&lt;/FSUID&gt;&lt;/Info&gt;&lt;/Request&gt;
+            </xmlData>
+        </m:invoke>
+    </env:Body>
+</env:Envelope>
