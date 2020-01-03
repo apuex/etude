@@ -12,14 +12,8 @@ import java.util.Map;
 
 public class Main {
     public static void main(String args[]) throws Exception {
-        final Options options = new Options();
-        options.addOption(new Option("e", "endpoint-url", true, "SOAP service endpoint URL."));
-        options.addOption(new Option("n", "namespace-uri", true, "SOAP service namespace URI."));
-        options.addOption(new Option("m", "method", true, "method to be invoked."));
-        options.addOption(new Option("p", "parameter-name", true, "method parameter."));
-        options.addOption(new Option("f", "request-file", true, "name of file contains parameter value."));
-        options.addOption(new Option("v", "verbose", false, "print out transport details."));
-        options.addOption(new Option("h", "help", false, "print help message."));
+        final Options options = options();
+
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd = parser.parse(options, args);
 
@@ -91,6 +85,18 @@ public class Main {
             put("parameter-name", "xmlData");
             put("request-file", "GetFsuInfoRequest.xml");
         }};
+    }
+
+    public static Options options() {
+        final Options options = new Options();
+        options.addOption(new Option("e", "endpoint-url", true, "SOAP service endpoint URL."));
+        options.addOption(new Option("n", "namespace-uri", true, "SOAP service namespace URI."));
+        options.addOption(new Option("m", "method", true, "method to be invoked."));
+        options.addOption(new Option("p", "parameter-name", true, "method parameter."));
+        options.addOption(new Option("f", "request-file", true, "name of file contains parameter value."));
+        options.addOption(new Option("v", "verbose", false, "print out transport details."));
+        options.addOption(new Option("h", "help", false, "print help message."));
+        return options;
     }
 
     public static String request(String requestFileName) throws Exception {
