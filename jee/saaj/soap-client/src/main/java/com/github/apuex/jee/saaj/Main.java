@@ -21,7 +21,7 @@ public class Main {
         if (cmd.hasOption("h")) {
             HelpFormatter formatter = new HelpFormatter();
             formatter.printHelp("soap-message <options>", options);
-            printDefaultOptions(defaultOptions());
+            printOptions(defaultOptions());
         } else {
             final Map<String, String> params = defaultOptions();
 
@@ -60,6 +60,7 @@ public class Main {
         connection.close();
 
         if (params.containsKey("verbose")) {
+            printOptions(params);
             request.writeTo(System.out);
             response.writeTo(System.out);
         }
@@ -89,9 +90,9 @@ public class Main {
         }};
     }
 
-    public static void printDefaultOptions(Map<String, String> settings) {
-        System.out.println("default settings are:");
-        int maxLength = settings.entrySet().stream()
+    public static void printOptions(Map<String, String> options) {
+        System.out.println("current options are:");
+        int maxLength = options.entrySet().stream()
                 .map(x -> x.getKey().length())
                 .max((x, y) -> {
                     if (x < y) return -1;
@@ -100,7 +101,7 @@ public class Main {
                 })
                 .get() + 1;
 
-        settings.entrySet().forEach(e -> System.out.printf("  %s = %s\n", paddingRight(e.getKey(), maxLength), e.getValue()));
+        options.entrySet().forEach(e -> System.out.printf("  %s = %s\n", paddingRight(e.getKey(), maxLength), e.getValue()));
     }
 
     public static String paddingRight(String s, int maxWidth) {
@@ -122,7 +123,7 @@ public class Main {
         options.addOption(new Option("m", "method", true, "method to be invoked."));
         options.addOption(new Option("p", "parameter-name", true, "method parameter."));
         options.addOption(new Option("f", "request-file", true, "name of file contains parameter value."));
-        options.addOption(new Option("v", "verbose", false, "print out transport details."));
+        options.addOption(new Option("v", "verbose", false, "print out options and transport details."));
         options.addOption(new Option("h", "help", false, "print help message."));
         return options;
     }
