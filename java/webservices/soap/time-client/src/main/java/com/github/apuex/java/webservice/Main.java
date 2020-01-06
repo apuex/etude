@@ -1,4 +1,6 @@
 package com.github.apuex.java.webservice;
+import com.github.apuex.java.webservice.TimeServer;
+
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import java.net.URL;
