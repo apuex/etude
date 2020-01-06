@@ -93,11 +93,7 @@ public class Main {
         System.out.println("current options are:");
         int maxLength = options.entrySet().stream()
                 .map(x -> x.getKey().length())
-                .max((x, y) -> {
-                    if (x < y) return -1;
-                    else if (x > y) return 1;
-                    else return 0;
-                })
+                .max(Integer::compare)
                 .get() + 1;
 
         options.entrySet().forEach(e -> System.out.printf("  %s = %s\n", paddingRight(e.getKey(), maxLength), e.getValue()));
