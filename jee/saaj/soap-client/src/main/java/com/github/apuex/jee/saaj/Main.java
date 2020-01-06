@@ -50,7 +50,7 @@ public class Main {
         SOAPBodyElement bodyElement = body.addBodyElement(requestBodyName);
         QName name = new QName(params.get("parameter-name"));
         SOAPElement symbol = bodyElement.addChildElement(name);
-        symbol.addTextNode(request(params.get("request-file")));
+        symbol.addTextNode(params.getOrDefault("request-xml", request(params.get("request-xml-file"))));
         request.setProperty(SOAPMessage.CHARACTER_SET_ENCODING, "utf-8");
         request.setProperty(SOAPMessage.WRITE_XML_DECLARATION, "true");
 
@@ -85,7 +85,7 @@ public class Main {
             put("output", "invokeResponse");
             put("return", "invokeReturn");
             put("parameter-name", "xmlData");
-            put("request-file", "GetFsuInfoRequest.xml");
+            put("request-xml-file", "GetFsuInfoRequest.xml");
         }};
     }
 
@@ -121,7 +121,8 @@ public class Main {
         options.addOption(new Option("n", "namespace-uri", true, "SOAP service namespace URI."));
         options.addOption(new Option("m", "method", true, "method to be invoked."));
         options.addOption(new Option("p", "parameter-name", true, "method parameter."));
-        options.addOption(new Option("f", "request-file", true, "name of file contains parameter value."));
+        options.addOption(new Option("f", "request-xml-file", true, "name of file contains parameter value."));
+        options.addOption(new Option("x", "request-xml", true, "name of file contains parameter value."));
         options.addOption(new Option("v", "verbose", false, "print out options and transport details."));
         options.addOption(new Option("h", "help", false, "print help message."));
         return options;

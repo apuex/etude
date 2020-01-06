@@ -8,6 +8,16 @@
     <version>1.0.0</version>
     <packaging>pom</packaging>
 
+    <name>saaj</name>
+    <description>saaj</description>
+    <url>https://github.com/apuex/jee/saaj</url>
+
+    <parent>
+        <groupId>com.github.apuex</groupId>
+        <artifactId>apuex-parent</artifactId>
+        <version>1.0.1</version>
+    </parent>
+
     <modules>
         <module>soap-message</module>
         <module>soap-client</module>
