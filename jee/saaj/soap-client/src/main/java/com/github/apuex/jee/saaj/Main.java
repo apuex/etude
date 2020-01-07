@@ -31,28 +31,17 @@ public class Main {
                         }
                     });
 
-            invoke(params);
+            System.out.println(invoke(params));
         }
     }
 
-    public static void invoke(Map<String, String> params) throws Exception {
+    public static String invoke(Map<String, String> params) throws Exception {
         SOAPConnectionFactory soapConnectionFactory =
                 SOAPConnectionFactory.newInstance();
         SOAPConnection connection =
                 soapConnectionFactory.createConnection();
 
-        MessageFactory factory = MessageFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL);
-        SOAPMessage request = factory.createMessage();
-        SOAPHeader header = request.getSOAPHeader();
-        header.detachNode();
-        SOAPBody body = request.getSOAPBody();
-        QName requestBodyName = new QName(params.get("namespace-uri"), params.get("method"), "ns1");
-        SOAPBodyElement bodyElement = body.addBodyElement(requestBodyName);
-        QName name = new QName(params.get("parameter-name"));
-        SOAPElement symbol = bodyElement.addChildElement(name);
-        symbol.addTextNode(params.getOrDefault("request-xml", request(params.get("request-xml-file"))));
-        request.setProperty(SOAPMessage.CHARACTER_SET_ENCODING, "utf-8");
-        request.setProperty(SOAPMessage.WRITE_XML_DECLARATION, "true");
+        SOAPMessage request = createSoapMessage(params);
 
         URL endpoint = new URL(params.get("endpoint-url"));
         SOAPMessage response = connection.call(request, endpoint);
@@ -66,16 +55,13 @@ public class Main {
 
         SOAPBody soapBody = response.getSOAPBody();
 
-        soapBody.getChildElements()
-                .forEachRemaining(o -> {
-                    SOAPElement output = (SOAPElement) o;
-                    output.getChildElements()
-                            .forEachRemaining(r -> {
-                                SOAPElement returnVal = (SOAPElement) r;
-                                System.out.println(returnVal.getValue());
-                            });
-                });
+        if (soapBody.hasFault()) {
+            throw new RuntimeException(faultMessage(response));
+        } else {
+            return getReturnXml(soapBody);
+        }
     }
+
 
     public static Map<String, String> defaultOptions() {
         return new HashMap<String, String>() {{
@@ -103,7 +89,7 @@ public class Main {
         int length = s.length();
         StringBuilder sb = new StringBuilder();
         sb.append(s);
-        if(length < maxWidth) {
+        if (length < maxWidth) {
             for (int i = length; i < maxWidth; ++i) {
                 sb.append(' ');
             }
@@ -124,11 +110,61 @@ public class Main {
         return options;
     }
 
+
+    private static SOAPMessage createSoapMessage(Map<String, String> params) throws Exception {
+        MessageFactory factory = MessageFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL);
+        SOAPMessage message = factory.createMessage();
+        SOAPHeader header = message.getSOAPHeader();
+        header.detachNode();
+        SOAPBody body = message.getSOAPBody();
+        QName requestBodyName = new QName(params.get("namespace-uri"), params.get("method"), "ns1");
+        SOAPBodyElement bodyElement = body.addBodyElement(requestBodyName);
+        QName name = new QName(params.get("parameter-name"));
+        SOAPElement symbol = bodyElement.addChildElement(name);
+        symbol.addTextNode(params.getOrDefault("request-xml", request(params.get("request-xml-file"))));
+        message.setProperty(SOAPMessage.CHARACTER_SET_ENCODING, "utf-8");
+        message.setProperty(SOAPMessage.WRITE_XML_DECLARATION, "true");
+        return message;
+    }
+
     public static String request(String requestFileName) throws Exception {
         FileInputStream f = new FileInputStream(requestFileName);
         byte[] bytes = new byte[f.available()];
         f.read(bytes);
         f.close();
         return new String(bytes, Charset.forName("utf-8"));
+    }
+
+    private static String getReturnXml(SOAPBody soapBody) {
+        StringBuilder sb = new StringBuilder();
+        soapBody.getChildElements()
+                .forEachRemaining(o -> {
+                    SOAPElement output = (SOAPElement) o;
+                    output.getChildElements()
+                            .forEachRemaining(r -> {
+                                SOAPElement returnVal = (SOAPElement) r;
+
+                                String v = returnVal.getValue();
+                                if (v != null) sb.append(v);
+                            });
+                });
+        return sb.toString();
+    }
+
+    public static String faultMessage(SOAPMessage message) throws Exception {
+        StringBuilder sb = new StringBuilder();
+        SOAPFault soapFault = message.getSOAPBody().getFault();
+        sb.append(soapFault.getFaultCode())
+                .append(": ")
+                .append(soapFault.getFaultString());
+        if(soapFault.hasDetail()) {
+            soapFault.getDetail().getDetailEntries()
+                    .forEachRemaining(e -> {
+                        DetailEntry entry = (DetailEntry) e;
+                        sb.append(entry.getValue());
+                    });
+        } else {
+        }
+        return sb.toString();
     }
 }
