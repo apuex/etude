@@ -5,13 +5,13 @@
 
     <groupId>com.github.apuex.jee.saaj</groupId>
     <artifactId>soap-client</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
 
     <parent>
-        <groupId>com.github.apuex.jee.saaj</groupId>
-        <artifactId>saaj</artifactId>
-        <version>1.0.0</version>
+        <groupId>com.github.apuex</groupId>
+        <artifactId>apuex-parent</artifactId>
+        <version>1.0.1</version>
     </parent>
 
     <dependencies>
