@@ -1,6 +1,7 @@
 .cabal-sandbox
 cabal.sandbox.config
 .stack-work
+**/.ghci
 dist
 build
 
