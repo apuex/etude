@@ -1,0 +1,4 @@
+select-stdin
+select-stdin-mipsel
+select-stdin-musl
+
