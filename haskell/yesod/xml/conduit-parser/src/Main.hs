@@ -4,8 +4,8 @@ module Main(main) where
 
 import qualified Data.Map        as M
 import           Prelude         hiding (readFile, writeFile)
-import           Text.Hamlet.XML 
-import           Text.XML 
+import           Text.Hamlet.XML
+import           Text.XML
 
 main :: IO ()
 main = do
@@ -22,7 +22,7 @@ transform (Element _name attrs children) = Element "html" M.empty
       <title>
         $maybe title <- M.lookup "title" attrs
           \#{title}
-        $nothing 
+        $nothing
           Untitled Document
     <body>
         $forall child <- children
