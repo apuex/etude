@@ -7,6 +7,7 @@ import System.Exit
 import System.Environment
 import Data.List
 import Data.Char
+import Data.Maybe
 import qualified Data.Text as T
 import Control.Monad
 import Text.Printf
@@ -26,7 +27,7 @@ withInputFile s f = do
 handleError csv = putStrLn "error parsing"
 
 -- tail just ignore the header line.
-doWork args csv = (printf . wrapMap . formatOutput . putAll . if SkipHeader `elem` args then tail else id) csv
+doWork args = printf . wrapMap . formatOutput . putAll . if SkipHeader `elem` args then tail else id
 
 formatOutput :: [String] -> String
 formatOutput [] = ""
@@ -42,17 +43,13 @@ putSingle [k, v] = Just (printf "\"%s\" -> \"%s\"" (strip k) (strip v))
 putSingle _ = Nothing
 
 strip  = T.unpack . T.strip . T.pack
-lstrip = T.unpack . T.stripStart . T.pack
-rstrip = T.unpack . T.stripEnd . T.pack
+lstrip = T.stripStart
+rstrip = T.stripEnd
 
-putAll :: [Record] -> [String] 
-putAll list = map (\x -> case x of 
-    Nothing -> "" 
-    Just(s) -> s) $ filter (\x -> case x of 
-    Nothing -> False 
+putAll :: [Record] -> [String]
+putAll list = map (fromMaybe "") $ filter (\x -> case x of
+    Nothing -> False
     _ -> True) $ map putSingle list
-
-
 
 data Flag
     = Help                  -- --help
@@ -68,7 +65,7 @@ parse argv = case getOpt Permute flags argv of
         let files = if null fs then ["-"] else fs
         if Help `elem` args
             then do hPutStrLn stderr (usageInfo header flags)
-                    exitWith ExitSuccess
+                    exitSuccess
             else return (nub (concatMap set args), files)
 
     (_,_,errs)      -> do
