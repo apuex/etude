@@ -24,7 +24,7 @@ main (int argc, char *argv[])
   fd_set rfds;
   struct timeval tv;
   int retval;
-  int nsecs;
+  int nsecs = 5;
   char key[128];
   int c;
   int digit_optind = 0;
@@ -88,6 +88,7 @@ main (int argc, char *argv[])
 
 
   /* Watch stdin (fd 0) to see when it has input. */
+  setvbuf(stdout, NULL, _IONBF, 0);
   while (1)
     {
 
@@ -113,16 +114,20 @@ main (int argc, char *argv[])
 	  ssize_t nread = getline (&line, &len, stdin);
 	  if (nread > 0)
 	    {
-	      if (printf ("[%s] %s", key, line) == -1)
+	      if (printf ("[%s] %s\n", key, line) == -1)
 		{
 		  exit (EXIT_FAILURE);
 		}
 	      free (line);
 	    }
+	  else
+	    {
+	      printf("[%s] nread = %d\n", key, nread);
+	    }
 	}
       else
 	{
-	  if (printf ("[%s] %s", key, "[keep alive]\n") == -1)
+	  if (printf ("[%s] %s\n", key, "[keep alive]") == -1)
 	    {
 	      exit (EXIT_FAILURE);
 	    }
