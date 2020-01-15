@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Main(main) where
 
 import System.Console.GetOpt
@@ -6,6 +7,7 @@ import System.Exit
 import System.Environment
 import Data.List
 import Data.Char
+import qualified Data.Text as T
 import Control.Monad
 import Text.Printf
 import Text.CSV
@@ -36,8 +38,12 @@ wrapMap s = "Map(\n" ++ s ++ "\n)"
 
 putSingle :: Record -> Maybe String
 putSingle [] = Nothing
-putSingle [k, v] = Just (printf "\"%s\" -> \"%s\"" k v)
+putSingle [k, v] = Just (printf "\"%s\" -> \"%s\"" (strip k) (strip v))
 putSingle _ = Nothing
+
+strip  = T.unpack . T.strip . T.pack
+lstrip = T.unpack . T.stripStart . T.pack
+rstrip = T.unpack . T.stripEnd . T.pack
 
 putAll :: [Record] -> [String] 
 putAll list = map (\x -> case x of 
