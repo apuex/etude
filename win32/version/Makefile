@@ -7,6 +7,10 @@ version_EXE=$(OBJDIR)/version
 install_PREFIX=/usr/local
 install_bin_DIR=$(PREFIX)/bin
 
+CC       = clang
+CFLAGS  += -O3 -fPIC
+LDFLAGS += -lm
+
 .PHONY: all clean install uninstall
 
 all: $(version_EXE)
@@ -18,12 +22,12 @@ $(OBJDIR):
 	mkdir -p $(OBJDIR)
 
 $(version_EXE): $(version_OBJS)
-	@$(LINK.c) $(LDFLAGS) -o $@ $<
+	$(LINK.c) -o $(version_EXE) $(version_OBJS)
 
-$(version_OBJS): $(OBJDIR)
+$(version_OBJS): | $(OBJDIR)
 
-$(version_OBJS): $(version_SRCS)
-	@$(COMPILE.c) $(CFLAGS) -o $@ $<
+dist/%.o: src/%.c
+	$(COMPILE.c) -o $@ $<
 
 
 
