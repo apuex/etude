@@ -1,22 +1,43 @@
+OBJDIR=build
+version=version
+version_EXE=$(OBJDIR)/$(version)
+
 version_SRCS=$(wildcard src/*.c)
-version_OBJS=$(version_SRCS:src/%.c=dist/%.o)
+version_OBJS=$(version_SRCS:src/%.c=$(OBJDIR)/%.o)
 
-OBJDIR=dist
-version_EXE=$(OBJDIR)/version
-
+ifndef PREFIX
 install_PREFIX=/usr/local
-install_bin_DIR=$(PREFIX)/bin
+else
+install_PREFIX=$(PREFIX)
+endif
+
+install_bin_DIR=$(install_PREFIX)/bin
 
 CC       = clang
 CFLAGS  += -O3 -fPIC
-LDFLAGS += -lm
+LDFLAGS +=
 
-.PHONY: all clean install uninstall
+.PHONY: help all clean install uninstall $(install_bin_DIR)/$(version)
 
 all: $(version_EXE)
 
+help:
+	$(info usage: `make help/clean/install/uninstall` or just `make`.)
+	$(info use `make PREFIX=/usr/local install` or `PREFIX=/usr/local make install` to override default install location.)
+
+
 clean: 
 	rm -rf $(OBJDIR)
+
+$(install_bin_DIR): 
+	mkdir -p $(install_bin_DIR)
+
+install: | $(install_bin_DIR)
+install: $(version_EXE)
+	cp $(version_EXE) $(install_bin_DIR)/
+
+uninstall: $(install_bin_DIR)/$(version)
+	rm -f $(install_bin_DIR)/$(version)
 
 $(OBJDIR): 
 	mkdir -p $(OBJDIR)
@@ -26,7 +47,7 @@ $(version_EXE): $(version_OBJS)
 
 $(version_OBJS): | $(OBJDIR)
 
-dist/%.o: src/%.c
+$(OBJDIR)/%.o: src/%.c
 	$(COMPILE.c) -o $@ $<
 
 
