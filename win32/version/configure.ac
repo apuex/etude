@@ -21,7 +21,7 @@ AM_PROG_AR
 dnl Initialize Libtool
 LT_INIT
 
-#AC_CONFIG_HEADERS([include/version/config.h])
+AC_CONFIG_HEADERS([include/version/config.h])
 
 AC_CONFIG_FILES([
     Makefile

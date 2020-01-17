@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "config.h"
 #include "version_supp.h"
 
 int main(int argc, char* argv[]) {
-    printf("1.0.0.0\n");
+    printf("%s\n", PACKAGE_STRING);
     supp();
     return EXIT_SUCCESS;
 }
