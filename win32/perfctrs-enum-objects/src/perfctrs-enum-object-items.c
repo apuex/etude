@@ -4,15 +4,13 @@
 #include <windows.h>
 #include <malloc.h>
 #include <stdio.h>
+#include "perfctrs-enum-objects.h"
 #include <pdh.h>
 #include <pdhmsg.h>
 
-#pragma comment(lib, "pdh.lib")
 
-CONST PWSTR COUNTER_OBJECT = L"Processor Information";
-
-int main(int argc, char* argv[])
-{
+void
+pdh_enum_object_items(PWSTR pObjectName) { 
     PDH_STATUS status = ERROR_SUCCESS;
     LPWSTR pwsCounterListBuffer = NULL;
     DWORD dwCounterListSize = 0;
@@ -24,7 +22,7 @@ int main(int argc, char* argv[])
     status = PdhEnumObjectItems(
         NULL,                   // real-time source
         NULL,                   // local machine
-        COUNTER_OBJECT,         // object to enumerate
+        pObjectName,            // object to enumerate
         pwsCounterListBuffer,   // pass NULL and 0
         &dwCounterListSize,     // to get required buffer size
         pwsInstanceListBuffer, 
@@ -43,7 +41,7 @@ int main(int argc, char* argv[])
             status = PdhEnumObjectItems(
                 NULL,                   // real-time source
                 NULL,                   // local machine
-                COUNTER_OBJECT,         // object to enumerate
+                pObjectName,            // object to enumerate
                 pwsCounterListBuffer, 
                 &dwCounterListSize,
                 pwsInstanceListBuffer, 
@@ -53,24 +51,19 @@ int main(int argc, char* argv[])
      
             if (status == ERROR_SUCCESS) 
             {
-                wprintf(L"Counters that the Process objects defines:\n\n");
-
                 // Walk the counters list. The list can contain one
                 // or more null-terminated strings. The list is terminated
                 // using two null-terminator characters.
                 for (pTemp = pwsCounterListBuffer; *pTemp != 0; pTemp += wcslen(pTemp) + 1) 
                 {
-                     wprintf(L"%s\n", pTemp);
+                     wprintf(L"%s\\%s\n", pObjectName, pTemp);
                 }
-
-                wprintf(L"\nInstances of the Process object:\n\n");
-
                 // Walk the instance list. The list can contain one
                 // or more null-terminated strings. The list is terminated
                 // using two null-terminator characters.
                 for (pTemp = pwsInstanceListBuffer; *pTemp != 0; pTemp += wcslen(pTemp) + 1) 
                 {
-                     wprintf(L"%s\n", pTemp);
+                     wprintf(L"%s\\%s(instance)\n", pObjectName, pTemp);
                 }
             }
             else 

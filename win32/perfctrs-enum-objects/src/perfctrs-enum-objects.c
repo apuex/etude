@@ -4,54 +4,56 @@
 #include <windows.h>
 #include <malloc.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include "perfctrs-enum-objects.h"
 #include <pdh.h>
 #include <pdhmsg.h>
 
-#pragma comment(lib, "pdh.lib")
-
-
-int
-main (int argc, char *argv[])
-{
+void
+pdh_enum_objects(
+		LPCWSTR szDataSource,
+		LPCWSTR szMachineName,
+		pdh_enum_object_items_cb_t pEnumItemsFun
+		) {
   PDH_STATUS status = ERROR_SUCCESS;
 
-  PZZWSTR mszObjectList = NULL;
+  PZZWSTR mszObjectNameList = NULL;
   DWORD cchBufferSize = 0;
   DWORD dwDetailLevel = PERF_DETAIL_WIZARD;
   BOOL bRefresh = TRUE;
 
   status = PdhEnumObjects (NULL,
 			   NULL,
-			   mszObjectList,
+			   mszObjectNameList,
 			   &cchBufferSize, dwDetailLevel, bRefresh);
-
-  printf ("status = 0x%8lx\n", status);
-  printf ("cchBufferSize = 0x%8lx\n", cchBufferSize);
 
   if (PDH_MORE_DATA == status)
     {
-      mszObjectList = (PZZWSTR) malloc (cchBufferSize * sizeof (WCHAR));
-      if (NULL != mszObjectList)
+      mszObjectNameList = (PZZWSTR) malloc (cchBufferSize * sizeof (WCHAR));
+      if (NULL != mszObjectNameList)
 	{
 	  status = PdhEnumObjects (NULL,
 				   NULL,
-				   mszObjectList,
+				   mszObjectNameList,
 				   &cchBufferSize, dwDetailLevel, bRefresh);
-
 	  if (status == ERROR_SUCCESS)
 	    {
-	      for (LPWSTR pTemp = mszObjectList; *pTemp != 0;
-		   pTemp += wcslen (pTemp) + 1)
+	      for (LPWSTR pObjectName = mszObjectNameList; *pObjectName != 0;
+		   pObjectName += wcslen (pObjectName) + 1)
 		{
-		  wprintf (L"%s\n", pTemp);
+		  wprintf (L"%s\n", pObjectName);
+                  pEnumItemsFun(pObjectName);
 		}
 	    }
 	  else
-	    {			// if ( NULL != mszObjectList ) 
-
-	    }
+	    {
+              wprintf (L"PdhEnumObjects: 0x%8lx\n", status);
+	    } // if (status == ERROR_SUCCESS)
 	}
-    }
-  return 0;
-}
+      else
+        {
+          wprintf (L"malloc: 0x%8lx\n", mszObjectNameList);
+        } // if ( NULL != mszObjectNameList ) 
+    } // if (PDH_MORE_DATA == status)
 
+}
