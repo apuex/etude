@@ -1,8 +1,8 @@
-ACLOCAL_AMFLAGS=-I m4
-
 AUTOMAKE_OPTIONS = subdir-objects
 
-bin_PROGRAMS=perfctrs-enum-objects
-perfctrs-enum-objects_SOURCES=\
-	src/perfctrs-enum-objects.c \
-	
+AM_CFLAGS  = -DUNICODE -fPIC
+AM_LDFLAGS = -L. -l:libpdh.lib
+
+bin_PROGRAMS = perfctrs-enum-objects
+perfctrs_enum_objects_SOURCES = src/perfctrs-enum-objects.c
+

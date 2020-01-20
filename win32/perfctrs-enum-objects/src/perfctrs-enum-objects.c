@@ -1,5 +1,5 @@
 // This program needs only the essential Windows header files.
-#define WIN32_LEAN_AND_MEAN 1
+//#define WIN32_LEAN_AND_MEAN 1
 
 #include <windows.h>
 #include <malloc.h>
@@ -7,11 +7,11 @@
 #include <pdh.h>
 #include <pdhmsg.h>
 
-#pragma comment(lib, "pdh.lib")
+//#pragma comment(lib, "pdh.lib")
 
 CONST PWSTR COUNTER_OBJECT = L"Process";
 
-void main(void)
+int main(int argc, char* argv[])
 {
     PDH_STATUS status = ERROR_SUCCESS;
     LPWSTR pwsCounterListBuffer = NULL;

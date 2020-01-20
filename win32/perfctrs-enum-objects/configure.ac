@@ -1,21 +1,27 @@
-AC_PREREQ(2.59)
+#                                               -*- Autoconf -*-
+# Process this file with autoconf to produce a configure script.
 
-AC_INIT([Version], [1.0.0.0], [xtwxy@hotmail.com], [version], [https://github.com/xtwxy])
-AC_PROG_CC
+AC_PREREQ([2.69])
+AC_INIT([perfctrs-enum-objects], [1.0.0.0], [https://github.com/apuex/etude])
 
-#AC_CANONICAL_SYSTEM
-
-AC_CONFIG_MACRO_DIR([m4])
-
-AM_INIT_AUTOMAKE([-Wall -Werror tar-ustar subdir-objects 1.9])
-
-#AM_PROG_CC_C_O 
-
+AC_CONFIG_SRCDIR([src/perfctrs-enum-objects.c])
 AC_CONFIG_HEADERS([include/config.h])
 
-AC_CONFIG_FILES([
-    Makefile
-])
+AM_INIT_AUTOMAKE
+
+# Checks for programs.
+AC_PROG_CC
+
+# Checks for libraries.
+
+# Checks for header files.
+AC_CHECK_HEADERS([malloc.h])
+
+# Checks for typedefs, structures, and compiler characteristics.
+
+# Checks for library functions.
+AC_FUNC_MALLOC
+
+AC_OUTPUT([Makefile])
 
 AC_OUTPUT
-
