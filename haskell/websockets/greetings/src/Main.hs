@@ -13,7 +13,7 @@ import qualified Data.Text           as T
 import qualified Data.Text.IO        as T
 import qualified Network.WebSockets  as WS
 import qualified Data.ByteString.Lazy.Char8 as BL
-import Data.Aeson (FromJSON, ToJSON, decode, encode, Object)
+import Data.Aeson (FromJSON, ToJSON, decode, encode)
 import           Messages
 
 app :: WS.ClientApp ()
@@ -25,12 +25,13 @@ app conn = do
             let o = decode msg :: Maybe EventEnvelope
             case o of
                 Just d ->
-                    liftIO $ BL.putStrLn $ case d' of
-                        Just a -> encode d'
+                    liftIO $ BL.putStrLn $ case e' of
+                        Just a -> encode e'
                         Nothing -> BL.concat [BL.pack "Unparsable event: ", s]
                         where
-                            s   = (encode . event) d
-                            d'  = decode s :: Maybe GreetingEvent
+                            e   = event d
+                            s   = encode e
+                            e'  = decode s :: Maybe GreetingEvent
                 Nothing ->
                     liftIO $ putStrLn "Unparsable."
                     -- return ()

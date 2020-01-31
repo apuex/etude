@@ -4,7 +4,7 @@
 module Messages where
 
 import           Data.HashMap.Strict (lookup, insert, fromList)
-import           Data.Aeson --(FromJSON, ToJSON, decode, encode, Object, withObject)
+import           Data.Aeson
 import qualified Data.ByteString.Lazy.Char8 as BL
 import           GHC.Generics (Generic)
 import           GHC.Int
@@ -19,10 +19,10 @@ data GreetingEvent = GreetingEvent1 {
     deriving (Eq, Show, Generic)
 
 data EventEnvelope = EventEnvelope {
-        offset :: String
-        , persistenceId :: String
-        , sequenceNr :: String
-        , event :: Object
+        offset :: Maybe String
+        , persistenceId :: Maybe String
+        , sequenceNr :: Maybe String
+        , event :: Maybe GreetingEvent
     }
     deriving (Eq, Show, Generic)
 
