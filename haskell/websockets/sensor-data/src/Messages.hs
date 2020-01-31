@@ -4,23 +4,20 @@
 
 module Messages where
 
-import           Prelude.Compat (Bool, String, Float, Maybe(Just, Nothing), Eq, IO)
+import           Prelude.Compat (Bool, String, Float, Maybe(Just, Nothing), Eq, Show, IO)
 import           Data.Aeson (FromJSON, ToJSON, decode, encode, Object)
 import qualified Data.ByteString.Lazy.Char8 as BL
 import           GHC.Generics (Generic)
 import           GHC.Int
 
-data SensorData =
-    AI { id :: String, analogValue :: Maybe Float }
-    | DI { id :: String, digitalValue :: Maybe Bool }
-    | Alarm {id :: String, desc :: String }
-    deriving (Eq, Generic)
-
-data GreetingEvent = GreetingEvent {
+data SensorData = GreetingEvent {
         to :: String
         , message :: String
     }
-    deriving (Eq, Generic)
+--    | AI { id :: String, analogValue :: Maybe Float }
+--    | DI { id :: String, digitalValue :: Maybe Bool }
+--    | Alarm {id :: String, desc :: String }
+    deriving (Eq, Show, Generic)
 
 data EventEnvelope = EventEnvelope {
         offset :: String
@@ -28,10 +25,10 @@ data EventEnvelope = EventEnvelope {
         , sequenceNr :: String
         , event :: Object
     }
-    deriving (Eq, Generic)
+    deriving (Eq, Show, Generic)
 
-instance FromJSON GreetingEvent where
-instance ToJSON   GreetingEvent
+instance FromJSON SensorData
+instance ToJSON   SensorData
 
 instance FromJSON EventEnvelope
 instance ToJSON   EventEnvelope

@@ -25,15 +25,19 @@ app conn = do
             let o = decode msg :: Maybe EventEnvelope
             case o of
                 Just d ->
-                    liftIO $ BL.putStrLn $ (encode . (delete "@type") . event) d
+                    liftIO $ putStrLn $ case d' of
+                        Just a -> show a
+                        Nothing -> "Nothing..."
+                        where
+                            s   = (encode . delete "@type" .event) d
+                            d'  = decode s :: Maybe SensorData
                 Nothing ->
                     liftIO $ putStrLn "Unparsable."
                     -- return ()
 
             loop
 
-    WS.withPingThread conn 30 (return ()) $ do
-        loop
+    WS.withPingThread conn 30 (return ()) loop
 
     WS.sendClose conn ("Bye!" :: Text)
 
