@@ -18,10 +18,13 @@ cabal-version:       >=1.10
 
 executable sensor-data
   main-is:             Main.hs
-  -- other-modules:
+  other-modules:       Messages
   -- other-extensions:
   build-depends:
     base       >= 4.8      && < 4.9,
+    base-compat,
+    bytestring,
+    unordered-containers,
     websockets >= 0.12.7.0,
     aeson      >= 0.10,
     mtl        >= 2.2.1,
