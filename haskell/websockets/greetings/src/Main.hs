@@ -53,7 +53,7 @@ main = do
     progName <- getProgName
     args     <- getArgs
     (opts, files) <- compileOpts progName args
-    printf "host\t= %s,\nport\t= %d,\nuri\t= %s\n"
+    printf "Connect with\n\tHOST\t= %s,\n\tPORT\t= %d,\n\t_URI\t= %s\n"
             (hostName opts)
             (portNumber opts)
             (requestUri opts)
