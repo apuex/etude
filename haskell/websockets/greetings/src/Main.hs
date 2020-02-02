@@ -85,6 +85,7 @@ options =
    , Option ['u']    ["request-uri"] (ReqArg (\ r opts -> opts { requestUri = r }) "URI") "request uri"
    , Option ['h']    ["help"] (NoArg (\ opts -> opts { printHelp = True })) "Print this help message"]
 
+compileOpts :: PrintfArg t => t -> [String] -> IO (Options, [String])
 compileOpts progName argv = case getOpt Permute options argv of
     (o,n,[]  ) -> do
         let opts = foldl (flip id) defaultOptions o
