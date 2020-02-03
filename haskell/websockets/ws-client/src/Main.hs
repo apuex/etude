@@ -30,8 +30,12 @@ app conn = do
             unless (T.null line) $ WS.sendTextData conn line
 
     let loop = do
-            msg <- WS.receiveData conn
-            liftIO $ BL.putStrLn msg
+            msg <- E.try (WS.receiveData conn) :: IO (Either E.IOException BL.ByteString)
+            case msg of
+                Left  e -> do
+                    liftIO $ putStrLn $ show e
+                    exitFailure
+                Right m -> liftIO $ BL.putStrLn m
             loop
 
     WS.withPingThread conn 30 (return ()) loop
