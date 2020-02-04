@@ -18,7 +18,7 @@ main = do
     let document = Document prologue root []
     let rs = def { rsPretty = True }
     let text = renderText rs document
-    TL.putStrLn text
+    TL.putStr text
 
 myname :: Text -> Name
 myname name = Name name (Just "http://www.microsoft.com") (Just "ns1")
