@@ -22,8 +22,8 @@ removeWithNulls = CL.filter $ L.foldl (&&) True .
 stripColumns :: Monad m => Conduit (Row T.Text) m (Row T.Text)
 stripColumns = CL.map (L.map T.strip)
 
-dropFirstColumn :: Monad m => Options -> Conduit (Row T.Text) m (Row T.Text)
-dropFirstColumn opts = if dropId opts
+dropIdColumn :: Monad m => Options -> Conduit (Row T.Text) m (Row T.Text)
+dropIdColumn opts = if dropId opts
         then CL.map L.tail
         else awaitForever yield
 
@@ -33,7 +33,7 @@ transform opts inputFile = runResourceT $
                (sourceFile inputFile)
                (stripColumns
                $= removeWithNulls
-               $= dropFirstColumn opts
+               $= dropIdColumn opts
                )
                (sinkFile $ inputFile ++ ".out")
 
