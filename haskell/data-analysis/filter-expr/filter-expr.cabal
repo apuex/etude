@@ -43,6 +43,7 @@ executable filter-expr-chars
 executable filter-operator
   main-is:             FilterOperatorMain.hs
   other-modules:       CmdLine
+                     , Tokenizer
   -- other-extensions:
   build-depends:       base          >= 4.8      && < 5
                      , bytestring    >= 0.10.6.0 && < 0.10.6.2
