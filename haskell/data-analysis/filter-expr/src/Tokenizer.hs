@@ -50,15 +50,23 @@ tokenize input
 
 token :: TL.Text -> (TL.Text, TL.Text)
 token input
-    |       Set.member c blankChars = token tail
+    |       Set.member c blankChars = blank (TL.singleton c) tail
     | Set.member c numberStartChars = number (TL.singleton c) tail
     | Set.member c symbolStartChars = symbol (TL.singleton c) tail
     |     Set.member c arithOpChars = (TL.singleton c, tail)
     |  Set.member c comparatorChars = comparator (TL.singleton c) tail
     |  Set.member c getValueOpChars = (TL.singleton c, tail)
     |                     otherwise = (TL.singleton c, tail)
+--  |                     otherwise = error (printf "unknow charactor: %c" c)
     where c    = TL.head input
           tail = TL.tail input
+
+blank :: TL.Text -> TL.Text -> (TL.Text, TL.Text)
+blank   o input
+    |            TL.null input = (o, input)
+    |  Set.member c blankChars = blank (TL.snoc o c) (TL.tail input)
+    |                otherwise = (o, input)
+    where c = TL.head input
 
 number :: TL.Text -> TL.Text -> (TL.Text, TL.Text)
 number   o input
@@ -80,4 +88,13 @@ comparator o input
     | Set.member c comparatorChars = comparator (TL.snoc o c) (TL.tail input)
     |                otherwise     = (o, input)
     where c = TL.head input
+
+toGetSignal :: TL.Text -> TL.Text
+toGetSignal t = case t of
+    "[" -> "get_signal("
+    "]" -> ")"
+    x   -> x
+
+toExprTk ::TL.Text -> TL.Text
+toExprTk = TL.concat . L.map toGetSignal . fst . tokenize
 
