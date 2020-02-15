@@ -18,7 +18,12 @@ fixed with
 ```
 # chcon -Rt svirt_sandbox_file_t $(pwd)/log
 ```
-
+fix SELinux related problems can be done by executing the following lines:
+```
+cd <some dir>
+chcon -Rt svirt_sandbox_file_t $(pwd)
+chown -R systemd-timesync:master $(pwd)
+```
 ## Inspect container
 
 ```
