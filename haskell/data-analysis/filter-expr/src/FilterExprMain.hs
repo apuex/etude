@@ -43,5 +43,5 @@ transform opts inputFile = runResourceT $
                $= removeWithNulls
                $= dropIdColumn opts
                )
-               (sinkFile $ inputFile ++ ".out")
+               (sinkFile $ inputFile ++ ".expr")
 

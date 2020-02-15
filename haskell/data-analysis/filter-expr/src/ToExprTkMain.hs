@@ -22,13 +22,17 @@ main = do
         then hPutStrLn stderr (header progName)
         else do
             content <- M.mapM (withInputFile transform opts) files
-            M.mapM_ (M.mapM_ TLIO.putStrLn) content
+            M.mapM_ (toFile opts) content
 
-withInputFile :: (Options -> TL.Text -> [TL.Text]) -> Options -> String -> IO [TL.Text]
+withInputFile :: (Options -> TL.Text -> [TL.Text]) -> Options -> String -> IO (String, [TL.Text])
 withInputFile f opts inputFile = do
     content <- TLIO.readFile inputFile
-    return (f opts content)
+    return (inputFile, f opts content)
 
 transform ::Options -> TL.Text -> [TL.Text]
 transform opts content = L.map toExprTk
     $ TL.lines content
+
+toFile :: Options -> (String, [TL.Text]) -> IO ()
+toFile opts (inputFile, exprs) = TLIO.writeFile outputFile (TL.concat exprs)
+    where outputFile = inputFile ++ ".tk"
