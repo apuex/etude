@@ -10,17 +10,20 @@ import           System.Environment
 
 data Options = Options
     { dropId     :: Bool
+    , outputDir  :: Maybe String
     , printHelp  :: Bool
     } deriving Show
 
 defaultOptions = Options
     { dropId     = False
+    , outputDir  = Nothing
     , printHelp  = False
     }
 
 options :: [OptDescr (Options -> Options)]
 options =
     [ Option ['d']    ["drop-id"] (NoArg (\ opts -> opts { dropId = True })) "drop id column, which is the first column"
+    , Option ['o']    ["output-dir"] (ReqArg (\ d opts -> opts { outputDir = Just d}) "DIR") "output directory, write to stdout if not specified"
     , Option ['h']    ["help"] (NoArg (\ opts -> opts { printHelp = True })) "print this help message"]
 
 compileOpts :: PrintfArg t => t -> [String] -> IO (Options, [String])

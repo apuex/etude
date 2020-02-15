@@ -9,6 +9,7 @@ import qualified Data.Set             as Set
 import           Text.Regex
 import           System.IO
 import           System.Environment
+import           System.FilePath
 import           CmdLine
 import           Tokenizer
 
@@ -24,7 +25,7 @@ main = do
             content <- M.mapM (withInputFile transform opts) files
             M.mapM_ (toFile opts) content
 
-withInputFile :: (Options -> TL.Text -> [TL.Text]) -> Options -> String -> IO (String, [TL.Text])
+withInputFile :: (Options -> TL.Text -> [TL.Text]) -> Options -> FilePath -> IO (FilePath, [TL.Text])
 withInputFile f opts inputFile = do
     content <- TLIO.readFile inputFile
     return (inputFile, f opts content)
@@ -33,6 +34,10 @@ transform ::Options -> TL.Text -> [TL.Text]
 transform opts content = L.map toExprTk
     $ TL.lines content
 
-toFile :: Options -> (String, [TL.Text]) -> IO ()
-toFile opts (inputFile, exprs) = TLIO.writeFile outputFile (TL.concat exprs)
-    where outputFile = inputFile ++ ".tk"
+toFile :: Options -> (FilePath, [TL.Text]) -> IO ()
+toFile opts (inputFile, exprs) = case outputDir opts of
+    Just dir -> do
+        output <- openBinaryFile (joinPath [ dir, takeFileName inputFile ++ ".tk"]) WriteMode
+        M.mapM_ (TLIO.hPutStrLn output) exprs
+    Nothing  -> M.mapM_ (TLIO.hPutStrLn stdout) exprs
+
