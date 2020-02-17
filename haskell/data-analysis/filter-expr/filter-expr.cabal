@@ -21,11 +21,11 @@ executable filter-expr
   other-modules:       CmdLine
   -- other-extensions:
   build-depends:       base          >= 4.8      && < 5
-                     , bytestring    >= 0.10.6.0 && < 0.10.6.2
+                     , bytestring    >= 0.10.6.0 && < 0.10.10.2
                      , conduit       >= 1.2.8    && < 2.0
                      , conduit-extra >= 1.2.3.2  && < 1.2.4.0
                      , csv-conduit   >= 0.7.1.0  && < 0.7.1.1
-                     , filepath      >= 1.4.0.0  && < 1.4.0.1
+                     , filepath      >= 1.4.0.0  && < 1.4.2.2
                      , resourcet     >= 1.1.11   && < 1.1.12
                      , text          >= 1.2.4.0  && < 1.2.4.1
   hs-source-dirs:      src
@@ -36,10 +36,10 @@ executable filter-expr-chars
   other-modules:       CmdLine
   -- other-extensions:
   build-depends:       base          >= 4.8      && < 5
-                     , bytestring    >= 0.10.6.0 && < 0.10.6.2
-                     , containers    >= 0.5.6.2  && < 0.5.6.3
-                     , filepath      >= 1.4.0.0  && < 1.4.0.1
-                     , regex         >= 1.0.2.0  && < 1.1.0.0
+                     , bytestring    >= 0.10.6.0 && < 0.10.10.2
+                     , containers    >= 0.5.6.2  && < 0.6.3.0
+                     , filepath      >= 1.4.0.0  && < 1.4.2.2
+                     , regex         >= 1.0.2.0
                      , text          >= 1.2.4.0  && < 1.2.4.1
   hs-source-dirs:      src
   default-language:    Haskell2010
@@ -50,12 +50,12 @@ executable filter-operator
                      , Tokenizer
   -- other-extensions:
   build-depends:       base          >= 4.8      && < 5
-                     , bytestring    >= 0.10.6.0 && < 0.10.6.2
-                     , containers    >= 0.5.6.2  && < 0.5.6.3
-                     , filepath      >= 1.4.0.0  && < 1.4.0.1
-                     , mtl           >= 2.2.1    && < 2.2.2
-                     , regex         >= 1.0.2.0  && < 1.1.0.0
-                     , regex-compat  >= 0.95.1   && < 0.95.2
+                     , bytestring    >= 0.10.6.0 && < 0.10.10.2
+                     , containers    >= 0.5.6.2  && < 0.6.3.0
+                     , filepath      >= 1.4.0.0  && < 1.4.2.2
+                     , mtl           >= 2.2.2
+                     , regex         >= 1.0.2.0
+                     , regex-compat  >= 0.95.1
                      , text          >= 1.2.4.0  && < 1.2.4.1
   hs-source-dirs:      src
   default-language:    Haskell2010
@@ -63,14 +63,15 @@ executable filter-operator
 executable to-exprtk
   main-is:             ToExprTkMain.hs
   other-modules:       CmdLine
+                     , Tokenizer
   -- other-extensions:
   build-depends:       base          >= 4.8      && < 5
-                     , bytestring    >= 0.10.6.0 && < 0.10.6.2
-                     , containers    >= 0.5.6.2  && < 0.5.6.3
-                     , filepath      >= 1.4.0.0  && < 1.4.0.1
-                     , mtl           >= 2.2.1    && < 2.2.2
-                     , regex         >= 1.0.2.0  && < 1.1.0.0
-                     , regex-compat  >= 0.95.1   && < 0.95.2
+                     , bytestring    >= 0.10.6.0 && < 0.10.10.2
+                     , containers    >= 0.5.6.2  && < 0.6.3.0
+                     , filepath      >= 1.4.0.0  && < 1.4.2.2
+                     , mtl           >= 2.2.2
+                     , regex         >= 1.0.2.0
+                     , regex-compat  >= 0.95.1
                      , text          >= 1.2.4.0  && < 1.2.4.1
   hs-source-dirs:      src
   default-language:    Haskell2010
