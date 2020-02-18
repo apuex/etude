@@ -5,7 +5,6 @@ import qualified Control.Monad        as M
 import qualified Data.List            as L
 import qualified Data.Text.Lazy       as TL
 import qualified Data.Text.Lazy.IO    as TLIO
-import qualified Data.Set             as Set
 import           Text.Regex
 import           System.IO
 import           System.Environment
