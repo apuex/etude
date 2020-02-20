@@ -21,9 +21,10 @@ import qualified Data.Text.IO        as T
 import qualified Network.WebSockets  as WS
 import qualified Data.ByteString.Lazy.Char8 as BL
 
-app :: WS.ClientApp ()
-app conn = do
-    putStrLn "Connected!"
+
+binaryApp :: WS.ClientApp ()
+binaryApp conn = do
+    putStrLn "Connected! - server messages as binary."
 
     _ <- forkIO $ forever $ do
             line <- T.getLine
@@ -42,6 +43,27 @@ app conn = do
 
     WS.sendClose conn ("Bye!" :: Text)
 
+textApp :: WS.ClientApp ()
+textApp conn = do
+    putStrLn "Connected! - server messages as text."
+
+    _ <- forkIO $ forever $ do
+            line <- T.getLine
+            unless (T.null line) $ WS.sendTextData conn line
+
+    let loop = do
+            msg <- E.try (WS.receiveData conn) :: IO (Either E.IOException T.Text)
+            case msg of
+                Left  e -> do
+                    liftIO $ putStrLn $ show e
+                    exitFailure
+                Right m -> liftIO $ T.putStrLn m
+            loop
+
+    WS.withPingThread conn 30 (return ()) loop
+
+    WS.sendClose conn ("Bye!" :: Text)
+
 main :: IO ()
 main = do
     progName <- getProgName
@@ -52,16 +74,24 @@ main = do
             (portNumber opts)
             (requestUri opts)
 
-    withSocketsDo $ WS.runClient
+    if binaryMode opts then
+        withSocketsDo $ WS.runClient
             (hostName opts)
             (portNumber opts)
             (requestUri opts)
-            app
+            binaryApp
+    else
+        withSocketsDo $ WS.runClient
+            (hostName opts)
+            (portNumber opts)
+            (requestUri opts)
+            textApp
 
 data Options = Options
     { hostName   :: String
     , portNumber :: Int
     , requestUri :: String
+    , binaryMode :: Bool
     , printHelp  :: Bool
     } deriving Show
 
@@ -69,6 +99,7 @@ defaultOptions = Options
     { hostName   = "concerto"
     , portNumber = 8000
     , requestUri = "/api/events"
+    , binaryMode = False
     , printHelp  = False
     }
 
@@ -77,7 +108,8 @@ options =
    [Option ['H']    ["host-name"] (ReqArg (\ h opts -> opts { hostName = h }) "HOST") "host name or ip address"
    , Option ['p']    ["port-number"] (ReqArg (\ p opts -> opts { portNumber = read p::Int }) "PORT") "port number"
    , Option ['u']    ["request-uri"] (ReqArg (\ r opts -> opts { requestUri = r }) "URI") "request uri"
-   , Option ['h']    ["help"] (NoArg (\ opts -> opts { printHelp = True })) "Print this help message"]
+   , Option ['b']    ["binary-mode"] (NoArg (\ opts -> opts { binaryMode = True })) "inbond messages as binary"
+   , Option ['h']    ["help"] (NoArg (\ opts -> opts { printHelp = True })) "print this help message"]
 
 compileOpts :: PrintfArg t => t -> [String] -> IO (Options, [String])
 compileOpts progName argv = case getOpt Permute options argv of
