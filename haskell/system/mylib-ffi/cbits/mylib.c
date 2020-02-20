@@ -5,10 +5,16 @@
 #include <math.h>
 
 static my_bar_t _the_bar = { 0xff, "You god damn bastard!"};
+static char _the_version[MAX_STR_LEN]= "1.0.0.0 release";
 
 char *my_version() {
 	printf("my_version: sizeof(int) -> %u bytes\n", sizeof(int));
-	return "1.0.0.0 release";
+#ifdef __cplusplus
+	printf("my_version: compiling with C++\n");
+#else
+	printf("my_version: compiling with C\n");
+#endif
+	return _the_version;
 }
 
 int my_set_foo(my_foo_t * data) {
@@ -36,12 +42,12 @@ my_bar_t* my_update_bar(my_bar_t * data) {
 }
 
 my_bar_t* my_get_bar() {
-	my_bar_t * p = malloc(sizeof(my_bar_t));
-	memset(p, 0, sizeof(my_bar_t));
-	p->x = 0x1;
-	strcpy(p->y, _the_bar.y);
-	return p;
-	//return &_the_bar;
+	//my_bar_t * p = (my_bar_t*)malloc(sizeof(my_bar_t));
+	//memset(p, 0, sizeof(my_bar_t));
+	//p->x = 0x1;
+	//strcpy(p->y, _the_bar.y);
+	//return p;
+	return &_the_bar;
 }
 
 int my_set_data(my_data_t * data) {
