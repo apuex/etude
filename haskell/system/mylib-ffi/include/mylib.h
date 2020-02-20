@@ -3,6 +3,8 @@
 
 #define MAX_STR_LEN 128
 
+#pragma pack(1)
+
 typedef struct {
 	int x;
 	double y;
@@ -10,8 +12,8 @@ typedef struct {
 
 typedef struct {
 	int x;
-	char *y;
-	//char y[MAX_STR_LEN];
+	//char *y;
+	char y[MAX_STR_LEN];
 } my_bar_t;
 
 typedef enum {
@@ -27,9 +29,15 @@ typedef struct {
 	} _data;
 } my_data_t;	
 
+#pragma pop
+
+char* my_version();
+
 int my_set_foo(my_foo_t * data);
 my_foo_t* my_update_foo(my_foo_t * data);
-int my_get_bar(my_bar_t * data);
+my_bar_t* my_get_bar();
+int my_set_bar(my_bar_t * data);
+my_bar_t* my_update_bar(my_bar_t * data);
 int my_set_data(my_data_t * data);
 int my_get_data(my_data_t * data);
 
