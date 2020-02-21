@@ -37,9 +37,11 @@ workspace
 target
 bin
 dist
+dist-newstyle
 build
 **/*.class
 **/*.o
+**/*.exe
 **/*.jar
 **/*.log
 **/*.protobin
@@ -63,4 +65,4 @@ W%d4fe6d18%1979
 .settings
 **/*.swp
 **/*.lock
-
+.ghc*
