@@ -1,5 +1,10 @@
 #ifndef __FOO__
 #define __FOO__
+#ifdef DLL_EXPORT
+#define FOOAPI __declspec( dllexport )
+#else
+#define FOOAPI __declspec( dllimport )
+#endif
 #pragma pack(push, 1)
 
 typedef struct {
@@ -8,7 +13,7 @@ typedef struct {
     char *b;
 } foo;
 
-foo* get_foo();
-void cmain();
+foo* FOOAPI get_foo();
+void FOOAPI cmain();
 #pragma pop
 #endif

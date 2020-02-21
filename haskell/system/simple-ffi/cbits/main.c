@@ -5,11 +5,11 @@
 
 static foo _the_foo_ = {5, "hello", "world"};
 
-foo * get_foo() {
+foo * FOOAPI get_foo() {
 	return &_the_foo_;
 }
 
-void cmain() {  
+void FOOAPI cmain() {  
   foo *f;
   f = malloc(sizeof(foo));
   f->a = "Hello";
