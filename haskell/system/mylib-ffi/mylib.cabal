@@ -19,8 +19,10 @@ build-type:          Simple
 extra-source-files:  CHANGELOG.md
 
 library
-  c-sources:           cbits/mylib.c
+  -- c-sources:           cbits/mylib.c
   include-dirs:        include
+  extra-lib-dirs:      x64/Release
+  extra-libraries:     mylib
   exposed-modules:     Mylib.Base
                      , Mylib.Base.C
                      , Mylib.Base.Types

@@ -42,6 +42,7 @@ build
 **/*.class
 **/*.o
 **/*.exe
+**/*.dll
 **/*.jar
 **/*.log
 **/*.protobin
@@ -64,5 +65,8 @@ W%d4fe6d18%1979
 .project
 .settings
 **/*.swp
+**/.vs
+**/Debug
+**/Release
 **/*.lock
 .ghc*

@@ -1,9 +1,13 @@
 #ifndef __MY_LIB__
 #define __MY_LIB__
-
+#ifdef MYLIBAPI_EXPORT
+#define MYLIBAPI __declspec( dllexport )
+#else
+#define MYLIBAPI __declspec( dllimport )
+#endif
 #define MAX_STR_LEN 128
 
-#pragma pack(1)
+#pragma pack(push, 1)
 
 typedef struct {
 	int x;
@@ -12,7 +16,6 @@ typedef struct {
 
 typedef struct {
 	int x;
-	//char *y;
 	char y[MAX_STR_LEN];
 } my_bar_t;
 
@@ -29,16 +32,16 @@ typedef struct {
 	} _data;
 } my_data_t;	
 
-#pragma pop
+#pragma pack(pop)
 
-char* my_version();
+char MYLIBAPI *my_version();
 
-int my_set_foo(my_foo_t * data);
-my_foo_t* my_update_foo(my_foo_t * data);
-my_bar_t* my_get_bar();
-int my_set_bar(my_bar_t * data);
-my_bar_t* my_update_bar(my_bar_t * data);
-int my_set_data(my_data_t * data);
-int my_get_data(my_data_t * data);
+int MYLIBAPI my_set_foo(my_foo_t * data);
+my_foo_t MYLIBAPI *my_update_foo(my_foo_t * data);
+my_bar_t MYLIBAPI *my_get_bar();
+int MYLIBAPI my_set_bar(my_bar_t * data);
+my_bar_t MYLIBAPI *my_update_bar(my_bar_t * data);
+int MYLIBAPI my_set_data(my_data_t * data);
+int MYLIBAPI my_get_data(my_data_t * data);
 
 #endif //__MY_LIB__

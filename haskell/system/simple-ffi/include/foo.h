@@ -15,5 +15,5 @@ typedef struct {
 
 foo* FOOAPI get_foo();
 void FOOAPI cmain();
-#pragma pop
+#pragma pack(pop)
 #endif
