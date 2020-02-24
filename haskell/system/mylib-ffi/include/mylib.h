@@ -21,7 +21,7 @@ typedef struct {
 
 typedef enum {
 	FOO_TYPE,
-        BAR_TYPE
+    BAR_TYPE
 } my_data_type_t;
 
 typedef struct {
@@ -43,5 +43,5 @@ int MYLIBAPI my_set_bar(my_bar_t * data);
 my_bar_t MYLIBAPI *my_update_bar(my_bar_t * data);
 int MYLIBAPI my_set_data(my_data_t * data);
 int MYLIBAPI my_get_data(my_data_t * data);
-
+char MYLIBAPI *my_null_string();
 #endif //__MY_LIB__

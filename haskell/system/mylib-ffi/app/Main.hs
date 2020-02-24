@@ -23,3 +23,4 @@ main = do
         printf "[Main.hs]: barY -> %s\n" $ (barY p)
     updateBar bar >>= \ p -> putStrLn $ "[Main.hs]: after updateBar: " ++ show p
     version >>= printf "[Main.hs]: %s\n"
+    nullString >>= printf "[Main.hs]: %s\n"

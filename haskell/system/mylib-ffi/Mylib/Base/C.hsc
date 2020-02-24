@@ -30,3 +30,5 @@ foreign import ccall "mylib.h my_set_bar" my_set_bar
 foreign import ccall "mylib.h my_update_bar" my_update_bar
     :: Ptr MyBar -> IO (Ptr MyBar)
 
+foreign import ccall "mylib.h my_null_string" my_null_string
+    :: IO CString

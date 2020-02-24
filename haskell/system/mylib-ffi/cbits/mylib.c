@@ -58,3 +58,6 @@ int MYLIBAPI my_get_data(my_data_t * data) {
 	return 0;
 }
 
+char MYLIBAPI *my_null_string() {
+	return NULL;
+}

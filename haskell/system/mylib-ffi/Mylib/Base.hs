@@ -7,11 +7,13 @@ module Mylib.Base
     , getBar
     , setBar
     , updateBar
+    , nullString
     ) where
 
 import           Mylib.Base.C
 import           Mylib.Base.Types
 import           Foreign.C.String
+import           Foreign.Ptr
 import           Foreign.Marshal.Utils (with)
 import Text.Printf
 
@@ -43,8 +45,15 @@ setBar bar f = with bar $ \ p -> do
     peekMyBar p >>= f
     return (fromIntegral result)
 
-updateBar:: MyBar -> IO MyBar
+updateBar :: MyBar -> IO MyBar
 updateBar bar = with bar $ \ p -> do
     result <- my_update_bar p >>= peekMyBar
     return result
 
+nullString :: IO String
+nullString = do
+    v <- my_null_string
+    if nullPtr == v then return []
+    else do
+        str <- (peekCString v)
+        return str
