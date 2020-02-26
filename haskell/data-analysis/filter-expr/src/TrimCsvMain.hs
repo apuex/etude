@@ -37,5 +37,5 @@ transform opts inputFile = runResourceT $
                )
                --(sinkFile $ inputFile ++ ".expr")
                (case outputDir opts of
-                    Just dir -> sinkFile $ joinPath [ dir, takeFileName inputFile ++ ".expr" ]
+                    Just dir -> sinkFile $ joinPath [ dir, takeFileName inputFile ++ ".trimmed" ]
                     Nothing  -> sinkHandle stdout)
