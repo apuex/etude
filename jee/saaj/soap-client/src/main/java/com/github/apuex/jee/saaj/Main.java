@@ -70,6 +70,7 @@ public class Main {
             put("method", "invoke");
             put("output", "invokeResponse");
             put("return", "invokeReturn");
+            put("soap-version", "1.1");
             put("parameter-name", "xmlData");
             put("request-xml-file", "GetFsuInfoRequest.xml");
         }};
@@ -103,6 +104,7 @@ public class Main {
         options.addOption(new Option("n", "namespace-uri", true, "SOAP service namespace URI."));
         options.addOption(new Option("m", "method", true, "method to be invoked."));
         options.addOption(new Option("p", "parameter-name", true, "method parameter."));
+        options.addOption(new Option("s", "soap-version", true, "soap specification version, valid options are 1.1, 1.2, 1.1, default is 1.1"));
         options.addOption(new Option("f", "request-xml-file", true, "name of file contains parameter value."));
         options.addOption(new Option("x", "request-xml", true, "name of file contains parameter value."));
         options.addOption(new Option("v", "verbose", false, "print out options and transport details."));
@@ -112,7 +114,15 @@ public class Main {
 
 
     private static SOAPMessage createSoapMessage(Map<String, String> params) throws Exception {
-        MessageFactory factory = MessageFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL);
+
+        MessageFactory factory;
+        if("1.1".equals(params.getOrDefault("soap-version", "1.1"))) {
+            factory = MessageFactory.newInstance(SOAPConstants.SOAP_1_1_PROTOCOL);
+        } else if("1.2".equals(params.get("soap-version"))) {
+            factory = MessageFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL);
+        } else {
+            throw new Exception(String.format("invalid soap specification version: '%s'", params.get("soap-version")));
+        }
         SOAPMessage message = factory.createMessage();
         SOAPHeader header = message.getSOAPHeader();
         header.detachNode();
