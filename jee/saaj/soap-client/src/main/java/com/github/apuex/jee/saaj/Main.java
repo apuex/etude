@@ -7,8 +7,8 @@ import javax.xml.soap.*;
 import java.io.FileInputStream;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class Main {
     public static void main(String args[]) throws Exception {
@@ -64,7 +64,7 @@ public class Main {
 
 
     public static Map<String, String> defaultOptions() {
-        return new HashMap<String, String>() {{
+        return new TreeMap<String, String>() {{
             put("endpoint-url", "http://FSUService.chinamobile.com");
             put("namespace-uri", "http://FSUService.chinamobile.com");
             put("method", "invoke");
@@ -105,8 +105,8 @@ public class Main {
         options.addOption(new Option("m", "method", true, "method to be invoked."));
         options.addOption(new Option("p", "parameter-name", true, "method parameter."));
         options.addOption(new Option("s", "soap-version", true, "soap specification version, valid options are 1.1, 1.2, 1.1, default is 1.1"));
-        options.addOption(new Option("f", "request-xml-file", true, "name of file contains parameter value."));
-        options.addOption(new Option("x", "request-xml", true, "name of file contains parameter value."));
+        options.addOption(new Option("f", "request-xml-file", true, "name of file contains request xml content."));
+        options.addOption(new Option("x", "request-xml-content", true, "request xml content."));
         options.addOption(new Option("v", "verbose", false, "print out options and transport details."));
         options.addOption(new Option("h", "help", false, "print help message."));
         return options;
@@ -131,7 +131,9 @@ public class Main {
         SOAPBodyElement bodyElement = body.addBodyElement(requestBodyName);
         QName name = new QName(params.get("parameter-name"));
         SOAPElement symbol = bodyElement.addChildElement(name);
-        symbol.addTextNode(params.getOrDefault("request-xml", request(params.get("request-xml-file"))));
+        String xmlContent = params.get("request-xml-content");
+        if(xmlContent == null) xmlContent = request(params.get("request-xml-file"));
+        symbol.addTextNode(xmlContent);
         message.setProperty(SOAPMessage.CHARACTER_SET_ENCODING, "utf-8");
         message.setProperty(SOAPMessage.WRITE_XML_DECLARATION, "true");
         return message;
