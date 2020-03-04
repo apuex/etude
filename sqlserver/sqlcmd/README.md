@@ -89,7 +89,7 @@ To shrink data/log files, use `dbcc shrinkfile`:
 /opt/mssql-tools/bin/sqlcmd -S localhost,1433 -U sa -P sa-Passw0rd
 1> USE matrix
 2> GO
-3> DBCC SHRINKFILE (N'matrix\_Log', 1)
+3> DBCC SHRINKFILE (N'matrix_Log', 1)
 4> GO
 ```
 
@@ -103,7 +103,7 @@ to purge/truncate log file contents, first change logging level to simple, then 
 2> GO
 3> ALTER DATABASE matrix SET RECOVERY SIMPLE;
 4> GO
-5> DBCC SHRINKFILE (N'matrix\_Log', 1)
+5> DBCC SHRINKFILE (N'matrix_Log', 1)
 6> GO
 7> ALTER DATABASE matrix SET RECOVERY FULL;
 8> GO
