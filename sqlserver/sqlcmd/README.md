@@ -82,3 +82,32 @@ GO
 2> GO
 ```
 
+## Shrink Datafiles
+
+To shrink data/log files, use `dbcc shrinkfile`:
+```
+/opt/mssql-tools/bin/sqlcmd -S localhost,1433 -U sa -P sa-Passw0rd
+1> USE matrix
+2> GO
+3> DBCC SHRINKFILE (N'matrix_Log', 1)
+4> GO
+```
+
+if just purge/truncate log file only, sqlserver versions newer or equal to 2008 no longer support `truncate\_only` again.
+
+to purge/truncate log file contents, first change logging level to simple, then `shrinkfile`, and then change logging level back again.
+
+```
+/opt/mssql-tools/bin/sqlcmd -S localhost,1433 -U sa -P sa-Passw0rd
+1> USE matrix
+2> GO
+3> ALTER DATABASE matrix SET RECOVERY SIMPLE;
+4> GO
+5> DBCC SHRINKFILE (N'matrix_Log', 1)
+6> GO
+7> ALTER DATABASE matrix SET RECOVERY FULL;
+9> GO
+```
+
+Be sure that your database is not online, since recovery model not comforms the required model.
+
