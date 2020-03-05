@@ -16,7 +16,7 @@ import javax.jws.soap.SOAPBinding;
  */
 @WebService(name = "SCService", targetNamespace = "http://SCService.chinaunicom.com")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
-public interface SCService {
+public interface ISCService {
 
     /**
      * 
@@ -26,8 +26,8 @@ public interface SCService {
      */
     @WebMethod
     @WebResult(name = "invokeReturn", partName = "invokeReturn")
-    public String invoke(
-        @WebParam(name = "xmlData", partName = "xmlData")
-        String xmlData);
+    String invoke(
+            @WebParam(name = "xmlData", partName = "xmlData")
+                    String xmlData);
 
 }

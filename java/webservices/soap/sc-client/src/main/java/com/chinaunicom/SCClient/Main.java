@@ -1,5 +1,5 @@
 package com.chinaunicom.SCClient;
-import com.chinaunicom.SCService.SCService;
+import com.chinaunicom.SCService.ISCService;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -25,7 +25,7 @@ public class Main {
         // Create, in effect, a factory for the service.
         Service service = Service.create(url, qname);
         // Extract the endpoint interface, the service "port".
-        SCService eif = service.getPort(SCService.class);
+        ISCService eif = service.getPort(ISCService.class);
         FileInputStream f = new FileInputStream(requestFileName);
         byte[] bytes = new byte[f.available()];
         f.read(bytes);
