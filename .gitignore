@@ -70,3 +70,5 @@ W%d4fe6d18%1979
 **/Release
 **/*.lock
 .ghc*
+
+**/node_modules
