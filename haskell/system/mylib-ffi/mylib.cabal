@@ -21,7 +21,7 @@ extra-source-files:  CHANGELOG.md
 library
   -- c-sources:           cbits/mylib.c
   include-dirs:        include
-  extra-lib-dirs:      x64/Release
+  extra-lib-dirs:      D:\github.com\apuex\etude\haskell\system\mylib-ffi\x64\Release
   extra-libraries:     mylib
   exposed-modules:     Mylib.Base
                      , Mylib.Base.C
