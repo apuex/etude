@@ -11,6 +11,14 @@ import Control.Monad
 
 #include "foo.h"
 
+toCInt :: Int -> CInt
+toCInt i = fromIntegral i :: CInt
+
+toInt :: IO CInt -> IO Int
+toInt ioc = do
+    c <- ioc
+    return (fromIntegral c :: Int)
+
 data Foo = Foo { 
     c :: Int
   , a :: CString
@@ -29,13 +37,13 @@ instance Storable Foo where
 
 peekFoo :: Ptr Foo -> IO Foo
 peekFoo p = return Foo
-    `ap` (#{peek foo, c} p)
+    `ap` (toInt $ #{peek foo, c} p)
     `ap` (#{peek foo, a} p)
     `ap` (#{peek foo, b} p)
 
 pokeFoo :: Ptr Foo -> Foo -> IO ()
 pokeFoo p foo = do
-        #{poke foo, c} p $ c foo
+        #{poke foo, c} p $ toCInt $ c foo
         #{poke foo, a} p $ a foo
         #{poke foo, b} p $ b foo
 
