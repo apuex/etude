@@ -12,6 +12,10 @@ import Control.Monad
 
 #include "mylib.h"
 
+#if __GLASGOW_HASKELL__ < 800
+#let alignment t = "%lu", (unsigned long)offsetof(struct {char x__; t (y__); }, y__)
+#endif
+
 data MyFoo = MyFoo
     { fooX :: CInt
     , fooY :: Double

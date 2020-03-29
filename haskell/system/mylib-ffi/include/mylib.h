@@ -1,10 +1,15 @@
 #ifndef __MY_LIB__
 #define __MY_LIB__
+#if defined(WIN32) || defined(_WINDLL)
 #ifdef MYLIBAPI_EXPORT
 #define MYLIBAPI __declspec( dllexport )
 #else
 #define MYLIBAPI __declspec( dllimport )
 #endif
+#else
+#define MYLIBAPI
+#endif
+
 #define MAX_STR_LEN 128
 
 #pragma pack(push, 1)
