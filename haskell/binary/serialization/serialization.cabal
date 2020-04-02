@@ -65,3 +65,18 @@ executable user-data-01
                      , time       >= 1.5.0.1
   hs-source-dirs:      src
   default-language:    Haskell2010
+
+executable string-01
+  main-is:             String01Main.hs
+  -- other-modules:       
+  -- other-extensions:
+  build-depends:       base       >= 4.8      && < 5
+                     , bytestring >= 0.10.6.0
+                     , binary     >= 0.8.8.0 
+                     , text       >= 1.2.2.0
+                     , time       >= 1.5.0.1
+                     , base16-bytestring
+                     , bytestring
+                     , utf8-string
+  hs-source-dirs:      src
+  default-language:    Haskell2010
