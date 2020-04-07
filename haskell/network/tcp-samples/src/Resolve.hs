@@ -14,7 +14,7 @@ type HandlerFunc = SockAddr -> String -> IO ()
 procRequests :: MVar () -> Socket -> IO ()
 procRequests lock mastersock = do 
     (connsock, clientaddr) <- accept mastersock
-    handle lock clientaddr $ "client connnected: " ++ show clientaddr
+    handle lock clientaddr $ "[" ++ show clientaddr ++ "]: " ++ "client connected."
     forkIO $ procMessages lock connsock clientaddr
     procRequests lock mastersock
     
@@ -25,7 +25,7 @@ procMessages lock connsock clientaddr = do
     messages <- hGetContents connhdl
     mapM_ (handle lock clientaddr) (lines messages)
     hClose connhdl
-    handle lock clientaddr $ "client disconnected: " ++ show clientaddr
+    handle lock clientaddr $ "[" ++ show clientaddr ++ "]: " ++ "client disconnected."
 
 handle :: MVar () -> HandlerFunc
 handle lock clientaddr msg =
@@ -33,17 +33,21 @@ handle lock clientaddr msg =
     
 plainHandler :: HandlerFunc
 plainHandler addr msg = 
-    putStrLn $ "From " ++ show addr ++ ": " ++ msg    
+    putStrLn $ "[" ++ show addr ++ "]: " ++ msg    
 
 main :: IO ()
 main = do
-    print "host concerto, port 4444"
+    let port = "2016"
+    print $ "ALL host(s), port " ++ port
     addrinfos <- getAddrInfo                     
                  (Just (defaultHints {addrFlags = [AI_PASSIVE]}))                    
-                 (Just "concerto") (Just "4444")
+                 Nothing (Just port)
     mapM_ (print) addrinfos
 
-    let addr = head $ filter (\ addr -> (addrFamily addr) == AF_INET && (addrSocketType addr) == Stream) addrinfos
+    let addr = head $ filter (\ addr -> 
+            (addrFamily addr) == AF_INET
+            -- && (addrSocketType addr) == Stream
+            ) addrinfos
 
     sock <- socket (addrFamily addr) Stream defaultProtocol
     bind sock (addrAddress addr) 
