@@ -63,7 +63,7 @@ library
   -- other-extensions:
 
   -- Other library packages from which modules are imported.
-  build-depends:       base >=4.8 && <4.9
+  build-depends:       base >=4.8 && < 5
 
   -- Directories containing source files.
   hs-source-dirs:      src
@@ -83,7 +83,7 @@ executable resolve
   -- other-extensions:
 
   -- Other library packages from which modules are imported.
-  build-depends:       base >=4.8 && <4.9
+  build-depends:       base >=4.8 && < 5
                      , network
                      , bytestring
 

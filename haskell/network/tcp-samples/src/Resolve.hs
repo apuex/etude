@@ -2,7 +2,6 @@ module Main (main) where
 
 import Data.Bits
 import Network.Socket
-import Network.BSD
 import Data.List
 import Control.Concurrent
 import Control.Concurrent.MVar
