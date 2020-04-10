@@ -19,7 +19,6 @@ items =
   ]
 
 main :: IO ()
-main = forM_ items $ \item -> TLIO.putStrLn
-  [lt|You have #{show $ itemQty item} #{itemName item}.
-  |  more, or less?
-  |]
+main = forM_ items $ \item ->
+  TLIO.putStrLn [lt|You have #{show $ itemQty item} #{itemName item}.
+more, or less?|]
