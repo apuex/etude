@@ -36,7 +36,7 @@ plainHandler addr msg =
 
 main :: IO ()
 main = do
-    let port = "2016"
+    let port = "514"
     print $ "ALL host(s), port " ++ port
     addrinfos <- getAddrInfo                     
                  (Just (defaultHints {addrFlags = [AI_PASSIVE]}))                    
