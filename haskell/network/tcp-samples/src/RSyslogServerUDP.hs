@@ -1,9 +1,11 @@
 module Main(main) where
 
-import Data.Bits
-import Network.Socket
-import Network.BSD
-import Data.List
+import           Data.Bits
+import           Network.Socket hiding (recvFrom)
+import           Network.Socket.ByteString
+import qualified Data.ByteString.UTF8 as UTF8
+import           Data.List
+import           GHC.IO.Encoding (getLocaleEncoding)
 
 type HandlerFunc = SockAddr -> String -> IO ()
 
@@ -22,7 +24,7 @@ serveLog port handlerfunc = withSocketsDo $
        sock <- socket (addrFamily serveraddr) Datagram defaultProtocol
 
        -- Bind it to the address we're listening to
-       bindSocket sock (addrAddress serveraddr)
+       bind sock (addrAddress serveraddr)
 
        -- Loop forever processing incoming data.  Ctrl-C to abort.
        procMessages sock
@@ -30,9 +32,9 @@ serveLog port handlerfunc = withSocketsDo $
               do -- Receive one UDP packet, maximum length 1024 bytes,
                  -- and save its content into msg and its source
                  -- IP and port into addr
-                 (msg, _, addr) <- recvFrom sock 1024
+                 (msg, addr) <- recvFrom sock 1024
                  -- Handle it
-                 handlerfunc addr msg
+                 handlerfunc addr $ UTF8.toString msg
                  -- And process more messages
                  procMessages sock
 
@@ -42,4 +44,6 @@ plainHandler addr msg =
     putStrLn $ "From " ++ show addr ++ ": " ++ msg
 
 main :: IO ()
-main = serveLog "514" plainHandler
+main = do
+    getLocaleEncoding >>= print
+    serveLog "514" plainHandler

@@ -83,9 +83,10 @@ executable rsyslog-udp
   -- other-extensions:
 
   -- Other library packages from which modules are imported.
-  build-depends:       base >=4.8 && < 5
+  build-depends:       base        >=4.8 && < 5
                      , network
                      , bytestring
+                     , utf8-string >= 1.0.1.1
 
   -- Directories containing source files.
   hs-source-dirs:      src
