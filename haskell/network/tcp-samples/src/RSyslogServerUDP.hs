@@ -5,7 +5,7 @@ import           Network.Socket hiding (recvFrom)
 import           Network.Socket.ByteString
 import qualified Data.ByteString.UTF8 as UTF8
 import           Data.List
-import           GHC.IO.Encoding (getLocaleEncoding)
+import           GHC.IO.Encoding (getLocaleEncoding, setLocaleEncoding, mkTextEncoding)
 
 type HandlerFunc = SockAddr -> String -> IO ()
 
@@ -45,5 +45,8 @@ plainHandler addr msg =
 
 main :: IO ()
 main = do
+    getLocaleEncoding >>= print
+    encoding <- mkTextEncoding "UTF-8"
+    _ <- setLocaleEncoding encoding
     getLocaleEncoding >>= print
     serveLog "514" plainHandler
