@@ -46,7 +46,5 @@ plainHandler addr msg =
 main :: IO ()
 main = do
     getLocaleEncoding >>= print
-    encoding <- mkTextEncoding "UTF-8"
-    _ <- setLocaleEncoding encoding
-    getLocaleEncoding >>= print
     serveLog "514" plainHandler
+
