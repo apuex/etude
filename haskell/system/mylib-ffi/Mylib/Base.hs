@@ -36,7 +36,7 @@ updateFoo foo = with foo $ \ p -> do
 getBar :: IO MyBar
 getBar = do
     bar <- my_get_bar >>= peekMyBar
-    printf "[Base.hs]: %s\n" (barY bar)
+    printf "[Base.hs]: %s\n" $ show (barY bar)
     return bar
 
 setBar :: MyBar -> (MyBar -> IO ()) -> IO Int

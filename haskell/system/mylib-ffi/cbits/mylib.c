@@ -4,7 +4,7 @@
 #include <string.h>
 #include <math.h>
 
-static my_bar_t _the_bar = { 0xff, "You god damn bastard!"};
+static my_bar_t _the_bar = { 0xff, "You god damn bastard!", 2.71828 };
 static char _the_version[MAX_STR_LEN]= "1.0.0.0 release";
 
 char MYLIBAPI *my_version() {
@@ -32,12 +32,12 @@ my_foo_t MYLIBAPI *my_update_foo(my_foo_t * data) {
 }
 
 int MYLIBAPI my_set_bar(my_bar_t * data) {
-	printf("my_set_bar: x -> %d, y -> %s\n", data->x, data->y);
+	printf("my_set_bar: x -> %d, y -> %f, s -> %s\n", data->x, data->y, data->s);
 	return 0x2;
 }
 
 my_bar_t MYLIBAPI *my_update_bar(my_bar_t * data) {
-	printf("my_update_bar: x -> %d, y -> %s\n", data->x, data->y);
+	printf("my_update_bar: x -> %d, y -> %f, s -> %s\n", data->x, data->y, data->s);
 	return data;
 }
 
@@ -45,7 +45,7 @@ my_bar_t MYLIBAPI *my_get_bar() {
 	//my_bar_t * p = (my_bar_t*)malloc(sizeof(my_bar_t));
 	//memset(p, 0, sizeof(my_bar_t));
 	//p->x = 0x1;
-	//strcpy(p->y, _the_bar.y);
+	//strcpy(p->s, _the_bar.s);
 	//return p;
 	return &_the_bar;
 }

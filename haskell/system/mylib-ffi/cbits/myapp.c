@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
 	my_get_data(&mydata);
 	
 	printf("%s\n", my_version());
-	printf("my_bar: x -> %d, y -> %s\n", my_get_bar()->x, my_get_bar()->y);
+	printf("my_bar: x -> %d, y -> %f, s -> %s\n", my_get_bar()->x, my_get_bar()->y, my_get_bar()->s);
 	
 	return 0;
 }

@@ -17,14 +17,17 @@ import Control.Monad
 #let alignment t = "%lu", (unsigned long)offsetof(struct {char x__; t (y__); }, y__)
 #endif
 
+maxLen = #{const MAX_STR_LEN}
+
 data MyFoo = MyFoo
     { fooX :: CInt
-    , fooY :: Double
+    , fooY :: CDouble
     } deriving Show
 
 data MyBar = MyBar
     { barX :: CInt
-    , barY :: String
+    , barS :: String
+    , barY :: CDouble
     } deriving Show
 
 data MyFooBar = Foo MyFoo | Bar MyBar deriving Show
@@ -58,14 +61,15 @@ pokeMyFoo p foo = do
 peekMyBar :: Ptr MyBar -> IO MyBar
 peekMyBar p = do
      i <- #{peek my_bar_t, x} p
-     s <- peekCString $ #{ptr my_bar_t, y} p
-     return (MyBar i s)
+     s <- peekCString $ #{ptr my_bar_t, s} p
+     d <- #{peek my_bar_t, y} p
+     return (MyBar i s d)
 
 pokeMyBar :: Ptr MyBar -> MyBar -> IO ()
 pokeMyBar p bar = do
     #{poke my_bar_t, x} p $ barX bar
-    withCStringLen (take maxLen (barY bar)) $ uncurry (copyArray $ #{ptr my_bar_t, y} p)
-    where maxLen = #{const MAX_STR_LEN}
+    withCStringLen (take maxLen (barS bar)) $ uncurry (copyArray $ #{ptr my_bar_t, s} p)
+    #{poke my_bar_t, y} p $ barY bar
 
 instance Storable MyFoo where
     sizeOf _    = #{size      my_foo_t}

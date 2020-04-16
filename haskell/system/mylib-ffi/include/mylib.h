@@ -21,7 +21,8 @@ typedef struct {
 
 typedef struct {
 	int x;
-	char y[MAX_STR_LEN];
+	char s[MAX_STR_LEN];
+	double y;
 } my_bar_t;
 
 typedef enum {
