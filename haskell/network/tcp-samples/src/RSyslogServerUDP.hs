@@ -29,10 +29,10 @@ serveLog port handlerfunc = withSocketsDo $
        -- Loop forever processing incoming data.  Ctrl-C to abort.
        procMessages sock
     where procMessages sock =
-              do -- Receive one UDP packet, maximum length 1024 bytes,
+              do -- Receive one UDP packet, maximum length 10240 bytes,
                  -- and save its content into msg and its source
                  -- IP and port into addr
-                 (msg, addr) <- recvFrom sock 1024
+                 (msg, addr) <- recvFrom sock 10240
                  -- Handle it
                  handlerfunc addr $ UTF8.toString msg
                  -- And process more messages
