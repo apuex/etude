@@ -19,9 +19,9 @@ data DataObject
 
 instance ToJSON DataObject where
     toJSON (AIObject ai) = case (toJSON ai) of
-        Object o -> Object $ insert "@type" (String "type.googleapis.com/AIObject") o
+        Object o -> Object $ insert "@type" "type.googleapis.com/AIObject" o
     toJSON (DIObject di) = case (toJSON di) of
-        Object o -> Object $ insert "@type" (String "type.googleapis.com/DIObject") o
+        Object o -> Object $ insert "@type" "type.googleapis.com/DIObject" o
     --toJSON (AIObject ai) = Object $
     --    fromList [
     --        "@type" .= String "type.googleapis.com/AIObject",
