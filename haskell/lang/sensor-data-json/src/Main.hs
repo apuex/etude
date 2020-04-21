@@ -4,7 +4,6 @@
 
 module Main(main) where
 
---import Prelude.Compat
 import Prelude.Compat (print, String, Float, Maybe(Just, Nothing), Eq, IO)
 
 import Data.Aeson (FromJSON, ToJSON, decode, encode)
@@ -39,4 +38,5 @@ main = do
   BL.putStrLn (aiObjJson)
   BL.putStrLn (encode aiObj')
   print (aiObj')
+  BL.putStrLn (encode aiObj')
 
