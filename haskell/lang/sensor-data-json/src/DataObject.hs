@@ -30,8 +30,7 @@ instance ToJSON DataObject where
         --_        -> fail ("unknown object")
 
 instance FromJSON DataObject where
-    parseJSON v = p v 
-        where p = withObject "DataObject" $ \ o -> do
+    parseJSON = withObject "DataObject" $ \ o -> do
                 kind <- o .: "@type"
                 case kind of
                     "type.googleapis.com/AIObject" -> 
