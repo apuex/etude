@@ -5,6 +5,7 @@ module Main
 
 import           System.Console.GetOpt
 import           System.IO
+import           System.IO.Error
 import           System.Exit
 import           System.Environment
 import           Data.List
@@ -31,13 +32,14 @@ binaryApp conn = do
             unless (T.null line) $ WS.sendTextData conn line
 
     let loop = do
-            msg <- E.try (WS.receiveData conn) :: IO (Either E.IOException BL.ByteString)
+            msg <- E.try (WS.receiveData conn) :: IO (Either E.SomeException BL.ByteString)
             case msg of
                 Left  e -> do
-                    liftIO $ putStrLn $ show e
-                    exitFailure
-                Right m -> liftIO $ BL.putStrLn m
-            loop
+                    liftIO $ print e
+                    return ()
+                Right m -> do
+                    liftIO $ BL.putStrLn m
+                    loop
 
     WS.withPingThread conn 30 (return ()) loop
 
@@ -52,13 +54,14 @@ textApp conn = do
             unless (T.null line) $ WS.sendTextData conn line
 
     let loop = do
-            msg <- E.try (WS.receiveData conn) :: IO (Either E.IOException T.Text)
+            msg <- E.try (WS.receiveData conn) :: IO (Either E.SomeException T.Text)
             case msg of
                 Left  e -> do
-                    liftIO $ putStrLn $ show e
-                    exitFailure
-                Right m -> liftIO $ T.putStrLn m
-            loop
+                    liftIO $ print e
+                    return ()
+                Right m -> do
+                    liftIO $ T.putStrLn m
+                    loop
 
     WS.withPingThread conn 30 (return ()) loop
 
@@ -74,18 +77,24 @@ main = do
             (portNumber opts)
             (requestUri opts)
 
-    if binaryMode opts then
-        withSocketsDo $ WS.runClient
-            (hostName opts)
-            (portNumber opts)
-            (requestUri opts)
-            binaryApp
-    else
-        withSocketsDo $ WS.runClient
-            (hostName opts)
-            (portNumber opts)
-            (requestUri opts)
-            textApp
+    let io = if binaryMode opts then
+          withSocketsDo $ WS.runClient
+              (hostName opts)
+              (portNumber opts)
+              (requestUri opts)
+              binaryApp
+          else
+          withSocketsDo $ WS.runClient
+              (hostName opts)
+              (portNumber opts)
+              (requestUri opts)
+              textApp
+
+    let loop = do
+          E.try io :: IO (Either E.SomeException ())
+          -- (\ e -> putStrLn $ "caught: " ++ show e)
+          loop
+    loop
 
 data Options = Options
     { hostName   :: String
