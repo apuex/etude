@@ -1,18 +1,19 @@
 {-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
+-- {-# LANGUAGE NoImplicitPrelude #-}
 
 module AI where
 
---import Prelude.Compat
-import Prelude.Compat (String, Float, Maybe(Just, Nothing), Eq, Show, IO)
-
-import Data.Aeson (FromJSON, ToJSON, decode, encode)
+import Data.Aeson
 import qualified Data.ByteString.Lazy.Char8 as BL
 import GHC.Generics (Generic)
 
 data AI = AI { id :: String, value :: Maybe Float } deriving (Eq, Show, Generic)
 
-instance FromJSON AI
-instance ToJSON   AI
+customOptions :: Options
+customOptions = defaultOptions { omitNothingFields = True }
 
+instance FromJSON AI where
+     parseJSON = genericParseJSON customOptions
+instance ToJSON   AI where
+    toJSON     = genericToJSON customOptions
