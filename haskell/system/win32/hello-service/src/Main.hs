@@ -1,9 +1,14 @@
 module Main where
 
-import Control.Concurrent.MVar
-import System.Win32.Services
-import System.Win32.Types
+import           Control.Concurrent.MVar
+import           System.Win32.Services
+import           System.Win32.Types
+import           Control.Exception    as E
 import qualified System.Win32.Error as E
+import           System.Log.Logger
+import           System.Log.Handler.Syslog
+import           GHC.IO.Encoding (getLocaleEncoding)
+import           System.IO
 
 main :: IO ()
 main = do
@@ -14,6 +19,24 @@ main = do
 
 svcMain mStop gState _ _ h = do
     reportSvcStatus h Running E.Success 0 gState
+   
+    let initLogger = do 
+            syslog <- openlog "hello-service" [PID] USER DEBUG
+            updateGlobalLogger rootLoggerName (setHandlers [syslog])
+            updateGlobalLogger rootLoggerName (setLevel DEBUG)
+            infoM "Launcher" "Logger initialized to R Syslog."
+            encoding <- getLocaleEncoding
+            infoM "Launcher" $ "Locale charactor encoding is: " ++ (show encoding)
+
+    outfile <- openBinaryFile "c:\\hello-service.log" WriteMode
+    r <- E.try initLogger :: IO (Either E.SomeException ())
+    case r of
+        Left  e -> do
+            hPutStrLn outfile $ "Launcher main initLogger left: " ++ show e
+        Right m -> do
+            hPutStrLn outfile $ "Launcher main initLogger right: " ++ show m
+    hClose outfile
+
     takeMVar mStop
     reportSvcStatus h Stopped E.Success 0 gState
 
