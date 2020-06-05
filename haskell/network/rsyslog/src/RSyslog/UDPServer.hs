@@ -28,10 +28,10 @@ data ServerState
     , terminate :: MVar Bool
     }
 
-startServe :: CL.Options
+createServer :: CL.Options
            -> String              -- ^ Port number or name; 514 is default
-           -> IO ()
-startServe opts port = do
+           -> IO (ServerState)
+createServer opts port = do
     createDirectoryIfMissing True $ CL.logDir opts
 
     date' <- today >>= \x -> return (dayToDate x)
@@ -45,7 +45,12 @@ startServe opts port = do
             , handle    = handle'
             , terminate = stop
             }
+    return state
 
+startServe :: CL.Options
+           -> ServerState
+           -> IO ()
+startServe opts state = do
     if CL.console opts then serveLog state "514" plainHandler
     else serveLog state "514" $ fileHandler state
 
@@ -113,5 +118,8 @@ openLogFile dir basefile date = do
     let file = printf "%s-%04d-%02d-%02d.log" basefile (getYear $ dateYear date) (getMonth $ dateMonth date) (getDayOfMonth $ dateDay date)
     let file' = joinPath [dir, file]
 
-    openFile file' AppendMode
+    h <- openFile file' AppendMode
+    hSetBuffering h NoBuffering
+    return h
+
 
