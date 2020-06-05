@@ -11,6 +11,7 @@ import           Text.Printf
 
 data Options = Options
     { logDir    :: String
+    , console   :: Bool
     , printHelp :: Bool
     } deriving Show
 
@@ -23,6 +24,7 @@ defaultOptions = Options
 options :: [OptDescr (Options -> Options)]
 options =
     [ Option ['d'] ["log-dir"] (ReqArg (\ o opts -> opts { logDir = o       }) "DIR"             ) "directory for log files"
+    , Option ['c'] ["console"]    (NoArg  (\   opts -> opts { console = True })                  ) "log output to console"
     , Option ['h'] ["help"]    (NoArg  (\   opts -> opts { printHelp = True })                   ) "print this help message"]
 
 compileOpts :: PrintfArg t => t -> [String] -> IO (Options, [String])
