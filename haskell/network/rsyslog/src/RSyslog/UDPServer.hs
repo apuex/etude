@@ -28,6 +28,7 @@ serveLog port handlerfunc = withSocketsDo $
        sock <- socket (addrFamily serveraddr) Datagram defaultProtocol
 
        -- Bind it to the address we're listening to
+       setSocketOption sock ReuseAddr 1
        bind sock (addrAddress serveraddr)
 
        -- Loop forever processing incoming data.  Ctrl-C to abort.
