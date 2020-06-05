@@ -93,6 +93,10 @@ executable rsyslog-udp
                      , bytestring
                      , network
                      , utf8-string >= 1.0.1.1
+  if os(windows)
+    build-depends:     Win32            >= 2.8.5.0
+                     , Win32-services   >= 0.4.0.1
+                     , Win32-errors     >= 0.2.2.5
 
   -- Directories containing source files.
   hs-source-dirs:      src
