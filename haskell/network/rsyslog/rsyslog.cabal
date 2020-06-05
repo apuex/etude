@@ -69,6 +69,7 @@ executable rsyslog-udp
   build-depends:       base        >=4.8 && < 5
                      , bytestring
                      , chronos
+                     , directory
                      , filepath
                      , FindBin
                      , network
