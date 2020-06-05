@@ -1,12 +1,13 @@
 module RSyslog.UDPServer where
 
 import           Data.Bits
-import           Network.Socket hiding (recvFrom)
+import qualified Data.ByteString.Char8       as BC
+import qualified Data.ByteString.UTF8        as UTF8
+import           Network.Socket              hiding (recvFrom)
 import           Network.Socket.ByteString
-import qualified Data.ByteString.UTF8 as UTF8
 import           Data.List
 
-type HandlerFunc = SockAddr -> String -> IO ()
+type HandlerFunc = SockAddr -> BC.ByteString -> IO ()
 
 serveLog :: String              -- ^ Port number or name; 514 is default
          -> HandlerFunc         -- ^ Function to handle incoming messages
@@ -33,12 +34,12 @@ serveLog port handlerfunc = withSocketsDo $
                  -- IP and port into addr
                  (msg, addr) <- recvFrom sock 10240
                  -- Handle it
-                 handlerfunc addr $ UTF8.toString msg
+                 handlerfunc addr msg
                  -- And process more messages
                  procMessages sock
 
 -- A simple handler that prints incoming packets
 plainHandler :: HandlerFunc
 plainHandler addr msg = 
-    putStrLn $ "From " ++ show addr ++ ": " ++ msg
+    BC.putStrLn $ BC.append (UTF8.fromString $ "From " ++ show addr ++ ": ") msg
 
