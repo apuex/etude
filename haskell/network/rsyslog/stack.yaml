@@ -43,6 +43,8 @@ extra-deps:
 - Win32-2.8.5.0@sha256:50c11fce7ec29c750f199eec0bc97d42e9b8ca80abfbe068c0f474a3727b60ae,4277
 - Win32-errors-0.2.2.5@sha256:68f8534f2e6cfefa17ea7c2c34e205ec62c364c05253d537f21aa2ac5d87c0d3,2075
 - Win32-services-0.4.0.1@sha256:f3116afe2f7d7df875cbfd9e9b99228ab805ca6ad92d203e3d7d97bcfcf1d964,5801
+- directory-1.3.6.1@sha256:3dc9c69c8e09ec95a7a45c6d06abe0f0d2f604439c37e5f88e5a6c335b088d71,2810
+- time-1.10@sha256:536801b30aa2ce66da07cb19847827662650907efb2af4c8bef0a6276445075f,5738
 
 # Override default flag values for local packages and extra-deps
 # flags: {}
