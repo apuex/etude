@@ -51,7 +51,7 @@ plainHandler addr msg =
 fileHandler :: FilePath -> FilePath -> HandlerFunc
 fileHandler dir basefile addr msg = do
     date <- today >>= \x -> return (dayToDate x)
-    let file = printf "%s-%4d-%2d-%2d.log" basefile (getYear $ dateYear date) (getMonth $ dateMonth date) (getDayOfMonth $ dateDay date)
+    let file = printf "%s-%04d-%02d-%02d.log" basefile (getYear $ dateYear date) (getMonth $ dateMonth date) (getDayOfMonth $ dateDay date)
     let file' = joinPath [dir, file]
     withFile file' AppendMode $ \ h -> BC.hPutStrLn h msg
 
