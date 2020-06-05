@@ -18,6 +18,7 @@ data Options = Options
 defaultOptions :: Options
 defaultOptions = Options
     { logDir    = ""
+    , console   = False
     , printHelp = False
     }
 
