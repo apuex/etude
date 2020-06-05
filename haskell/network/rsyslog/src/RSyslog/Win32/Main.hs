@@ -12,5 +12,5 @@ main = do
     args     <- getArgs
     (opts, files) <- compileOpts progName args
     if console opts then serveLog "514" plainHandler
-    else serveLog "514" $ fileHandler (joinPath [logDir opts, "rsys.log"])
+    else serveLog "514" $ fileHandler (logDir opts) "rsyslog"
 
