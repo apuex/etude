@@ -92,11 +92,11 @@ executable rsyslog-udp
   build-depends:       base        >=4.8 && < 5
                      , bytestring
                      , network
-                     , utf8-string >= 1.0.1.1
+                     , utf8-string
   if os(windows)
-    build-depends:     Win32            >= 2.8.5.0
-                     , Win32-services   >= 0.4.0.1
-                     , Win32-errors     >= 0.2.2.5
+    build-depends:     Win32
+                     , Win32-services
+                     , Win32-errors
 
   -- Directories containing source files.
   hs-source-dirs:      src

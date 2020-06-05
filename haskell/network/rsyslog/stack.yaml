@@ -39,7 +39,10 @@ packages:
 # - git: https://github.com/commercialhaskell/stack.git
 #   commit: e7b331f14bcffb8367cd58fbfc8b40ec7642100a
 #
-# extra-deps: []
+extra-deps:
+- Win32-2.8.5.0@sha256:50c11fce7ec29c750f199eec0bc97d42e9b8ca80abfbe068c0f474a3727b60ae,4277
+- Win32-errors-0.2.2.5@sha256:68f8534f2e6cfefa17ea7c2c34e205ec62c364c05253d537f21aa2ac5d87c0d3,2075
+- Win32-services-0.4.0.1@sha256:f3116afe2f7d7df875cbfd9e9b99228ab805ca6ad92d203e3d7d97bcfcf1d964,5801
 
 # Override default flag values for local packages and extra-deps
 # flags: {}
