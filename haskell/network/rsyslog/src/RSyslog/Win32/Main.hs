@@ -25,9 +25,7 @@ main = do
     args     <- getArgs
     (opts, files) <- compileOpts progName args
     createDirectoryIfMissing True $ logDir opts
-    if console opts then do
-        run <- newMVar True
-        serveLog run "514" plainHandler
+    if console opts then startServe opts "514"
     else do
         gState <- newMVar (1, ServiceStatus Win32OwnProcess
                               StartPending [] E.Success 0 0 3000)
@@ -38,13 +36,14 @@ svcMain opts mStop gState _ _ h = do
     reportSvcStatus h Running E.Success 0 gState
 
     run <- newMVar True
-    forkIO $ serveLog run "514" $ fileHandler (logDir opts) "rsyslog"
+    forkIO $ startServe opts "514"
+
     syslog <- openlog "RSyslogd" [PID] USER DEBUG
     updateGlobalLogger rootLoggerName (setHandlers [syslog])
     updateGlobalLogger rootLoggerName (setLevel DEBUG)
     infoM "ServiceMain" "Logger initialized to R Syslog."
-    infoM "ServiceMain" $ "Server started. Wating for service stop signal.."
 
+    infoM "ServiceMain" $ "Server started. Wating for service stop signal.."
     takeMVar mStop
     
     modifyMVar_ run $ \ _ -> return False
