@@ -1,5 +1,6 @@
 module RSyslog.UDPServer where
 
+import           Chronos
 import           Data.Bits
 import qualified Data.ByteString.Char8       as BC
 import qualified Data.ByteString.UTF8        as UTF8
@@ -8,6 +9,7 @@ import           Network.Socket              hiding (recvFrom)
 import           Network.Socket.ByteString
 import           System.FilePath
 import           System.IO
+import           Text.Printf
 
 type HandlerFunc = SockAddr -> BC.ByteString -> IO ()
 
@@ -46,7 +48,10 @@ plainHandler addr msg =
     BC.putStrLn $ BC.append (UTF8.fromString $ "From " ++ show addr ++ ": ") msg
 
 -- A simple handler that prints incoming packets
-fileHandler :: FilePath -> HandlerFunc
-fileHandler file addr msg = withFile file AppendMode $ \ h -> do
-    BC.hPutStrLn h msg
+fileHandler :: FilePath -> FilePath -> HandlerFunc
+fileHandler dir basefile addr msg = do
+    date <- today >>= \x -> return (dayToDate x)
+    let file = printf "%s-%4d-%2d-%2d.log" basefile (getYear $ dateYear date) (getMonth $ dateMonth date) (getDayOfMonth $ dateDay date)
+    let file' = joinPath [dir, file]
+    withFile file' AppendMode $ \ h -> BC.hPutStrLn h msg
 
