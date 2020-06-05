@@ -6,6 +6,18 @@ import           System.Directory
 import           System.Environment
 import           System.FilePath
 import           System.IO
+import           Control.Concurrent      (forkIO)
+import           Control.Monad.Trans     (liftIO)
+import           Control.Concurrent.MVar
+import           Text.Printf
+import           System.Environment
+import           System.Exit
+import           System.Log.Logger
+import           System.Log.Handler.Syslog
+import           System.Win32.Services
+import           System.Win32.Types
+import qualified System.Win32.Error as E
+
 
 main :: IO ()
 main = do
