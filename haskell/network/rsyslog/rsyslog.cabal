@@ -65,6 +65,8 @@ library
   -- Other library packages from which modules are imported.
   build-depends:       base >=4.8 && < 5
                      , bytestring
+                     , filepath
+                     , FindBin
                      , network
                      , utf8-string >= 1.0.1.1
 
@@ -83,7 +85,8 @@ executable rsyslog-udp
     main-is:          RSyslog/Win32/Main.hs
 
   -- Modules included in this executable, other than Main.
-  other-modules:      RSyslog.UDPServer
+  other-modules:      RSyslog.CmdLine
+                    , RSyslog.UDPServer
 
   -- LANGUAGE extensions used by modules in this package.
   -- other-extensions:
@@ -91,6 +94,8 @@ executable rsyslog-udp
   -- Other library packages from which modules are imported.
   build-depends:       base        >=4.8 && < 5
                      , bytestring
+                     , filepath
+                     , FindBin
                      , network
                      , utf8-string
   if os(windows)

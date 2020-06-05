@@ -1,11 +1,15 @@
 module Main(main) where
 
+import           RSyslog.CmdLine
 import           RSyslog.UDPServer
-import           GHC.IO.Encoding (getLocaleEncoding, setLocaleEncoding, mkTextEncoding, utf8)
-
+import           System.Environment
+import           System.FilePath
+import           System.IO
 
 main :: IO ()
 main = do
-    getLocaleEncoding >>= print
-    serveLog "514" plainHandler
+    progName <- getProgName
+    args     <- getArgs
+    (opts, files) <- compileOpts progName args
+    serveLog "514" $ fileHandler (joinPath [logDir opts, "rsys.log"])
 

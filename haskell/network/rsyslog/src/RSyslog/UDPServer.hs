@@ -3,9 +3,11 @@ module RSyslog.UDPServer where
 import           Data.Bits
 import qualified Data.ByteString.Char8       as BC
 import qualified Data.ByteString.UTF8        as UTF8
+import           Data.List
 import           Network.Socket              hiding (recvFrom)
 import           Network.Socket.ByteString
-import           Data.List
+import           System.FilePath
+import           System.IO
 
 type HandlerFunc = SockAddr -> BC.ByteString -> IO ()
 
@@ -40,6 +42,11 @@ serveLog port handlerfunc = withSocketsDo $
 
 -- A simple handler that prints incoming packets
 plainHandler :: HandlerFunc
-plainHandler addr msg = 
+plainHandler addr msg =
     BC.putStrLn $ BC.append (UTF8.fromString $ "From " ++ show addr ++ ": ") msg
+
+-- A simple handler that prints incoming packets
+fileHandler :: FilePath -> HandlerFunc
+fileHandler file addr msg = withFile file AppendMode $ \ h -> do
+    BC.hPutStrLn h msg
 
