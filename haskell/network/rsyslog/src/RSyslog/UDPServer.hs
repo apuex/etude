@@ -1,6 +1,7 @@
 module RSyslog.UDPServer where
 
 import           Chronos
+import           Control.Concurrent.MVar
 import           Data.Bits
 import qualified Data.ByteString.Char8       as BC
 import qualified Data.ByteString.UTF8        as UTF8
@@ -13,10 +14,11 @@ import           Text.Printf
 
 type HandlerFunc = SockAddr -> BC.ByteString -> IO ()
 
-serveLog :: String              -- ^ Port number or name; 514 is default
+serveLog ::  MVar Bool
+         -> String              -- ^ Port number or name; 514 is default
          -> HandlerFunc         -- ^ Function to handle incoming messages
          -> IO ()
-serveLog port handlerfunc = withSocketsDo $
+serveLog run port handlerfunc = withSocketsDo $
     do -- Look up the port.  Either raises an exception or returns
        -- a nonempty list.  
        addrinfos <- getAddrInfo 
@@ -41,7 +43,8 @@ serveLog port handlerfunc = withSocketsDo $
                  -- Handle it
                  handlerfunc addr msg
                  -- And process more messages
-                 procMessages sock
+                 run' <- readMVar run
+                 if run' then procMessages sock else return ()
 
 -- A simple handler that prints incoming packets
 plainHandler :: HandlerFunc

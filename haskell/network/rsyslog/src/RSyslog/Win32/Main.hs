@@ -25,24 +25,30 @@ main = do
     args     <- getArgs
     (opts, files) <- compileOpts progName args
     createDirectoryIfMissing True $ logDir opts
-    if console opts then serveLog "514" plainHandler
+    if console opts then do
+        run <- newMVar True
+        serveLog run "514" plainHandler
     else do
         gState <- newMVar (1, ServiceStatus Win32OwnProcess
                               StartPending [] E.Success 0 0 3000)
         mStop <- newEmptyMVar
-        startServiceCtrlDispatcher "RSyslog" 3000 (svcCtrlHandler mStop gState) $ svcMain opts mStop gState
+        startServiceCtrlDispatcher "RSyslogd" 3000 (svcCtrlHandler mStop gState) $ svcMain opts mStop gState
 
 svcMain opts mStop gState _ _ h = do
-    infoM "ServiceMain" $ "reporting service status to Running.."
     reportSvcStatus h Running E.Success 0 gState
 
-    infoM "ServiceMain" $ "lauching server.."
-    serveLog "514" $ fileHandler (logDir opts) "rsyslog"
-
+    run <- newMVar True
+    forkIO $ serveLog run "514" $ fileHandler (logDir opts) "rsyslog"
+    syslog <- openlog "RSyslogd" [PID] USER DEBUG
+    updateGlobalLogger rootLoggerName (setHandlers [syslog])
+    updateGlobalLogger rootLoggerName (setLevel DEBUG)
+    infoM "ServiceMain" "Logger initialized to R Syslog."
     infoM "ServiceMain" $ "Server started. Wating for service stop signal.."
-    takeMVar mStop
-    infoM "ServiceMain" $ "reporting service status to Stopped.."
 
+    takeMVar mStop
+    
+    modifyMVar_ run $ \ _ -> return False
+    infoM "ServiceMain" $ "Terminate signal sent, report service status to be stopped."
     reportSvcStatus h Stopped E.Success 0 gState
     infoM "ServiceMain" $ "all cleaning job done, terminated."
 

@@ -72,6 +72,8 @@ executable rsyslog-udp
                      , directory
                      , filepath
                      , FindBin
+                     , hslogger
+                     , mtl
                      , network
                      , utf8-string
   if os(windows)
