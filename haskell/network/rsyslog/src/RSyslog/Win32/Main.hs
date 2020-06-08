@@ -1,8 +1,7 @@
 module Main(main) where
 
-import           RSyslog.CmdLine
+import qualified RSyslog.CmdLine       as CL
 import           RSyslog.UDPServer
-import           System.Directory
 import           System.Environment
 import           System.FilePath
 import           System.IO
@@ -23,9 +22,10 @@ main :: IO ()
 main = do
     progName <- getProgName
     args     <- getArgs
-    (opts, files) <- compileOpts progName args
-    createDirectoryIfMissing True $ logDir opts
-    if console opts then startServe opts "514"
+    (opts, files) <- CL.compileOpts progName args
+
+    if CL.console opts then do
+        createServer opts >>= startServe opts
     else do
         gState <- newMVar (1, ServiceStatus Win32OwnProcess
                               StartPending [] E.Success 0 0 3000)
@@ -35,8 +35,8 @@ main = do
 svcMain opts mStop gState _ _ h = do
     reportSvcStatus h Running E.Success 0 gState
 
-    run <- newMVar True
-    forkIO $ startServe opts
+    state <- createServer opts
+    forkIO $ startServe opts state
 
     syslog <- openlog_remote Socket.AF_INET (host opts) (read (port opts) :: Socket.PortNumber) "RSyslogd" [PID] USER DEBUG
     updateGlobalLogger rootLoggerName (setHandlers [syslog])
@@ -45,8 +45,8 @@ svcMain opts mStop gState _ _ h = do
 
     infoM "ServiceMain" $ "Server started. Wating for service stop signal.."
     takeMVar mStop
-    
-    modifyMVar_ run $ \ _ -> return False
+
+    modifyMVar_ (terminate state) $ \ _ -> return True
     infoM "ServiceMain" $ "Terminate signal sent, report service status to be stopped."
     reportSvcStatus h Stopped E.Success 0 gState
     infoM "ServiceMain" $ "all cleaning job done, terminated."

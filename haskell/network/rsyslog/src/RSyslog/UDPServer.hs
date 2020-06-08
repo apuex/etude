@@ -28,9 +28,9 @@ data ServerState
     , terminate :: MVar Bool
     }
 
-startServe :: CL.Options
-           -> IO ()
-startServe opts = do
+createServer :: CL.Options
+           -> IO (ServerState)
+createServer opts = do
     createDirectoryIfMissing True $ CL.logDir opts
 
     date' <- today >>= \x -> return (dayToDate x)
@@ -44,7 +44,12 @@ startServe opts = do
             , handle    = handle'
             , terminate = stop
             }
+    return state
 
+startServe :: CL.Options
+           -> ServerState
+           -> IO ()
+startServe opts state = do
     if CL.console opts then serveLog state (CL.host opts) (CL.port opts) plainHandler
     else serveLog state (CL.host opts) (CL.port opts) $ fileHandler state
 
@@ -113,5 +118,8 @@ openLogFile dir basefile date = do
     let file = printf "%s-%04d-%02d-%02d.log" basefile (getYear $ dateYear date) (getMonth $ dateMonth date) (getDayOfMonth $ dateDay date)
     let file' = joinPath [dir, file]
 
-    openFile file' AppendMode
+    h <- openFile file' AppendMode
+    hSetBuffering h NoBuffering
+    return h
+
 
