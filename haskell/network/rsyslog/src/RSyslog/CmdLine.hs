@@ -12,6 +12,8 @@ import           Text.Printf
 data Options = Options
     { logDir    :: String
     , baseFile  :: String
+    , host      :: String
+    , port      :: String
     , console   :: Bool
     , printHelp :: Bool
     } deriving Show
@@ -20,6 +22,8 @@ defaultOptions :: Options
 defaultOptions = Options
     { logDir    = "."
     , baseFile  = "rsyslog"
+    , host      = "localhost"
+    , port      = "514"
     , console   = False
     , printHelp = False
     }
@@ -28,6 +32,8 @@ options :: [OptDescr (Options -> Options)]
 options =
     [ Option ['d'] ["log-dir"]   (ReqArg (\ o opts -> opts { logDir    = o       }) "DIR"  ) "directory for log files"
     , Option ['d'] ["base-file"] (ReqArg (\ o opts -> opts { baseFile  = o       }) "FILE" ) "base file name. date and '.log' extension appended."
+    , Option ['H'] ["host"]      (ReqArg (\ o opts -> opts { host      = o       }) "NAME/IP ADDR" ) "log server bind host name/address"
+    , Option ['p'] ["port"]      (ReqArg (\ o opts -> opts { port      = o       }) "PORT NAME/NUMBER" ) "log server bind port/service name."
     , Option ['c'] ["console"]   (NoArg  (\   opts -> opts { console   = True    })        ) "log output to console"
     , Option ['h'] ["help"]      (NoArg  (\   opts -> opts { printHelp = True    })        ) "print this help message"]
 

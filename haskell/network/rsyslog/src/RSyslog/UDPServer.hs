@@ -29,9 +29,8 @@ data ServerState
     }
 
 startServe :: CL.Options
-           -> String              -- ^ Port number or name; 514 is default
            -> IO ()
-startServe opts port = do
+startServe opts = do
     createDirectoryIfMissing True $ CL.logDir opts
 
     date' <- today >>= \x -> return (dayToDate x)
@@ -46,19 +45,20 @@ startServe opts port = do
             , terminate = stop
             }
 
-    if CL.console opts then serveLog state "514" plainHandler
-    else serveLog state "514" $ fileHandler state
+    if CL.console opts then serveLog state (CL.host opts) (CL.port opts) plainHandler
+    else serveLog state (CL.host opts) (CL.port opts) $ fileHandler state
 
 serveLog :: ServerState
+         -> String              -- ^ Host name or address
          -> String              -- ^ Port number or name; 514 is default
          -> HandlerFunc         -- ^ Function to handle incoming messages
          -> IO ()
-serveLog state port handlerfunc = withSocketsDo $
+serveLog state host port handlerfunc = withSocketsDo $
     do -- Look up the port.  Either raises an exception or returns
        -- a nonempty list.  
        addrinfos <- getAddrInfo 
                     (Just (defaultHints {addrFlags = [AI_PASSIVE]}))
-                    Nothing (Just port)
+                    (Just host) (Just port)
        let serveraddr = head addrinfos
 
        -- Create a socket

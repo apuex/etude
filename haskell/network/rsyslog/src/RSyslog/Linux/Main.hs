@@ -12,6 +12,6 @@ main = do
     args     <- getArgs
     (opts, files) <- compileOpts progName args
 
-    startServe opts "514"
+    startServe opts
 
 

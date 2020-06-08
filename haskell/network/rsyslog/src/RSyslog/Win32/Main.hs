@@ -36,9 +36,9 @@ svcMain opts mStop gState _ _ h = do
     reportSvcStatus h Running E.Success 0 gState
 
     run <- newMVar True
-    forkIO $ startServe opts "514"
+    forkIO $ startServe opts
 
-    syslog <- openlog "RSyslogd" [PID] USER DEBUG
+    syslog <- openlog_remote Socket.AF_INET (host opts) (read (port opts) :: Socket.PortNumber) "RSyslogd" [PID] USER DEBUG
     updateGlobalLogger rootLoggerName (setHandlers [syslog])
     updateGlobalLogger rootLoggerName (setLevel DEBUG)
     infoM "ServiceMain" "Logger initialized to R Syslog."
@@ -50,6 +50,7 @@ svcMain opts mStop gState _ _ h = do
     infoM "ServiceMain" $ "Terminate signal sent, report service status to be stopped."
     reportSvcStatus h Stopped E.Success 0 gState
     infoM "ServiceMain" $ "all cleaning job done, terminated."
+    exitSuccess
 
 reportSvcStatus :: HANDLE -> ServiceState -> E.ErrCode -> DWORD
     -> MVar (DWORD, ServiceStatus) -> IO ()
