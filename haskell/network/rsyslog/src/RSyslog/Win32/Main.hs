@@ -8,11 +8,10 @@ import           System.IO
 import           Control.Concurrent      (forkIO)
 import           Control.Monad.Trans     (liftIO)
 import           Control.Concurrent.MVar
+import           Network.Socket
 import           Text.Printf
 import           System.Environment
 import           System.Exit
-import           System.Log.Logger
-import           System.Log.Handler.Syslog
 import           System.Win32.Services
 import           System.Win32.Types
 import qualified System.Win32.Error as E
@@ -38,18 +37,10 @@ svcMain opts mStop gState _ _ h = do
     state <- createServer opts
     forkIO $ startServe opts state
 
-    syslog <- openlog_remote Socket.AF_INET (host opts) (read (port opts) :: Socket.PortNumber) "RSyslogd" [PID] USER DEBUG
-    updateGlobalLogger rootLoggerName (setHandlers [syslog])
-    updateGlobalLogger rootLoggerName (setLevel DEBUG)
-    infoM "ServiceMain" "Logger initialized to R Syslog."
-
-    infoM "ServiceMain" $ "Server started. Wating for service stop signal.."
     takeMVar mStop
 
     modifyMVar_ (terminate state) $ \ _ -> return True
-    infoM "ServiceMain" $ "Terminate signal sent, report service status to be stopped."
     reportSvcStatus h Stopped E.Success 0 gState
-    infoM "ServiceMain" $ "all cleaning job done, terminated."
     exitSuccess
 
 reportSvcStatus :: HANDLE -> ServiceState -> E.ErrCode -> DWORD

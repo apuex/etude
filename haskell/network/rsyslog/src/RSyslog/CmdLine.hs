@@ -22,7 +22,7 @@ defaultOptions :: Options
 defaultOptions = Options
     { logDir    = "."
     , baseFile  = "rsyslog"
-    , host      = "localhost"
+    , host      = "0.0.0.0"
     , port      = "514"
     , console   = False
     , printHelp = False
