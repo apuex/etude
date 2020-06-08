@@ -24,6 +24,7 @@ data ServerState
     { logDir    :: String
     , baseFile  :: String
     , date      :: MVar Date
+    , svrSock   :: MVar Socket
     , handle    :: MVar Handle
     , terminate :: MVar Bool
     }
@@ -37,10 +38,12 @@ createServer opts = do
     startDate <- newMVar date'
     handle'   <- openLogFile (CL.logDir opts) (CL.baseFile opts) date' >>= newMVar
     stop      <- newMVar False
+    sock'     <- newEmptyMVar :: IO (MVar Socket)
     let state = ServerState
             { logDir    = CL.logDir   opts
             , baseFile  = CL.baseFile opts
             , date      = startDate
+            , svrSock      = sock'
             , handle    = handle'
             , terminate = stop
             }
@@ -72,7 +75,7 @@ serveLog state host port handlerfunc = withSocketsDo $
        -- Bind it to the address we're listening to
        setSocketOption sock ReuseAddr 1
        bind sock (addrAddress serveraddr)
-
+       putMVar (svrSock state) sock
        -- Loop forever processing incoming data.  Ctrl-C to abort.
        procMessages sock
     where procMessages sock =

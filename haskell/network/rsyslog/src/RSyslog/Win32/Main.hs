@@ -40,6 +40,9 @@ svcMain opts mStop gState _ _ h = do
     takeMVar mStop
 
     modifyMVar_ (terminate state) $ \ _ -> return True
+    sock <- readMVar (svrSock state)
+    close sock
+
     reportSvcStatus h Stopped E.Success 0 gState
     exitSuccess
 
