@@ -92,13 +92,13 @@ serveLog state host port handlerfunc = withSocketsDo $
 -- A simple handler that prints incoming packets
 plainHandler :: HandlerFunc
 plainHandler addr msg =
-    BC.putStrLn $ BC.append (UTF8.fromString $ "[" ++ show addr ++ "]: ") msg
+    BC.putStrLn $ BC.append (UTF8.fromString $ "[" ++ show addr ++ "] ") msg
 
 -- A simple handler that prints incoming packets
 fileHandler :: ServerState -> HandlerFunc
 fileHandler state addr msg = do
     h <- rotateLogFile state
-    BC.hPutStrLn h $ BC.append (UTF8.fromString $ "[" ++ show addr ++ "]: ") msg
+    BC.hPutStrLn h $ BC.append (UTF8.fromString $ "[" ++ show addr ++ "] ") msg
 
 rotateLogFile:: ServerState -> IO (Handle)
 rotateLogFile state = do
