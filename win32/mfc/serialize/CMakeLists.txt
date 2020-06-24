@@ -43,8 +43,13 @@ SET(LOCATION_SRCS
   location/main.cpp
 )
 
+SET(CSTRING_SRCS 
+  cstring/main.cpp
+)
+
 ADD_EXECUTABLE(person ${PERSON_SRCS})
 ADD_EXECUTABLE(location ${LOCATION_SRCS})
+ADD_EXECUTABLE(cstring ${CSTRING_SRCS})
 
 INSTALL(TARGETS person
     CONFIGURATIONS Release
