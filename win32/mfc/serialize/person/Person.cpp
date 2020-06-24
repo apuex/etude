@@ -1,8 +1,8 @@
 #include <Person.h>
 
 
-CPerson::CPerson() { }
-
+CPerson::CPerson()
+: m_name(""), m_number(-1) { }
 CPerson::CPerson(const CString& name, WORD number)
     : m_name(name), m_number(number) { }
 
@@ -18,5 +18,5 @@ void CPerson::Serialize(CArchive& archive) {
   }
 }
 
-IMPLEMENT_SERIAL(CPerson, CObject, VERSIONABLE_SCHEMA | 0)
+IMPLEMENT_SERIAL(CPerson, CObject, VERSIONABLE_SCHEMA | 0xdead)
 

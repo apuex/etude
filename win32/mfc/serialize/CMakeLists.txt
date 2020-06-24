@@ -37,7 +37,14 @@ SET(PERSON_SRCS
   person/main.cpp
 )
 
+SET(LOCATION_SRCS 
+  include/Location.h
+  location/Location.cpp
+  location/main.cpp
+)
+
 ADD_EXECUTABLE(person ${PERSON_SRCS})
+ADD_EXECUTABLE(location ${LOCATION_SRCS})
 
 INSTALL(TARGETS person
     CONFIGURATIONS Release
