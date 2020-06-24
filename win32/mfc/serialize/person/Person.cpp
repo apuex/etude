@@ -1,12 +1,12 @@
 #include <Person.h>
 
 
-CPerson::CPersion() { }
+CPerson::CPerson() { }
 
 CPerson::CPerson(const CString& name, WORD number)
     : m_name(name), m_number(number) { }
 
-CPerson::~CPersion() { }
+CPerson::~CPerson() { }
 
 void CPerson::Serialize(CArchive& archive) {
   CObject::Serialize(archive);

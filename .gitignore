@@ -36,6 +36,7 @@ Makefile.in
 workspace
 target
 bin
+vs
 dist
 dist-newstyle
 build
