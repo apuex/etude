@@ -8,7 +8,7 @@ import java.util.Map;
  * Hello world!
  */
 public class Main {
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args) throws Exception {
         CmdLineOpts cmdLineOpts = new CmdLineOpts();
         CommandLineParser parser = new DefaultParser();
         Options options = cmdLineOpts.options();
@@ -26,6 +26,8 @@ public class Main {
                 }
             });
             cmdLineOpts.printOptions(params, "current options are:");
+            BlobDumper dumper = new BlobDumper(params);
+            dumper.dump();
         }
     }
 }
