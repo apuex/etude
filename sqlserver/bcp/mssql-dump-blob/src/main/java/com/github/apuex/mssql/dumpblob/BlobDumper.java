@@ -37,12 +37,12 @@ public class BlobDumper {
     }
 
     private void saveBlob(String blobName, InputStream blobContent) throws Exception {
-        OutputStream os = new FileOutputStream(String.format("%s.blob", blobName));
-
         if(blobContent != null) {
-            Files.copy(blobContent, new File(String.format("%s.blob", blobName)).toPath(), StandardCopyOption.REPLACE_EXISTING);
-        }
+            OutputStream os = new FileOutputStream(String.format("%s.blob", blobName));
 
-        os.close();
+            Files.copy(blobContent, new File(String.format("%s.blob", blobName)).toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+            os.close();
+        }
     }
 }
