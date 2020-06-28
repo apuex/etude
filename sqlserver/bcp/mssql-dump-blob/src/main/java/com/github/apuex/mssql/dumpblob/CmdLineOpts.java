@@ -30,7 +30,7 @@ public class CmdLineOpts {
             put("database", "master");
             put("username", "sa");
             put("password", "sa-Passw0rd");
-            put("query", "");
+            put("query", "select o.location_name as blob_name, u.UIWindow as blob_content from realdata_location_name o, CLogObjUI u where o.location_id = u.LogObjID");
         }};
     }
 
