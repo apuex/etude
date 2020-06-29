@@ -31,18 +31,18 @@ public class BlobDumper {
         PreparedStatement stmt = conn.prepareStatement(params.get("query"));
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
-            saveBlob(rs.getString("blob_name"), rs.getBinaryStream("blob_content"));
+            saveBlob(rs);
         }
         conn.close();
     }
 
-    private void saveBlob(String blobName, InputStream blobContent) throws Exception {
+    private void saveBlob(ResultSet rs) throws Exception {
+        int blobId = rs.getInt("blob_id");
+        String blobName = rs.getString("blob_name");
+        InputStream blobContent = rs.getBinaryStream("blob_content");
         if(blobContent != null) {
-            OutputStream os = new FileOutputStream(String.format("%s.blob", blobName));
-
-            Files.copy(blobContent, new File(String.format("%s.blob", blobName)).toPath(), StandardCopyOption.REPLACE_EXISTING);
-
-            os.close();
+            String fileName = String.format("[%d]%s.blob", blobId, blobName);
+            Files.copy(blobContent, new File(fileName).toPath(), StandardCopyOption.REPLACE_EXISTING);
         }
     }
 }
