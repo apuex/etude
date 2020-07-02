@@ -41,7 +41,7 @@ public class BlobDumper {
         String blobName = rs.getString("blob_name");
         InputStream blobContent = rs.getBinaryStream("blob_content");
         if(blobContent != null) {
-            String fileName = String.format("[%d]%s.blob", blobId, blobName);
+            String fileName = String.format("%d-%s.blob", blobId, blobName);
             Files.copy(blobContent, new File(fileName).toPath(), StandardCopyOption.REPLACE_EXISTING);
         }
     }
