@@ -25,3 +25,12 @@ executable timer-test
                      , timers
   hs-source-dirs:      src
   default-language:    Haskell2010
+
+executable time-manager-test
+  main-is:             TimeManagerMain.hs
+  -- other-modules:       
+  -- other-extensions:    
+  build-depends:       base >=4.8 && <5
+                     , time-manager
+  hs-source-dirs:      src
+  default-language:    Haskell2010
