@@ -38,6 +38,7 @@ target
 bin
 vs
 dist
+.stack-work
 dist-newstyle
 build
 **/*.class
