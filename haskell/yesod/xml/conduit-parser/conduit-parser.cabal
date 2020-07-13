@@ -23,7 +23,7 @@ executable conduit-parser
     base          >= 4.8,
     containers    >= 0.5.6.2,
     xml-hamlet    >= 0.5.0   && < 0.6.0.0,
-    xml-conduit   >= 1.5.0   && < 1.8.0
+    xml-conduit   >= 1.5.0   && < 1.9.0
 
   hs-source-dirs:      src
   default-language:    Haskell2010
