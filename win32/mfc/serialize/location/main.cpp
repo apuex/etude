@@ -16,7 +16,6 @@ int main(int argc, char* argv[]) {
   if(!file.Open(argv[1], CFile::modeCreate | CFile::modeWrite)) {
     std::cout << "Unable to open file: "
 	      << argv[1] << std::endl;
-    AFXDUMP(_T("Unable to open file."));
     exit(1);
   }
 
