@@ -20,6 +20,7 @@ public class CmdLineOpts {
                 .addOption(new Option("U", "username", true, "user name"))
                 .addOption(new Option("P", "password", true, "password"))
                 .addOption(new Option("q", "query", true, "SQL query statement"))
+                .addOption(new Option("d", "decode", true, "try decode blob content"))
                 .addOption(new Option("h", "help", false, "print help message"));
     }
 
@@ -30,6 +31,7 @@ public class CmdLineOpts {
             put("database", "master");
             put("username", "sa");
             put("password", "sa-Passw0rd");
+            put("decode", "false");
             put("query", "select o.location_id as blob_id, o.location_name as blob_name, u.UIWindow as blob_content from realdata_location_name o, CLogObjUI u where o.location_id = u.LogObjID and o.location_id = 10014258");
         }};
     }
