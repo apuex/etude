@@ -52,12 +52,12 @@ public class BlobDumper {
         String blobName = rs.getString("blob_name");
         byte[] input = rs.getBytes("blob_content");
         if(input != null) {
-            Util.runtimeClass.clear();
+            Util util = new Util();
             ConsoleDoc doc = new ConsoleDoc();
             ByteBuffer buffer = ByteBuffer.wrap(input);
             buffer.order(ByteOrder.LITTLE_ENDIAN);
             try {
-                doc.load(buffer);
+                doc.load(util, buffer);
                 // out.printf("[id: %s] length = %s position = %s\n", blobId, buffer.capacity(), buffer.position());
             } catch (Throwable t) {
                 out.printf("[id: %s] length = %s position = %s, %s\n", blobId, buffer.capacity(), buffer.position(), t.getMessage());
