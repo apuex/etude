@@ -25,7 +25,7 @@ extractConfig conf =
         o <- C.lookup conf "mq-broker.port" :: IO (Maybe Int)
         return (maybe opts (\ x -> opts { CL.mqBrokerPort = fromIntegral x }) o)
     , \ opts -> do
-        o <- C.lookup conf "mq-broker.user" :: IO (Maybe String)
+        o <- C.lookup conf "mq-broker.username" :: IO (Maybe String)
         return (maybe opts (\ x -> opts { CL.mqBrokerUser = x }) o)
     , \ opts -> do
         o <- C.lookup conf "mq-broker.password" :: IO (Maybe String)
