@@ -31,6 +31,7 @@ executable amqp-ex1
                      , filepath
                      , hostname
                      , mtl
+                     , network
                      , shakespeare
                      , split
                      , text

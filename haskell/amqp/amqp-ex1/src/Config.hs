@@ -7,6 +7,7 @@ import           Data.Maybe
 import qualified Data.Configurator       as C
 import qualified Data.Configurator.Types as C
 import qualified CmdLine                 as CL
+import           Network.Socket
 import           System.Directory
 import           System.Environment
 import           System.FilePath
@@ -18,10 +19,19 @@ extractConfig conf =
         o <- C.lookup conf "working-dir" :: IO (Maybe String)
         return (opts { CL.workingDir = fromMaybe (CL.workingDir opts) o})
     , \ opts -> do
-        o <- C.lookup conf "mq-broker.cluster" :: IO (Maybe [String])
-        return (maybe opts (\ x -> opts { CL.mqBrokerCluster = x }) o)
+        o <- C.lookup conf "mq-broker.host" :: IO (Maybe String)
+        return (maybe opts (\ x -> opts { CL.mqBrokerHost = x }) o)
     , \ opts -> do
-        o <- C.lookup conf "broker.response-dest" :: IO (Maybe String)
+        o <- C.lookup conf "mq-broker.port" :: IO (Maybe Int)
+        return (maybe opts (\ x -> opts { CL.mqBrokerPort = fromIntegral x }) o)
+    , \ opts -> do
+        o <- C.lookup conf "mq-broker.user" :: IO (Maybe String)
+        return (maybe opts (\ x -> opts { CL.mqBrokerUser = x }) o)
+    , \ opts -> do
+        o <- C.lookup conf "mq-broker.password" :: IO (Maybe String)
+        return (maybe opts (\ x -> opts { CL.mqBrokerPassword = x }) o)
+    , \ opts -> do
+        o <- C.lookup conf "mq-broker.response-dest" :: IO (Maybe String)
         return (maybe opts (\ x -> opts { CL.mqRequestDest = x }) o)
     , \ opts -> do
         o <- C.lookup conf "mq-broker.request-dest" :: IO (Maybe String)
