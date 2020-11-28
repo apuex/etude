@@ -88,7 +88,7 @@ main (int argc, char *argv[])
 
 
   /* Watch stdin (fd 0) to see when it has input. */
-  setvbuf(stdout, NULL, _IONBF, 0);
+  setvbuf (stdout, NULL, _IONBF, 0);
   while (1)
     {
 
@@ -122,7 +122,7 @@ main (int argc, char *argv[])
 	    }
 	  else
 	    {
-	      printf("[%s] nread = %d\n", key, nread);
+	      printf ("[%s] nread = %d\n", key, nread);
 	    }
 	}
       else
