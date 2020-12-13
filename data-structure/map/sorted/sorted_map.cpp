@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <iostream>
+#include <list>
 #include <map>
 #include <string>
 
@@ -27,7 +28,7 @@ int main(int argc, char* argv[]) {
   idx2.insert(make_pair(8, "Joe"));
   idx2.insert(make_pair(6, "Trump"));
 
-  index merged_idx = index();
+  list<index_element> merged_idx = list<index_element>();
 
   merge(idx1.begin(), idx1.end(),
         idx2.begin(), idx2.end(),
