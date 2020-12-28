@@ -2,8 +2,10 @@
 #include <string.h>
 #include <time.h>
 #include <errno.h>
+/*
 #include <linux/rtc.h>
 #include <sys/ioctl.h>
+*/
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -14,10 +16,10 @@ int main() {
   time_t one_year_after;
   struct tm mile_stone = {0};
   double seconds;
-
+/*
   int fd;
   struct rtc_time rt;
-
+*/
   time(&clock);
   memcpy(&mile_stone, localtime(&clock), sizeof(struct tm));
 
