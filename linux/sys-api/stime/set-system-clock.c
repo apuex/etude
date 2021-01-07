@@ -5,10 +5,10 @@
 /*
 #include <linux/rtc.h>
 #include <sys/ioctl.h>
-*/
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
+*/
 
 
 int main() {
