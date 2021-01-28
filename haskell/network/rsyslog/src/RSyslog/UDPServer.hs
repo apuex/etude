@@ -74,6 +74,8 @@ serveLog state host port handlerfunc = withSocketsDo $
 
        -- Bind it to the address we're listening to
        setSocketOption sock ReuseAddr 1
+       setSocketOption sock SendBuffer (64 * 1024)
+       setSocketOption sock RecvBuffer (64 * 1024)
        bind sock (addrAddress serveraddr)
        putMVar (svrSock state) sock
        -- Loop forever processing incoming data.  Ctrl-C to abort.
@@ -82,7 +84,7 @@ serveLog state host port handlerfunc = withSocketsDo $
               do -- Receive one UDP packet, maximum length 10240 bytes,
                  -- and save its content into msg and its source
                  -- IP and port into addr
-                 (msg, addr) <- recvFrom sock 10240
+                 (msg, addr) <- recvFrom sock (1024 * 64)
                  -- Handle it
                  handlerfunc addr msg
                  -- And process more messages
@@ -98,7 +100,7 @@ plainHandler addr msg =
 fileHandler :: ServerState -> HandlerFunc
 fileHandler state addr msg = do
     h <- rotateLogFile state
-    BC.hPutStrLn h $ BC.append (UTF8.fromString $ "[" ++ show addr ++ "] ") msg
+    BC.hPutStrLn h msg
 
 rotateLogFile:: ServerState -> IO (Handle)
 rotateLogFile state = do
