@@ -41,6 +41,8 @@ if(Boost_FOUND)
   link_directories(${Boost_LIBRARY_DIRS})
 endif()
 
+FIND_FILE(stdint stdint.h ${CMAKE_INCLUDE_PATH})
+
 SET(STDINT_EXAMPLE_SRCS
   app/stdint-example.c
 )
