@@ -53,7 +53,7 @@ extra-source-files:  CHANGELOG.md
 
 executable rsyslog-udp
   -- .hs or .lhs file containing the Main module.
-  if os(linux)
+  if os(linux) || os(darwin)
     main-is:          RSyslog/Linux/Main.hs
   if os(windows)
     main-is:          RSyslog/Win32/Main.hs

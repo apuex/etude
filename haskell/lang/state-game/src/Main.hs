@@ -33,5 +33,7 @@ playGame (x:xs) = do
 
 startState = (False, 0)
 
-main = print $ evalState (playGame "caacabcaaacbbcabbab") startState
+main = do
+  print $ evalState (playGame "caacabcaaacbbcabbab") startState
+  print $ evalState (playGame "cbbb") startState
 
