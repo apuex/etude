@@ -48,13 +48,14 @@ int test_less4() {
 }
 
 int main(int argc, char* argv[], char* env[]) {
-  my_assert(test_equal1(), "equal1 test");
-  my_assert(test_equal2(), "equal2 test");
-  my_assert(test_less1(), "less1 test");
-  my_assert(test_less2(), "less2 test");
-  my_assert(test_less3(), "less3 test");
-  my_assert(test_less4(), "less4 test");
+  int result = 1;
+  result = result && my_assert(test_equal1(), "equal1 test");
+  result = result && my_assert(test_equal2(), "equal2 test");
+  result = result && my_assert(test_less1(), "less1 test");
+  result = result && my_assert(test_less2(), "less2 test");
+  result = result && my_assert(test_less3(), "less3 test");
+  result = result && my_assert(test_less4(), "less4 test");
 
-  return 1;
+  return !result;
 }
 

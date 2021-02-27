@@ -42,11 +42,11 @@ SET(KEY_ID_TEST_SRCS
 ADD_EXECUTABLE(key-id-test ${KEY_ID_TEST_SRCS})
 ADD_TEST(NAME key-id-test COMMAND key-id-test)
 
-SET(FAIL_TEST_SRCS 
-  test/fail-test.cpp
-)
-ADD_EXECUTABLE(fail-test ${FAIL_TEST_SRCS})
-ADD_TEST(NAME fail-test COMMAND fail-test)
+#SET(FAIL_TEST_SRCS 
+#  test/fail-test.cpp
+#)
+#ADD_EXECUTABLE(fail-test ${FAIL_TEST_SRCS})
+#ADD_TEST(NAME fail-test COMMAND fail-test)
 
 if(MSVC)
   ADD_DEFINITIONS(-D_WIN32_WINNT=0x0601)
