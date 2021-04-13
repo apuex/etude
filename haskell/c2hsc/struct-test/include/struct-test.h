@@ -2,7 +2,7 @@
 #define __struct_test_included__
 
 typedef struct struct_test {
-  int id;
+  int  id;
   char name[64];
 } struct_test_t;
 
