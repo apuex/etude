@@ -6,13 +6,13 @@ import System.IO
 
 main :: IO ()
 main = do
-    manager <- initialize 10000
+    manager <- initialize 5000000
     let repeatAction = do
             putStrLn "timeout"
             handle <- register manager repeatAction
             return ()
 
-    mapM_ (\ _ -> register manager repeatAction) [1..100]
+    mapM_ (\ _ -> register manager repeatAction) [1..10]
     -- forever $ do
     line1 <- getLine
     putStrLn "time manager stopped"
