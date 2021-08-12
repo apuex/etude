@@ -103,4 +103,18 @@ SQLRowCount returns 5
 5 rows fetched
 SQL> quit
 ```
+or, using connection string with datasource:
+
+```
+$ isql -k DSN=some-mysql-server
++---------------------------------------+
+| Connected!                            |
+|                                       |
+| sql-statement                         |
+| help [tablename]                      |
+| quit                                  |
+|                                       |
++---------------------------------------+
+SQL> quit
+```
 
