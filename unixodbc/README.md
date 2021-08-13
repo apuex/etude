@@ -118,3 +118,31 @@ $ isql -k DSN=some-mysql-server
 SQL> quit
 ```
 
+## creating sqlserver datasource
+creating datasource template
+```
+[gzyd]
+Driver=ODBC Driver 17 for SQL Server
+Server=repository
+Database=gzyd
+Encrypt=no
+```
+install datasource
+```
+sudo odbcinst -i -s -l -f sqlserver-odbc-datasource-template.ini
+```
+connecting to sqlserver datasource with username and password:
+
+```
+$ isql -k "DSN=gzyd;Uid=sa;Pwd=sa-Passw0rd;"
++---------------------------------------+
+| Connected!                            |
+|                                       |
+| sql-statement                         |
+| help [tablename]                      |
+| quit                                  |
+|                                       |
++---------------------------------------+
+SQL> quit
+```
+
