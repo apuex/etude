@@ -1,8 +1,7 @@
 #define UNICODE
 #include <stdint.h>
 #include <stdio.h>
-// #include <time.h> // this is a MUST to make time(time_t *) right!!!
-#include <windows.h>
+#include <time.h> // this is a MUST to make time(time_t *) right!!!
 
 int main(int argc, char *argv[]) {
   printf("sizeof(long)   = %zu\n", sizeof(long));
