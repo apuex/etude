@@ -43,6 +43,7 @@ dist-newstyle
 build
 **/*.class
 **/*.o
+**/*.obj
 **/*.exe
 **/*.dll
 **/*.jar
