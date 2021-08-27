@@ -7,7 +7,7 @@
 
 int main(int argc, char *argv[]) {
 	FILETIME ft;
-	SYSTEMTIME st;
+	SYSTEMTIME st,lt;
 	uint64_t nanosecs;
 	time_t ts;
 	TIME_ZONE_INFORMATION tz;
@@ -24,6 +24,7 @@ int main(int argc, char *argv[]) {
 	wprintf(TEXT("FILETIME(epoch 1601 AD): %lu.%lu\n"), ft.dwHighDateTime, ft.dwLowDateTime);
 	
 	GetSystemTime(&st);
+	GetLocalTime(&lt);
         ts = (nanosecs - EPOCH_DIFF) / 10000000;
 	wprintf(TEXT("time_t = %zu\n"), ts);
 	wprintf(TEXT("SYSTEMTIME(UTC): %04d-%02d-%02d %02d:%02d:%02d.%03d, Weekday: %d\n"),
@@ -37,19 +38,17 @@ int main(int argc, char *argv[]) {
 			st.wDayOfWeek
 			);
 
-	GetLocalTime(&st);
 	wprintf(TEXT("Local Time(%s): %04d-%02d-%02d %02d:%02d:%02d.%03d, Weekday: %d\n"),
 			tz.StandardName,
-			st.wYear,
-			st.wMonth,
-			st.wDay,
-			st.wHour,
-			st.wMinute,
-			st.wSecond,
-			st.wMilliseconds,
-			st.wDayOfWeek
+			lt.wYear,
+			lt.wMonth,
+			lt.wDay,
+			lt.wHour,
+			lt.wMinute,
+			lt.wSecond,
+			lt.wMilliseconds,
+			lt.wDayOfWeek
 			);
-	nanosecs = ((uint64_t)ft.dwHighDateTime << 32) | ft.dwLowDateTime;
 
 	return 0;
 }
