@@ -22,11 +22,11 @@ int main(int argc, char *argv[]) {
 		       (nanosecs / 10000000 - (ts ))
 		       );
 	wprintf(TEXT("FILETIME(epoch 1601 AD): %lu.%lu\n"), ft.dwHighDateTime, ft.dwLowDateTime);
+  ts = (nanosecs - EPOCH_DIFF) / 10000000;
+	wprintf(TEXT("time_t = %zu\n"), ts);
 	
 	GetSystemTime(&st);
 	GetLocalTime(&lt);
-        ts = (nanosecs - EPOCH_DIFF) / 10000000;
-	wprintf(TEXT("time_t = %zu\n"), ts);
 	wprintf(TEXT("SYSTEMTIME(UTC): %04d-%02d-%02d %02d:%02d:%02d.%03d, Weekday: %d\n"),
 			st.wYear,
 			st.wMonth,
