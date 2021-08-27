@@ -1,6 +1,7 @@
 #define UNICODE
 #include <stdint.h>
 #include <stdio.h>
+#include <time.h>
 #include <windows.h>
 
 #define EPOCH_DIFF 116444736000000000 // times 100 nano seconds.
@@ -9,22 +10,25 @@ int main(int argc, char *argv[]) {
   FILETIME ft;
   SYSTEMTIME st, lt;
   uint64_t nanosecs;
-  time_t ts;
+  time_t ts1 = 0x0fffffff00000000;
   TIME_ZONE_INFORMATION tz;
   GetTimeZoneInformation(&tz);
   GetSystemTimeAsFileTime(&ft);
-  time(&ts);
+  time(&ts1);
+  wprintf(TEXT("time(&ts1)        => %zu\n"), ts1);
   nanosecs = ((uint64_t)ft.dwHighDateTime << 32) | ft.dwLowDateTime;
-  wprintf(TEXT("sizeof(long) = %zu\n"), sizeof(long));
+  wprintf(TEXT("sizeof(long)   = %zu\n"), sizeof(long));
+  wprintf(TEXT("sizeof(size_t) = %zu\n"), sizeof(size_t));
   wprintf(TEXT("nanosecs = %zu - time_t = %zu => %zu\n"), 
           nanosecs / 10000000,
-          (ts), 
-          ((nanosecs / 10000000) - (ts)));
+          ts1, 
+          ((nanosecs / 10000000) - ts1));
   wprintf(TEXT("FILETIME(epoch 1601 AD): %lu.%lu\n"), 
           ft.dwHighDateTime,
           ft.dwLowDateTime);
-  ts = (nanosecs - EPOCH_DIFF) / 10000000;
-  wprintf(TEXT("time_t = %zu\n"), ts);
+  wprintf(TEXT("time(&ts1)        => %zu\n"), ts1);
+  ts1 = (nanosecs - EPOCH_DIFF) / 10000000;
+  wprintf(TEXT("calculated time_t => %zu\n"), ts1);
 
   GetSystemTime(&st);
   GetLocalTime(&lt);
