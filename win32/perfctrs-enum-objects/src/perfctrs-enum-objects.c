@@ -52,7 +52,7 @@ pdh_enum_objects(
 	}
       else
         {
-          wprintf (L"malloc: 0x%8lx\n", mszObjectNameList);
+          wprintf (L"malloc: 0x%08p\n", (void*)mszObjectNameList);
         } // if ( NULL != mszObjectNameList ) 
     } // if (PDH_MORE_DATA == status)
 

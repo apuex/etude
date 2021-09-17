@@ -11,7 +11,7 @@ void main(void)
     DWORD_PTR pArgs[] = { (DWORD_PTR)4, (DWORD_PTR)2, (DWORD_PTR)L"Bill",  // %1!*.*s! refers back to the first insertion string in pMessage
          (DWORD_PTR)L"Bob",                                                // %4 refers back to the second insertion string in pMessage
          (DWORD_PTR)6, (DWORD_PTR)L"Bill" };                               // %5!*s! refers back to the third insertion string in pMessage
-    const DWORD size = 100+1;
+#define size 100+1
     WCHAR buffer[size];
 
 
