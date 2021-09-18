@@ -22,14 +22,11 @@ LINK_DIRECTORIES(
   ${LIBRARY_OUTPUT_PATH}
 )
 
-find_package(Threads REQUIRED)
-
 SET(SYNC_MEM_STATUS_SRCS
   src/mem-status.c
 )
 
 ADD_EXECUTABLE(mem-status ${SYNC_MEM_STATUS_SRCS})
-target_link_libraries(mem-status pdh)
 set_property(TARGET mem-status PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
 INSTALL(TARGETS
