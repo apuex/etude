@@ -16,15 +16,15 @@ int main(int argc, char* argv[]) {
                     L"%14!*s! %16!zu!%n"
                     L"%17!*s! %19!zu!%n"
                     L"%20!*s! %21!zu!";
-    DWORD_PTR pArgs[] = {
-           (DWORD_PTR)24, (DWORD_PTR)L"dwMemoryLoad:", ms.dwMemoryLoad, (DWORD_PTR)L"%%",
-           (DWORD_PTR)24, (DWORD_PTR)L"dwTotalPhys:", ms.dwTotalPhys,
-           (DWORD_PTR)24, (DWORD_PTR)L"dwAvailPhys:", ms.dwAvailPhys,
-           (DWORD_PTR)24, (DWORD_PTR)L"dwTotalPageFile:", ms.dwTotalPageFile,
-           (DWORD_PTR)24, (DWORD_PTR)L"dwAvailPageFile:", ms.dwAvailPageFile,
-           (DWORD_PTR)24, (DWORD_PTR)L"dwTotalVirtual:", ms.dwTotalVirtual,
-           (DWORD_PTR)24, (DWORD_PTR)L"dwAvailVirtual:", ms.dwAvailVirtual
-    };
+  DWORD_PTR pArgs[] = {
+    (DWORD_PTR)20, (DWORD_PTR)L"dwMemoryLoad:", ms.dwMemoryLoad, (DWORD_PTR)L"%",
+    (DWORD_PTR)20, (DWORD_PTR)L"dwTotalPhys:", ms.dwTotalPhys,
+    (DWORD_PTR)20, (DWORD_PTR)L"dwAvailPhys:", ms.dwAvailPhys,
+    (DWORD_PTR)20, (DWORD_PTR)L"dwTotalPageFile:", ms.dwTotalPageFile,
+    (DWORD_PTR)20, (DWORD_PTR)L"dwAvailPageFile:", ms.dwAvailPageFile,
+    (DWORD_PTR)20, (DWORD_PTR)L"dwTotalVirtual:", ms.dwTotalVirtual,
+    (DWORD_PTR)20, (DWORD_PTR)L"dwAvailVirtual:", ms.dwAvailVirtual
+  };
 
   if (!FormatMessage(FORMAT_MESSAGE_FROM_STRING | FORMAT_MESSAGE_ARGUMENT_ARRAY,
                      pMessage, 
