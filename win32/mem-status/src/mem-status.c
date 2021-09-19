@@ -6,8 +6,9 @@ int main(int argc, char* argv[]) {
 #define size 1024+1
   WCHAR buffer[size];
 
-  MEMORYSTATUS ms;
-  GlobalMemoryStatus(&ms);
+  MEMORYSTATUSEX ms;
+  ms.dwLength = sizeof(MEMORYSTATUSEX);
+  GlobalMemoryStatusEx(&ms);
 
   LPWSTR pMessage = L"%1!*s! %3!zu!%4%n"
                     L"%5!*s! %7!zu!%n"
@@ -18,12 +19,12 @@ int main(int argc, char* argv[]) {
                     L"%20!*s! %21!zu!";
   DWORD_PTR pArgs[] = {
     (DWORD_PTR)20, (DWORD_PTR)L"dwMemoryLoad:", ms.dwMemoryLoad, (DWORD_PTR)L"%",
-    (DWORD_PTR)20, (DWORD_PTR)L"dwTotalPhys:", ms.dwTotalPhys,
-    (DWORD_PTR)20, (DWORD_PTR)L"dwAvailPhys:", ms.dwAvailPhys,
-    (DWORD_PTR)20, (DWORD_PTR)L"dwTotalPageFile:", ms.dwTotalPageFile,
-    (DWORD_PTR)20, (DWORD_PTR)L"dwAvailPageFile:", ms.dwAvailPageFile,
-    (DWORD_PTR)20, (DWORD_PTR)L"dwTotalVirtual:", ms.dwTotalVirtual,
-    (DWORD_PTR)20, (DWORD_PTR)L"dwAvailVirtual:", ms.dwAvailVirtual
+    (DWORD_PTR)20, (DWORD_PTR)L"ullTotalPhys:", ms.ullTotalPhys,
+    (DWORD_PTR)20, (DWORD_PTR)L"ullAvailPhys:", ms.ullAvailPhys,
+    (DWORD_PTR)20, (DWORD_PTR)L"ullTotalPageFile:", ms.ullTotalPageFile,
+    (DWORD_PTR)20, (DWORD_PTR)L"ullAvailPageFile:", ms.ullAvailPageFile,
+    (DWORD_PTR)20, (DWORD_PTR)L"ullTotalVirtual:", ms.ullTotalVirtual,
+    (DWORD_PTR)20, (DWORD_PTR)L"ullAvailVirtual:", ms.ullAvailVirtual
   };
 
   if (!FormatMessage(FORMAT_MESSAGE_FROM_STRING | FORMAT_MESSAGE_ARGUMENT_ARRAY,
