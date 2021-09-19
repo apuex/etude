@@ -23,6 +23,7 @@ LINK_DIRECTORIES(
 )
 
 set(utilities
+  disk-space
   mem-status
   sys-info
   timezone
