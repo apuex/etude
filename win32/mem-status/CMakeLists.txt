@@ -3,7 +3,7 @@ PROJECT(mem-status C)
 
 if(MSVC)
   SET(CMAKE_CXX_FLAGS "/MT /EHsc")
-  ADD_DEFINITIONS(-D_WIN32_WINNT=_WIN32_WINNT_WS08)
+  ADD_DEFINITIONS(-D_WIN32_WINNT=_WIN32_WINNT_WS03)
   ADD_DEFINITIONS(-D_UNICODE)
   ADD_DEFINITIONS(-DUNICODE)
 endif()
@@ -26,6 +26,7 @@ set(utilities
   mem-status
   sys-info
   timezone
+  version 
 )
 
 foreach(utility ${utilities})

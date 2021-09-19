@@ -2,10 +2,6 @@
 #include <stdio.h>
 
 int main(int argc, char* argv[]) {
-
-#define size 1024+1
-  WCHAR buffer[size];
-
   SYSTEM_INFO  si;
   GetSystemInfo(&si);
   switch (si.wProcessorArchitecture) {
