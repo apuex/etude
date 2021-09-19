@@ -22,22 +22,19 @@ LINK_DIRECTORIES(
   ${LIBRARY_OUTPUT_PATH}
 )
 
-SET(GET_TIMEZONE_SRCS
-  src/timezone.c
+set(utilities
+  mem-status
+  sys-info
+  timezone
 )
 
-ADD_EXECUTABLE(timezone ${GET_TIMEZONE_SRCS})
-set_property(TARGET timezone PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-
-SET(GET_MEM_STATUS_SRCS
-  src/mem-status.c
-)
-
-ADD_EXECUTABLE(mem-status ${GET_MEM_STATUS_SRCS})
-set_property(TARGET mem-status PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+foreach(utility ${utilities})
+  add_executable(${utility} "src/${utility}.c")
+  set_property(TARGET ${utility} PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+endforeach()
 
 INSTALL(TARGETS
-  mem-status
+  ${utilities} 
   CONFIGURATIONS Release
   EXPORT synchronized
   RUNTIME DESTINATION bin
@@ -46,7 +43,7 @@ INSTALL(TARGETS
   )
 
 INSTALL(TARGETS
-  mem-status
+  ${utilities} 
   CONFIGURATIONS Debug
   RUNTIME DESTINATION bin
   LIBRARY DESTINATION lib
