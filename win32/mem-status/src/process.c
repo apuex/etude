@@ -25,15 +25,15 @@ void PrintMemoryInfo( DWORD processID )
   wprintf(L"\nProcess ID: %u, Name: %s\n", processID, ExeName);
   if ( GetProcessMemoryInfo( hProcess, &pmc, sizeof(pmc)) )
   {
-    wprintf(L"\tPageFaultCount             : 0x%08X\n",  pmc.PageFaultCount );
-    wprintf(L"\tPeakWorkingSetSize         : 0x%08zX\n", pmc.PeakWorkingSetSize );
-    wprintf(L"\tWorkingSetSize             : 0x%08zX\n", pmc.WorkingSetSize );
-    wprintf(L"\tQuotaPeakPagedPoolUsage    : 0x%08zX\n", pmc.QuotaPeakPagedPoolUsage );
-    wprintf(L"\tQuotaPagedPoolUsage        : 0x%08zX\n", pmc.QuotaPagedPoolUsage );
-    wprintf(L"\tQuotaPeakNonPagedPoolUsage : 0x%08zX\n", pmc.QuotaPeakNonPagedPoolUsage );
-    wprintf(L"\tQuotaNonPagedPoolUsage     : 0x%08zX\n", pmc.QuotaNonPagedPoolUsage );
-    wprintf(L"\tPagefileUsage              : 0x%08zX\n", pmc.PagefileUsage ); 
-    wprintf(L"\tPeakPagefileUsage          : 0x%08zX\n", pmc.PeakPagefileUsage );
+    wprintf(L"\tPageFaultCount             : %u\n",  pmc.PageFaultCount );
+    wprintf(L"\tPeakWorkingSetSize         : %zu\n", pmc.PeakWorkingSetSize );
+    wprintf(L"\tWorkingSetSize             : %zu\n", pmc.WorkingSetSize );
+    wprintf(L"\tQuotaPeakPagedPoolUsage    : %zu\n", pmc.QuotaPeakPagedPoolUsage );
+    wprintf(L"\tQuotaPagedPoolUsage        : %zu\n", pmc.QuotaPagedPoolUsage );
+    wprintf(L"\tQuotaPeakNonPagedPoolUsage : %zu\n", pmc.QuotaPeakNonPagedPoolUsage );
+    wprintf(L"\tQuotaNonPagedPoolUsage     : %zu\n", pmc.QuotaNonPagedPoolUsage );
+    wprintf(L"\tPagefileUsage              : %zu\n", pmc.PagefileUsage ); 
+    wprintf(L"\tPeakPagefileUsage          : %zu\n", pmc.PeakPagefileUsage );
   }
   
   CloseHandle( hProcess );
