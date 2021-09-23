@@ -3,7 +3,7 @@ PROJECT(mem-status C)
 
 if(MSVC)
   SET(CMAKE_CXX_FLAGS "/MT /EHsc")
-  ADD_DEFINITIONS(-D_WIN32_WINNT=_WIN32_WINNT_WS03)
+  ADD_DEFINITIONS(-D_WIN32_WINNT=_WIN32_WINNT_WS08)
   ADD_DEFINITIONS(-D_UNICODE)
   ADD_DEFINITIONS(-DUNICODE)
 endif()
@@ -25,6 +25,7 @@ LINK_DIRECTORIES(
 set(utilities
   disk-space
   mem-status
+  process
   sys-info
   timezone
   version 
@@ -33,6 +34,7 @@ set(utilities
 
 foreach(utility ${utilities})
   add_executable(${utility} "src/${utility}.c")
+  target_link_libraries(${utility} psapi)
   set_property(TARGET ${utility} PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 endforeach()
 
