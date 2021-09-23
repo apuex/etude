@@ -28,6 +28,7 @@ set(utilities
   sys-info
   timezone
   version 
+  volume
 )
 
 foreach(utility ${utilities})
