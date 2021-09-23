@@ -45,9 +45,6 @@ int main(int argc, char* argv[]) {
   DWORD ProcessIdByteCount = 0;
   LPWSTR pMessage = L"%1!zu! %2!s!";
 
-#define BUFF_SIZE 1024+1
-  WCHAR buffer[BUFF_SIZE] = { 0 };
-
   if (EnumProcesses(ProcessIds, sizeof(ProcessIds), &ProcessIdByteCount)) {
     ProcessIdCount = ProcessIdByteCount/sizeof(DWORD);
     wprintf(L"Process ID count: %lu\n", ProcessIdCount);
@@ -56,6 +53,9 @@ int main(int argc, char* argv[]) {
     }
   }
   else {
+#define BUFF_SIZE 1024+1
+    WCHAR buffer[BUFF_SIZE] = { 0 };
+
     FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM
       , NULL
       , GetLastError()
