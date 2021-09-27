@@ -1,0 +1,40 @@
+cmake_minimum_required(VERSION 2.8...3.20)
+
+set(CMAKE_ASM_MASM_LINK_EXECUTABLE "<CMAKE_LINKER> <FLAGS> <CMAKE_ASM_MASM_LINK_FLAGS> <LINK_FLAGS> <OBJECTS> /OUT:<TARGET> <LINK_LIBRARIES> /ENTRY:main")
+set(CMAKE_RC_COMPILE_OBJECT        "$ENV{RC} <DEFINES> <INCLUDES> <FLAGS> /r /Fo<OBJECT> <SOURCE>")
+
+project(hello C ASM_MASM)
+
+include_directories(
+  include
+  ${INCLUDE_DIRECTORIES}
+  ${CMAKE_INSTALL_PREFIX}/include
+)
+
+link_directories(
+  ${LINK_DIRECTORIES}
+  ${CMAKE_INSTALL_PREFIX}/lib
+)
+
+set(HELLO_SRCS
+  hello.asm
+  )
+
+add_executable(hello-asm ${HELLO_SRCS})
+
+install(TARGETS
+  hello-asm
+  CONFIGURATIONS Release
+  RUNTIME DESTINATION bin
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+  )
+
+install(TARGETS
+  hello-asm
+  CONFIGURATIONS Debug
+  RUNTIME DESTINATION bin
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib)
+
+

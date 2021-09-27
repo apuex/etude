@@ -1,0 +1,54 @@
+cmake_minimum_required(VERSION 2.8...3.20)
+project(trivial C)
+
+ADD_DEFINITIONS(-D_WIN32_WINNT=_WIN32_WINNT_WS03)
+ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS)
+ADD_DEFINITIONS(-D_UNICODE)
+ADD_DEFINITIONS(-DUNICODE)
+
+set(CompilerFlags
+        CMAKE_CXX_FLAGS
+        CMAKE_CXX_FLAGS_DEBUG
+        CMAKE_CXX_FLAGS_RELEASE
+        CMAKE_C_FLAGS
+        CMAKE_C_FLAGS_DEBUG
+        CMAKE_C_FLAGS_RELEASE
+        )
+foreach(CompilerFlag ${CompilerFlags})
+  string(REPLACE "/MD" "/MT" ${CompilerFlag} "${${CompilerFlag}}")
+endforeach()
+
+include_directories(
+  include
+  ${INCLUDE_DIRECTORIES}
+  ${CMAKE_INSTALL_PREFIX}/include
+)
+
+link_directories(
+  ${LINK_DIRECTORIES}
+  ${CMAKE_INSTALL_PREFIX}/lib
+)
+
+set(TRIVIAL_SRCS
+  trivial.c
+  )
+
+add_executable(trivial WIN32 ${TRIVIAL_SRCS})
+target_link_libraries(trivial user32)
+
+install(TARGETS
+  trivial
+  CONFIGURATIONS Release
+  RUNTIME DESTINATION bin
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+  )
+
+install(TARGETS
+  trivial
+  CONFIGURATIONS Debug
+  RUNTIME DESTINATION bin
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib)
+
+
