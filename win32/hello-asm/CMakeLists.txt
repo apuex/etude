@@ -5,6 +5,23 @@ set(CMAKE_RC_COMPILE_OBJECT        "$ENV{RC} <DEFINES> <INCLUDES> <FLAGS> /r /Fo
 
 project(hello C ASM_MASM)
 
+ADD_DEFINITIONS(-D_WIN32_WINNT=_WIN32_WINNT_WS03)
+ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS)
+ADD_DEFINITIONS(-D_UNICODE)
+ADD_DEFINITIONS(-DUNICODE)
+
+set(CompilerFlags
+        CMAKE_CXX_FLAGS
+        CMAKE_CXX_FLAGS_DEBUG
+        CMAKE_CXX_FLAGS_RELEASE
+        CMAKE_C_FLAGS
+        CMAKE_C_FLAGS_DEBUG
+        CMAKE_C_FLAGS_RELEASE
+        )
+foreach(CompilerFlag ${CompilerFlags})
+  string(REPLACE "/MD" "/MT" ${CompilerFlag} "${${CompilerFlag}}")
+endforeach()
+
 include_directories(
   include
   ${INCLUDE_DIRECTORIES}
@@ -18,6 +35,7 @@ link_directories(
 
 set(HELLO_SRCS
   hello.asm
+  helloc.c
   )
 
 add_executable(hello-asm ${HELLO_SRCS})

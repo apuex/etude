@@ -1,6 +1,7 @@
                 includelib    kernel32.lib
 GetStdHandle    proto                       ; Function to retrieve I/O handle
 WriteConsoleA   proto                       ; Function to write to console
+helloc          proto                       ; C Function to write to console
 ExitProcess     proto                       ; Function to exit process
 Console         equ     -11                 ; Device code for console output.
 
@@ -20,6 +21,8 @@ main            proc
                 lea     R9, nbwr
                 call    WriteConsoleA
                 
+                mov     RCX, stdout
+                call    helloc
                 add     RSP, 40             ; Replace "shadow space" on stack        
                 mov     RCX, 0
                 call    ExitProcess
