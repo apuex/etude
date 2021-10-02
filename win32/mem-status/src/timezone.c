@@ -33,6 +33,7 @@ int main(int argc, char* argv[]) {
     , tz.DaylightName
   );
 
+  {
   LPWSTR pMessage = L"%1!*s! %3!ld!%n"
                     L"%4!*s! %6%n"
                     L"%7!*s! %9!04d!-%10!02d!-%11!02d! %12!02d!:%13!02d!:%14!02d!.%15!03d!%n"
@@ -61,6 +62,7 @@ int main(int argc, char* argv[]) {
   } else {
     //MessageBox(NULL, buffer, L"Memory Status", MB_OK);
     wprintf(L"Current Timezone:\n%s\n", buffer);
+  }
   }
 
   return 0;

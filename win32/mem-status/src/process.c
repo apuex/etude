@@ -15,25 +15,24 @@ void PrintMemoryInfo( DWORD processID )
     FALSE, processID );
   if (NULL == hProcess) return;
 
-  if (FALSE == QueryFullProcessImageName( hProcess
-                                        , 0             // PROCESS_NAME_NATIVE
+  if (FALSE == GetProcessImageFileName( hProcess
                                         , ExeName
-                                        , &ExeNameLen)
+                                        , ExeNameLen)
                                         ) return;
   
   // Print the process identifier.
-  wprintf(L"\nProcess ID: %u, Name: %s\n", processID, ExeName);
+  wprintf(L"\nProcess ID: %lu, Name: %s\n", processID, ExeName);
   if ( GetProcessMemoryInfo( hProcess, &pmc, sizeof(pmc)) )
   {
     wprintf(L"\tPageFaultCount             : %u\n",  pmc.PageFaultCount );
-    wprintf(L"\tPeakWorkingSetSize         : %zu\n", pmc.PeakWorkingSetSize );
-    wprintf(L"\tWorkingSetSize             : %zu\n", pmc.WorkingSetSize );
-    wprintf(L"\tQuotaPeakPagedPoolUsage    : %zu\n", pmc.QuotaPeakPagedPoolUsage );
-    wprintf(L"\tQuotaPagedPoolUsage        : %zu\n", pmc.QuotaPagedPoolUsage );
-    wprintf(L"\tQuotaPeakNonPagedPoolUsage : %zu\n", pmc.QuotaPeakNonPagedPoolUsage );
-    wprintf(L"\tQuotaNonPagedPoolUsage     : %zu\n", pmc.QuotaNonPagedPoolUsage );
-    wprintf(L"\tPagefileUsage              : %zu\n", pmc.PagefileUsage ); 
-    wprintf(L"\tPeakPagefileUsage          : %zu\n", pmc.PeakPagefileUsage );
+    wprintf(L"\tPeakWorkingSetSize         : %llu\n", pmc.PeakWorkingSetSize );
+    wprintf(L"\tWorkingSetSize             : %llu\n", pmc.WorkingSetSize );
+    wprintf(L"\tQuotaPeakPagedPoolUsage    : %llu\n", pmc.QuotaPeakPagedPoolUsage );
+    wprintf(L"\tQuotaPagedPoolUsage        : %llu\n", pmc.QuotaPagedPoolUsage );
+    wprintf(L"\tQuotaPeakNonPagedPoolUsage : %llu\n", pmc.QuotaPeakNonPagedPoolUsage );
+    wprintf(L"\tQuotaNonPagedPoolUsage     : %llu\n", pmc.QuotaNonPagedPoolUsage );
+    wprintf(L"\tPagefileUsage              : %llu\n", pmc.PagefileUsage ); 
+    wprintf(L"\tPeakPagefileUsage          : %llu\n", pmc.PeakPagefileUsage );
   }
   
   CloseHandle( hProcess );
@@ -43,12 +42,13 @@ int main(int argc, char* argv[]) {
   DWORD ProcessIds[8192] = {0};
   DWORD ProcessIdCount = 0;
   DWORD ProcessIdByteCount = 0;
-  LPWSTR pMessage = L"%1!zu! %2!s!";
+  LPWSTR pMessage = L"%1!llu! %2!s!";
+  DWORD i;
 
   if (EnumProcesses(ProcessIds, sizeof(ProcessIds), &ProcessIdByteCount)) {
     ProcessIdCount = ProcessIdByteCount/sizeof(DWORD);
     wprintf(L"Process ID count: %lu\n", ProcessIdCount);
-    for (DWORD i = 0; i != ProcessIdCount; ++i) {
+    for (i = 0; i != ProcessIdCount; ++i) {
       PrintMemoryInfo(ProcessIds[i]);
     }
   }

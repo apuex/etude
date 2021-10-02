@@ -3,6 +3,9 @@
 
 int main(int argc, char* argv[]) {
   OSVERSIONINFO  osver;
+  OSVERSIONINFOEXW osvi = { sizeof(osvi), 0, 0, 0, 0, {0}, 0, 0 };
+  DWORDLONG dwlConditionMask = 0;
+  BOOL ok = FALSE;
   osver.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
   GetVersionEx(&osver);
 
@@ -24,8 +27,7 @@ int main(int argc, char* argv[]) {
     , osver.dwBuildNumber
     , osver.szCSDVersion);
 
-  OSVERSIONINFOEXW osvi = { sizeof(osvi), 0, 0, 0, 0, {0}, 0, 0 };
-  DWORDLONG        const dwlConditionMask = VerSetConditionMask(
+  dwlConditionMask = VerSetConditionMask(
     VerSetConditionMask(
       VerSetConditionMask(
         0, VER_MAJORVERSION, VER_GREATER_EQUAL),
@@ -36,7 +38,7 @@ int main(int argc, char* argv[]) {
   osvi.dwMinorVersion = 2;
   osvi.wServicePackMajor = 0;
 
-  BOOL ok = VerifyVersionInfoW(&osvi, VER_MAJORVERSION | VER_MINORVERSION | VER_SERVICEPACKMAJOR, dwlConditionMask) != FALSE;
+  ok = VerifyVersionInfoW(&osvi, VER_MAJORVERSION | VER_MINORVERSION | VER_SERVICEPACKMAJOR, dwlConditionMask) != FALSE;
   wprintf(L"ok = %d\n", ok);
 
   return 0;
