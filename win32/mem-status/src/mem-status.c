@@ -9,7 +9,10 @@ int main(int argc, char* argv[]) {
 
   MEMORYSTATUSEX ms = {0};
 
-  LPWSTR pMessage = L"%1!*s! %3!llu!%4%n"
+  ms.dwLength = sizeof(MEMORYSTATUSEX);
+  GlobalMemoryStatusEx(&ms);
+
+  LPWSTR pMessage = L"%1!*s! %3!u!%4%n"
                     L"%5!*s! %7!llu!%n"
                     L"%8!*s! %10!llu!%n"
                     L"%11!*s! %13!llu!%n"
@@ -26,9 +29,6 @@ int main(int argc, char* argv[]) {
     (DWORD_PTR)20, (DWORD_PTR)L"ullTotalVirtual:", ms.ullTotalVirtual,
     (DWORD_PTR)20, (DWORD_PTR)L"ullAvailVirtual:", ms.ullAvailVirtual
   };
-
-  ms.dwLength = sizeof(MEMORYSTATUSEX);
-  GlobalMemoryStatusEx(&ms);
 
   if (!FormatMessage(FORMAT_MESSAGE_FROM_STRING | FORMAT_MESSAGE_ARGUMENT_ARRAY,
                      pMessage, 
