@@ -7,11 +7,30 @@ int main(int argc, char* argv[]) {
   WCHAR buffer[size];
 
   TIME_ZONE_INFORMATION tz;
+  TIME_ZONE_INFORMATION tziOld;
+  DWORD dwRet = 0;
+
+  ZeroMemory(&tz, sizeof(tz));
   GetTimeZoneInformation(&tz);
 
-  wprintf(L"Bias: %d\n", tz.Bias);
-  wprintf(L"StandardBias: %d\n", tz.StandardBias);
-  wprintf(L"Standard Date %04d-%02d-%02d %02d:%02d:%02d.%03d %s\n"
+   ZeroMemory(&tziOld, sizeof(tziOld));
+   dwRet = GetTimeZoneInformation(&tziOld);
+
+   if( dwRet == TIME_ZONE_ID_STANDARD )    
+      wprintf(L"%ls\n", tziOld.StandardName);
+   else if( dwRet == TIME_ZONE_ID_DAYLIGHT )
+      wprintf(L"%ls\n", tziOld.DaylightName);
+   else
+   {
+      printf("GTZI failed (GetLastError()=0x%I32X, dwRet=0x%I32X, TIME_ZONE_ID_INVALID=0x%I32X)\n", GetLastError(), TIME_ZONE_ID_INVALID);
+      wprintf(L"tziOld.Bias: %ld\n", tziOld.Bias);
+      return 0;
+   }
+
+  wprintf(L"Bias         : %ld\n", tz.Bias);
+  wprintf(L"StandardBias : %ld\n", tz.StandardBias);
+  wprintf(L"StandardName : %ls\n", tz.StandardName);
+  wprintf(L"Standard Date: %04d-%02d-%02d %02d:%02d:%02d.%03d %ls\n"
     , tz.StandardDate.wYear
     , tz.StandardDate.wMonth
     , tz.StandardDate.wDay
@@ -22,7 +41,7 @@ int main(int argc, char* argv[]) {
     , tz.StandardName
   );
 
-  wprintf(L"Daylight Date: %04d-%02d-%02d %02d:%02d:%02d.%03d %s\n"
+  wprintf(L"Daylight Date: %04u-%02u-%02u %02u:%02u:%02u.%03u %ls\n"
     , tz.DaylightDate.wYear
     , tz.DaylightDate.wMonth
     , tz.DaylightDate.wDay

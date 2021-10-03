@@ -8,17 +8,16 @@ int main(int argc, char* argv[]) {
   WCHAR buffer[size];
 
   MEMORYSTATUSEX ms = {0};
-
   ms.dwLength = sizeof(MEMORYSTATUSEX);
   GlobalMemoryStatusEx(&ms);
-
-  LPWSTR pMessage = L"%1!*s! %3!u!%4%n"
-                    L"%5!*s! %7!llu!%n"
-                    L"%8!*s! %10!llu!%n"
-                    L"%11!*s! %13!llu!%n"
-                    L"%14!*s! %16!llu!%n"
-                    L"%17!*s! %19!llu!%n"
-                    L"%20!*s! %21!llu!";
+  {
+  LPWSTR pMessage = L"%1!*s! %3!I32u!%4%n"
+                    L"%5!*s! %7!I64u!%n"
+                    L"%8!*s! %10!I64u!%n"
+                    L"%11!*s! %13!I64u!%n"
+                    L"%14!*s! %16!I64u!%n"
+                    L"%17!*s! %19!I64u!%n"
+                    L"%20!*s! %21!I64u!";
 
   DWORD_PTR pArgs[] = {
     (DWORD_PTR)20, (DWORD_PTR)L"dwMemoryLoad:", ms.dwMemoryLoad, (DWORD_PTR)L"%",
@@ -41,6 +40,7 @@ int main(int argc, char* argv[]) {
   } else {
     //MessageBox(NULL, buffer, L"Memory Status", MB_OK);
     wprintf(L"Memory Status:\n%s\n", buffer);
+  }
   }
 
   return 0;

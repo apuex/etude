@@ -34,7 +34,7 @@ int main(int argc, char* argv[]) {
       VER_MINORVERSION, VER_GREATER_EQUAL),
     VER_SERVICEPACKMAJOR, VER_GREATER_EQUAL);
 
-  osvi.dwMajorVersion = 6;
+  osvi.dwMajorVersion = 5;
   osvi.dwMinorVersion = 2;
   osvi.wServicePackMajor = 0;
 

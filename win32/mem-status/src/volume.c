@@ -46,9 +46,9 @@ int main(int argc, char* argv[]) {
         if (0 == wcsncmp(L"\\Device\\HarddiskVolume", DeviceName, 22))
         {
           if (GetDiskFreeSpaceEx(DriverPathName, &available, &total, &free)) {
-            wprintf(L"              total: %llu\n", total.QuadPart);
-            wprintf(L"               free: %llu\n", free.QuadPart);
-            wprintf(L"  available to user: %llu\n", available.QuadPart);
+            wprintf(L"              total: %I64d\n", total.QuadPart);
+            wprintf(L"               free: %I64d\n", free.QuadPart);
+            wprintf(L"  available to user: %I64d\n", available.QuadPart);
           }
         }
       }
