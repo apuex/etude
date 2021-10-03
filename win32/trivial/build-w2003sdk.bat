@@ -1,5 +1,5 @@
 cmake -G "NMake Makefiles" ^
- -DCMAKE_C_COMPILER=clang-cl ^
+ -DCMAKE_C_COMPILER=cl ^
  -DCMAKE_C_FLAGS_DEBUG="/MD" ^
  -DCMAKE_C_FLAGS_RELEASE="/MD /O2 /DNDEBUG" ^
  -DCMAKE_EXE_LINKER_FLAGS="/machine:amd64" ^
