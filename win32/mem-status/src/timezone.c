@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
       wprintf(L"%ls\n", tziOld.DaylightName);
    else
    {
-      printf("GTZI failed (GetLastError()=0x%I32X, dwRet=0x%I32X, TIME_ZONE_ID_INVALID=0x%I32X)\n", GetLastError(), TIME_ZONE_ID_INVALID);
+      printf("GTZI failed (GetLastError()=0x%I32X, dwRet=0x%I32X, TIME_ZONE_ID_INVALID=0x%I32X)\n", GetLastError(), dwRet, TIME_ZONE_ID_INVALID);
       wprintf(L"tziOld.Bias: %ld\n", tziOld.Bias);
       return 0;
    }

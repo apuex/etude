@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <iostream>
+#include <iterator>
 #include <list>
 #include <map>
 #include <string>
@@ -32,6 +33,7 @@ int main(int argc, char* argv[]) {
 
   merge(idx1.begin(), idx1.end(),
         idx2.begin(), idx2.end(),
+        //insert_iterator<list<index_element> >(merged_idx, merged_idx.begin()));
         inserter(merged_idx, merged_idx.begin()));
 
   for_each(merged_idx.begin(), merged_idx.end(), [] (const index_element& e) {

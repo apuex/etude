@@ -2,7 +2,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8...3.20)
 PROJECT(mem-status C)
 
 if(MSVC)
-  ADD_DEFINITIONS(-D_WIN32_WINNT=0x0501)
+  ADD_DEFINITIONS(-D_WIN32_WINNT=0x0502)
   ADD_DEFINITIONS(-D_UNICODE)
   ADD_DEFINITIONS(-DUNICODE)
 endif()
@@ -34,7 +34,6 @@ set(utilities
 foreach(utility ${utilities})
   add_executable(${utility} "src/${utility}.c")
   target_link_libraries(${utility} psapi)
-  set_property(TARGET ${utility} PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 endforeach()
 
 INSTALL(TARGETS
