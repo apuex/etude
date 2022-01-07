@@ -128,7 +128,7 @@
     <source.encoding>UTF-8</source.encoding>
     <junit.version>4.12</junit.version>
     <joda-time.version>2.9.4</joda-time.version>
-    <protobuf-java.version>3.6.0</protobuf-java.version>
+    <protobuf-java.version>3.16.1</protobuf-java.version>
 
     <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
     <maven-jar-plugin.version>2.4</maven-jar-plugin.version>
