@@ -1,0 +1,1 @@
+java -jar target\su-client-1.0.0.jar {http://SUService.chinaunicom.com/}SUService http://127.0.0.1:8080/services/FSUService?wsdl D:\Wangxy\github\apuex\etude\java\webservices\soap\fsu-client\src\main\resources\GetFsuInfoRequest.xml
