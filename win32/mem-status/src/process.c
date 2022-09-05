@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <psapi.h>
 
+#define BUFF_SIZE 1024+1
+
 void PrintMemoryInfo( DWORD processID )
 {
   HANDLE hProcess;
@@ -13,12 +15,42 @@ void PrintMemoryInfo( DWORD processID )
   hProcess = OpenProcess(  PROCESS_QUERY_INFORMATION |
     PROCESS_VM_READ,
     FALSE, processID );
-  if (NULL == hProcess) return;
+  if (NULL == hProcess) {
+    WCHAR buffer[BUFF_SIZE] = { 0 };
+    printf("open process id: %u failed.\n", processID);
+
+    FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM
+      , NULL
+      , GetLastError()
+      , 0
+      , buffer
+      , BUFF_SIZE
+      , NULL
+    );
+    wprintf(L"%s\n", buffer);
+
+    return;
+  }
 
   if (FALSE == GetProcessImageFileName( hProcess
                                         , ExeName
                                         , ExeNameLen)
-                                        ) return;
+                                        ) {
+    WCHAR buffer[BUFF_SIZE] = { 0 };
+    printf("GetProcessImageFileName() for id: %u failed.\n", processID);
+
+    FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM
+      , NULL
+      , GetLastError()
+      , 0
+      , buffer
+      , BUFF_SIZE
+      , NULL
+    );
+    wprintf(L"%s\n", buffer);
+
+    return;
+  }
   
   // Print the process identifier.
   wprintf(L"\nProcess ID: %lu, Name: %s\n", processID, ExeName);
@@ -53,7 +85,6 @@ int main(int argc, char* argv[]) {
     }
   }
   else {
-#define BUFF_SIZE 1024+1
     WCHAR buffer[BUFF_SIZE] = { 0 };
 
     FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM

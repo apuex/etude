@@ -6,6 +6,6 @@ cmake -G "NMake Makefiles" ^
  -DCMAKE_MODULE_LINKER_FLAGS="/machine:amd64" ^
  -DCMAKE_STATIC_LINKER_FLAGS="/machine:amd64" ^
  -DCMAKE_BUILD_TYPE=Release ^
- -DCMAKE_INSTALL_PREFIX=C:\usr ^
+ -DCMAKE_INSTALL_PREFIX=E:\usr64 ^
  ..
 
