@@ -29,9 +29,9 @@ int main(int argc, char* argv[]) {
   }
 
   wprintf(L"        code page: %u\n", GetACP());
-  wprintf(L"            total: %I64d\n", total.QuadPart);
-  wprintf(L"             free: %I64d\n", free.QuadPart);
-  wprintf(L"available to user: %I64d\n", available.QuadPart);
+  wprintf(L"            total: %I64u\n", total.QuadPart);
+  wprintf(L"             free: %I64u\n", free.QuadPart);
+  wprintf(L"available to user: %I64u\n", available.QuadPart);
 
   return 0;
 }

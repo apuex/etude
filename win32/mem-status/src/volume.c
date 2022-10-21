@@ -4,6 +4,7 @@
 int main(int argc, char* argv[]) {
   HANDLE volHandle = INVALID_HANDLE_VALUE;
   BOOL found = TRUE;
+
   WCHAR VolumeName[MAX_PATH] = L"";
   WCHAR  DeviceName[MAX_PATH] = L"";
   WCHAR  PathName[MAX_PATH + 1] = L"";
@@ -45,10 +46,13 @@ int main(int argc, char* argv[]) {
         wprintf(L"  %s\n", DriverPathName);
         if (0 == wcsncmp(L"\\Device\\HarddiskVolume", DeviceName, 22))
         {
+          memset(&available, 0, sizeof(available));
+          memset(&available, 0, sizeof(total));
+          memset(&available, 0, sizeof(free));
           if (GetDiskFreeSpaceEx(DriverPathName, &available, &total, &free)) {
-            wprintf(L"              total: %I64d\n", total.QuadPart);
-            wprintf(L"               free: %I64d\n", free.QuadPart);
-            wprintf(L"  available to user: %I64d\n", available.QuadPart);
+            wprintf(L"              total: %I64u\n", total.QuadPart);
+            wprintf(L"               free: %I64u\n", free.QuadPart);
+            wprintf(L"  available to user: %I64u\n", available.QuadPart);
           }
         }
       }

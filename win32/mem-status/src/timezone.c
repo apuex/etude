@@ -20,11 +20,13 @@ int main(int argc, char* argv[]) {
       wprintf(L"%ls\n", tziOld.StandardName);
    else if( dwRet == TIME_ZONE_ID_DAYLIGHT )
       wprintf(L"%ls\n", tziOld.DaylightName);
+   else if( dwRet == TIME_ZONE_ID_UNKNOWN )
+      wprintf(L"%ls\n", tziOld.DaylightName);
    else
    {
       printf("GTZI failed (GetLastError()=0x%I32X, dwRet=0x%I32X, TIME_ZONE_ID_INVALID=0x%I32X)\n", GetLastError(), dwRet, TIME_ZONE_ID_INVALID);
       wprintf(L"tziOld.Bias: %ld\n", tziOld.Bias);
-      return 0;
+      //return 0;
    }
 
   wprintf(L"Bias         : %ld\n", tz.Bias);

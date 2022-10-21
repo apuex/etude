@@ -1,0 +1,8 @@
+cmake -G "NMake Makefiles" ^
+ -DCMAKE_C_COMPILER=cl ^
+ -DCMAKE_C_FLAGS_DEBUG="/MD /GS-" ^
+ -DCMAKE_C_FLAGS_RELEASE="/MT /O2 /DNDEBUG" ^
+ -DCMAKE_BUILD_TYPE=Release ^
+ -DCMAKE_INSTALL_PREFIX=E:\usr32 ^
+ ..
+

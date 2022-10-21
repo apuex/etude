@@ -1,15 +1,13 @@
 cmake_minimum_required(VERSION 2.8...3.20)
 
-set(CMAKE_ASM_MASM_LINK_EXECUTABLE "<CMAKE_LINKER> <FLAGS> <CMAKE_ASM_MASM_LINK_FLAGS> <LINK_FLAGS> <OBJECTS> /OUT:<TARGET> <LINK_LIBRARIES> /ENTRY:main")
-set(CMAKE_RC_COMPILE_OBJECT        "$ENV{RC} <DEFINES> <INCLUDES> <FLAGS> /r /Fo<OBJECT> <SOURCE>")
-
-project(hello C ASM_MASM)
+project(trivial CXX)
 
 ADD_DEFINITIONS(-D_WIN32_WINNT=0x0502)
 ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS)
 ADD_DEFINITIONS(-D_UNICODE)
 ADD_DEFINITIONS(-DUNICODE)
-ADD_DEFINITIONS(-DUSE_MSVCRT=1)
+
+SET(CMAKE_CXX_FLAGS "/EHsc")
 
 include_directories(
   include
@@ -22,15 +20,18 @@ link_directories(
   ${CMAKE_INSTALL_PREFIX}/lib
 )
 
-set(HELLO_SRCS
-  hello.asm
-  helloc.c
+set(TRIVIAL_SRCS
+  trivial.cpp
   )
 
-add_executable(hello-asm ${HELLO_SRCS})
+add_executable(trivial WIN32 ${TRIVIAL_SRCS})
+target_link_libraries(trivial user32)
+
+INCLUDE(CTest)
+ENABLE_TESTING()
 
 install(TARGETS
-  hello-asm
+  trivial
   CONFIGURATIONS Release
   RUNTIME DESTINATION bin
   LIBRARY DESTINATION lib
@@ -38,7 +39,7 @@ install(TARGETS
   )
 
 install(TARGETS
-  hello-asm
+  trivial
   CONFIGURATIONS Debug
   RUNTIME DESTINATION bin
   LIBRARY DESTINATION lib
