@@ -22,7 +22,11 @@
 static int read_exact(byte *buffer, int len)
 {
     HANDLE standard_input = GetStdHandle(STD_INPUT_HANDLE);
+#ifdef ECHO
+    HANDLE standard_output = GetStdHandle(STD_OUTPUT_HANDLE);
     
+    unsigned write_result;
+#endif
     unsigned read_result;
     unsigned sofar = 0;
     
@@ -39,6 +43,12 @@ static int read_exact(byte *buffer, int len)
 	}
 	sofar += read_result;
 	if (sofar == len) {
+#ifdef ECHO
+	    if (!WriteFile(standard_output, buffer,
+			len, &write_result, NULL)) {
+		//return -1; /* EOF */
+  	    }
+#endif
 	    return len;
 	}
     }
@@ -64,7 +74,7 @@ int main(int argc, char* argv[]) {
   int state = 0;
   char buff[1];
   if(argc != 2) return EXIT_FAILURE;
-  FILE *fp = fopen(argv[1], "w+");
+  FILE *fp = fopen(argv[1], "ab");
   if(NULL == fp) return EXIT_FAILURE;
 
 #ifdef WIN32
@@ -77,6 +87,7 @@ int main(int argc, char* argv[]) {
     if(n > 0) {
       for(int i = 0; i != n && i != sizeof(buff); ++i) {
         fprintf(fp, "%02X ", (0xff & buff[i]));
+	// fprintf(fp, "state = %d, term_idx = %d, n = %d, i = %d.\r\n", state, term_idx, n, i);
 	switch(state) {
         case 0: term_len_buf[0] = buff[i];
           state = 1;
@@ -90,17 +101,21 @@ int main(int argc, char* argv[]) {
           term_idx += 1;
           if(term_idx == term_len) {
 	    state = 0;
-	    fprintf(fp, "\n");
+	    fprintf(fp, "\r\n");
+            fflush(fp);
 	  }
           break;
         default:
+	  fprintf(fp, "\r\nstate = %d\r\n", state);
+	  state = 0;
+          term_idx = 0;
           break;
 	}
         fflush(fp);
       }
     } else if( n == 0) {
     } else {
-      fprintf(fp, "terminated.\n");
+      fprintf(fp, "terminated.\r\n");
       break;
     }
   }
