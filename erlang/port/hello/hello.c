@@ -16,6 +16,10 @@
 
 #include <limits.h>
 
+#ifdef PRINT_TERM 
+#include <ei.h>
+#include <erl_interface.h>
+#endif
 
 /* read from stdin */ 
 #ifdef WIN32
@@ -68,39 +72,51 @@ static int read_exact(byte *buffer, int len) {
 #endif
 
 int main(int argc, char* argv[]) {
+  int version = 0;
   int term_len = 0;
   int term_idx = 0;
-  char term_len_buf[2];
+  char term_buf[0xFFFF];
   int state = 0;
   char buff[1];
+  FILE *fp;
   if(argc != 2) return EXIT_FAILURE;
-  FILE *fp = fopen(argv[1], "ab");
+  fp = fopen(argv[1], "ab");
   if(NULL == fp) return EXIT_FAILURE;
 
 #ifdef WIN32
     _setmode(_fileno( stdin),  _O_BINARY);
 #endif
+#ifdef PRINT_TERM 
+  erl_init(NULL, 0);
+#endif
 
   while(1) 
   {
-    int n = read_exact(buff, 1);
+    int i, n;
+    n = read_exact(buff, 1);
     if(n > 0) {
-      for(int i = 0; i != n && i != sizeof(buff); ++i) {
+      for(i = 0; i != n && i != sizeof(buff); ++i) {
         fprintf(fp, "%02X ", (0xff & buff[i]));
 	// fprintf(fp, "state = %d, term_idx = %d, n = %d, i = %d.\r\n", state, term_idx, n, i);
 	switch(state) {
-        case 0: term_len_buf[0] = buff[i];
+        case 0: term_buf[0] = buff[i];
           state = 1;
           break;
-        case 1: term_len_buf[1] = buff[i];
-          term_len = (0xFFFF & ((term_len_buf[0] << 8) | (term_len_buf[1])));
+        case 1: term_buf[1] = buff[i];
+          term_len = (0xFFFF & ((term_buf[0] << 8) | (term_buf[1])));
           term_idx = 0;
           state = 2;
           break;
-        case 2:
+        case 2: term_buf[term_idx + 2] = buff[i];
           term_idx += 1;
           if(term_idx == term_len) {
+            int index = 2;
 	    state = 0;
+#ifdef PRINT_TERM 
+	    fprintf(fp, "=> ");
+	    ei_decode_version(term_buf, &index, &version);
+	    ei_print_term(fp, term_buf, &index);
+#endif
 	    fprintf(fp, "\r\n");
             fflush(fp);
 	  }
