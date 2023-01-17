@@ -21,6 +21,7 @@ pdh_enum_objects(
   DWORD cchBufferSize = 0;
   DWORD dwDetailLevel = PERF_DETAIL_WIZARD;
   BOOL bRefresh = TRUE;
+  LPWSTR pObjectName;
 
   status = PdhEnumObjects (NULL,
 			   NULL,
@@ -38,7 +39,7 @@ pdh_enum_objects(
 				   &cchBufferSize, dwDetailLevel, bRefresh);
 	  if (status == ERROR_SUCCESS)
 	    {
-	      for (LPWSTR pObjectName = mszObjectNameList; *pObjectName != 0;
+	      for (pObjectName = mszObjectNameList; *pObjectName != 0;
 		   pObjectName += wcslen (pObjectName) + 1)
 		{
 		  wprintf (L"%s\n", pObjectName);
