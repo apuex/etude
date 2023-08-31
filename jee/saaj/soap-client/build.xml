@@ -54,10 +54,11 @@
   </target>
 
   <target name="package" depends="compile">
-    <jar destfile="${target}/${project.name}-${project.version}.jar" basedir="${target}/classes">
+    <jar destfile="${target}/lib/${project.name}-${project.version}.jar" basedir="${target}/classes">
       <manifest>
         <attribute name="Permissions" value="sandbox"/>
         <attribute name="Codebase" value="${project.codebase}"/>
+        <attribute name="Created-By" value="${project.creator}"/>
         <attribute name="Built-By" value="${user.name}"/>
         <attribute name="Built-Host" value="${os.name}-${os.arch} version ${os.version}"/>
         <attribute name="Implementation-Vendor" value="${project.creator}"/>
