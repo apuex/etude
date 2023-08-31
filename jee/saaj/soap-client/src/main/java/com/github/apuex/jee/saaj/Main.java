@@ -159,14 +159,23 @@ public class Main {
         StringBuilder sb = new StringBuilder();
         soapBody.getChildElements()
                 .forEachRemaining(o -> {
-                    SOAPElement output = (SOAPElement) o;
-                    output.getChildElements()
+                    if(o instanceof SOAPElement) {
+                        SOAPElement output = (SOAPElement) o;
+                        output.getChildElements()
                             .forEachRemaining(r -> {
                                 SOAPElement returnVal = (SOAPElement) r;
 
                                 String v = returnVal.getValue();
                                 if (v != null) sb.append(v);
                             });
+//                    } else if(o instanceof Text) {
+//                        Text output = (Text) o;
+//                        System.err.printf("Text element: %s\n", output.getValue());
+//                        String v = output.getValue();
+//                        if (v != null) sb.append(v);
+                    } else {
+                        //System.err.printf("UN-Handled element: %s\n", o);
+                    }
                 });
         return sb.toString();
     }
