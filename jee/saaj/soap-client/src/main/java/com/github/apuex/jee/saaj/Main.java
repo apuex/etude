@@ -27,7 +27,7 @@ public class Main {
             options.getOptions().stream()
                     .forEach(o -> {
                         if (cmd.hasOption(o.getLongOpt())) {
-                            params.put(o.getLongOpt(), (o.hasArg() ? cmd.getOptionValue(o.getOpt()) : "false"));
+                            params.put(o.getLongOpt(), (o.hasArg() ? cmd.getOptionValue(o.getLongOpt()) : "false"));
                         }
                     });
 
@@ -131,7 +131,7 @@ public class Main {
             throw new Exception(String.format("invalid soap specification version: '%s'", params.get("soap-version")));
         }
         SOAPMessage message = factory.createMessage();
-        message.getMimeHeaders().addHeader("SOAPAction", params.get("soap-action"));
+        message.getMimeHeaders().setHeader("SOAPAction", params.getOrDefault("soap-action", "\"\""));
         SOAPHeader header = message.getSOAPHeader();
         header.detachNode();
         SOAPBody body = message.getSOAPBody();
