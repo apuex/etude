@@ -26,8 +26,8 @@ public class Main {
 
             options.getOptions().stream()
                     .forEach(o -> {
-                        if (cmd.hasOption(o.getOpt())) {
-                            params.put(o.getLongOpt(), cmd.getOptionValue(o.getOpt()));
+                        if (cmd.hasOption(o.getLongOpt())) {
+                            params.put(o.getLongOpt(), (o.hasArg() ? cmd.getOptionValue(o.getOpt()) : "false"));
                         }
                     });
 
@@ -49,8 +49,11 @@ public class Main {
 
         if (params.containsKey("verbose")) {
             printOptions(params);
+            System.out.println("========REQUEST========: ");
             request.writeTo(System.out);
+            System.out.println("\n========RESPONSE========: ");
             response.writeTo(System.out);
+            System.out.println();
         }
 
         SOAPBody soapBody = response.getSOAPBody();
@@ -71,8 +74,9 @@ public class Main {
             put("output", "invokeResponse");
             put("return", "invokeReturn");
             put("soap-version", "1.1");
+            put("soap-action", "");
             put("parameter-name", "xmlData");
-            put("request-xml-file", "GetFsuInfoRequest.xml");
+            put("request-xml-file", "Login.xml");
         }};
     }
 
@@ -81,7 +85,7 @@ public class Main {
         int maxLength = options.entrySet().stream()
                 .map(x -> x.getKey().length())
                 .max(Integer::compare)
-                .get() + 1;
+                .orElse(0) + 1;
 
         options.entrySet().forEach(e -> System.out.printf("  %s = %s\n", paddingRight(e.getKey(), maxLength), e.getValue()));
     }
@@ -104,7 +108,8 @@ public class Main {
         options.addOption(new Option("n", "namespace-uri", true, "SOAP service namespace URI."));
         options.addOption(new Option("m", "method", true, "method to be invoked."));
         options.addOption(new Option("p", "parameter-name", true, "method parameter."));
-        options.addOption(new Option("s", "soap-version", true, "soap specification version, valid options are 1.1, 1.2, 1.1, default is 1.1"));
+        options.addOption(new Option(null, "soap-action", true, "SOAPAction header value"));
+        options.addOption(new Option(null, "soap-version", true, "soap specification version, valid options are 1.1, 1.2, 1.1, default is 1.1"));
         options.addOption(new Option("f", "request-xml-file", true, "name of file contains request xml content."));
         options.addOption(new Option("x", "request-xml-content", true, "request xml content."));
         options.addOption(new Option("v", "verbose", false, "print out options and transport details."));
@@ -124,6 +129,7 @@ public class Main {
             throw new Exception(String.format("invalid soap specification version: '%s'", params.get("soap-version")));
         }
         SOAPMessage message = factory.createMessage();
+        message.getMimeHeaders().addHeader("SOAPAction", params.get("soap-action"));
         SOAPHeader header = message.getSOAPHeader();
         header.detachNode();
         SOAPBody body = message.getSOAPBody();
