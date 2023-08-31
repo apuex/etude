@@ -31,7 +31,9 @@ public class Main {
                         }
                     });
 
-            System.out.println(invoke(params));
+            String xml = invoke(params);
+            System.out.println("======== RESPONSE XML ========|<= ");
+            System.out.println(xml);
         }
     }
 
@@ -49,9 +51,9 @@ public class Main {
 
         if (params.containsKey("verbose")) {
             printOptions(params);
-            System.out.println("========REQUEST========: ");
+            System.out.println("======== REQUEST ========|=>");
             request.writeTo(System.out);
-            System.out.println("\n========RESPONSE========: ");
+            System.out.println("\n======== RESPONSE ========|<= ");
             response.writeTo(System.out);
             System.out.println();
         }
