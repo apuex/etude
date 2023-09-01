@@ -131,7 +131,8 @@ public class Main {
             throw new Exception(String.format("invalid soap specification version: '%s'", params.get("soap-version")));
         }
         SOAPMessage message = factory.createMessage();
-        message.getMimeHeaders().setHeader("SOAPAction", params.getOrDefault("soap-action", "\"\""));
+        message.getMimeHeaders().setHeader("SOAPAction",
+            String.format("\"%s\"", params.getOrDefault("soap-action", "")));
         SOAPHeader header = message.getSOAPHeader();
         header.detachNode();
         SOAPBody body = message.getSOAPBody();
