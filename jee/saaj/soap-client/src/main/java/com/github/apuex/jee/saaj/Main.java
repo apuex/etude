@@ -135,11 +135,17 @@ public class Main {
             String.format("\"%s\"", params.getOrDefault("soap-action", "")));
         SOAPHeader header = message.getSOAPHeader();
         header.detachNode();
-        SOAPBody body = message.getSOAPBody();
+        SOAPPart part = message.getSOAPPart();
+        SOAPEnvelope envelope = part.getEnvelope();
+        envelope.addNamespaceDeclaration("xsd", "http://www.w3.org/2001/XMLSchema");
+        envelope.addNamespaceDeclaration("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+        SOAPBody body = envelope.getBody();
         QName requestBodyName = new QName(params.get("namespace-uri"), params.get("method"), "ns1");
         SOAPBodyElement bodyElement = body.addBodyElement(requestBodyName);
         QName name = new QName(params.get("parameter-name"));
         SOAPElement symbol = bodyElement.addChildElement(name);
+        QName xsiName = new QName("http://www.w3.org/2001/XMLSchema-instance", "type", "xsi");
+        symbol.addAttribute(xsiName, String.format("%s:string", envelope.getElementQName().getPrefix()));
         String xmlContent = params.get("request-xml-content");
         if(xmlContent == null) xmlContent = request(params.get("request-xml-file"));
         symbol.addTextNode(xmlContent);
