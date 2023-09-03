@@ -148,9 +148,9 @@ public class Main {
         QName name = new QName(params.get("parameter-name"));
         SOAPElement paramPart = bodyElement.addChildElement(name);
         QName xsiTypeName = new QName("http://www.w3.org/2001/XMLSchema-instance", "type", "xsi");
-        QName soapencStringName = new QName("http://schemas.xmlsoap.org/soap/encoding/", "string", "soapenc");
-        paramPart.addNamespaceDeclaration("soapenc", "http://schemas.xmlsoap.org/soap/encoding/");
-        paramPart.addAttribute(xsiTypeName, "soapenc:string");
+        QName soapencStringName = new QName("http://schemas.xmlsoap.org/soap/encoding/", "string", "SOAP-ENC");
+        paramPart.addNamespaceDeclaration("SOAP-ENC", "http://schemas.xmlsoap.org/soap/encoding/");
+        paramPart.addAttribute(xsiTypeName, "SOAP-ENC:string");
         String xmlContent = params.get("request-xml-content");
         if(xmlContent == null) xmlContent = request(params.get("request-xml-file"));
         paramPart.addTextNode(xmlContent);
