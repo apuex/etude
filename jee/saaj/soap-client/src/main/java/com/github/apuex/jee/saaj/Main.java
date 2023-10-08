@@ -175,10 +175,12 @@ public class Main {
                         SOAPElement output = (SOAPElement) o;
                         output.getChildElements()
                             .forEachRemaining(r -> {
-                                SOAPElement returnVal = (SOAPElement) r;
+                                if(r instanceof SOAPElement) {
+                                  SOAPElement returnVal = (SOAPElement) r;
 
-                                String v = returnVal.getValue();
-                                if (v != null) sb.append(v);
+                                  String v = returnVal.getValue();
+                                  if (v != null) sb.append(v);
+                                }
                             });
 //                    } else if(o instanceof Text) {
 //                        Text output = (Text) o;

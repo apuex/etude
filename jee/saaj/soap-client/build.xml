@@ -30,7 +30,8 @@
     <javac encoding="UTF-8"
            srcdir="${src}"
            destdir="${target}/classes"
-           includeantruntime="on"
+           debug="on"
+           includeantruntime="off"
            classpathref="build.classpath"/>
 
     <copy todir="${target}/classes">
