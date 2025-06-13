@@ -9,6 +9,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.Map;
 import java.util.TreeMap;
+import org.w3c.dom.*;
 
 public class Main {
     public static void main(String args[]) throws Exception {
@@ -27,7 +28,7 @@ public class Main {
             options.getOptions().stream()
                     .forEach(o -> {
                         if (cmd.hasOption(o.getLongOpt())) {
-                            params.put(o.getLongOpt(), (o.hasArg() ? cmd.getOptionValue(o.getLongOpt()) : "false"));
+                            params.put(o.getLongOpt(), (o.hasArg() ? cmd.getOptionValue(o.getLongOpt()) : "true"));
                         }
                     });
 
@@ -115,6 +116,7 @@ public class Main {
         options.addOption(new Option("f", "request-xml-file", true, "name of file contains request xml content."));
         options.addOption(new Option("x", "request-xml-content", true, "request xml content."));
         options.addOption(new Option("v", "verbose", false, "print out options and transport details."));
+        options.addOption(new Option("c", "cdata", false, "request XML content as CDATA."));
         options.addOption(new Option("h", "help", false, "print help message."));
         return options;
     }
@@ -153,7 +155,12 @@ public class Main {
         paramPart.addAttribute(xsiTypeName, "SOAP-ENC:string");
         String xmlContent = params.get("request-xml-content");
         if(xmlContent == null) xmlContent = request(params.get("request-xml-file"));
-        paramPart.addTextNode(xmlContent);
+        if (params.containsKey("cdata")) {
+            CDATASection cdataSection = paramPart.getOwnerDocument().createCDATASection(xmlContent);
+            paramPart.appendChild(cdataSection);
+        } else {
+            paramPart.addTextNode(xmlContent);
+        }
         message.setProperty(SOAPMessage.CHARACTER_SET_ENCODING, "utf-8");
         message.setProperty(SOAPMessage.WRITE_XML_DECLARATION, "true");
         return message;
