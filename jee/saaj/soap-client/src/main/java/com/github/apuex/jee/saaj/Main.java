@@ -7,8 +7,10 @@ import javax.xml.soap.*;
 import java.io.FileInputStream;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.Map;
-import java.util.TreeMap;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
 import org.w3c.dom.*;
 
 public class Main {
@@ -32,7 +34,12 @@ public class Main {
                         }
                     });
 
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ", Locale.CHINA);
+            Date t1 = new Date();
+            System.out.printf("BEFORE invoke: %s\n", dateFormat.format(t1));
             String xml = invoke(params);
+            Date t2 = new Date();
+            System.out.printf("AFTER invoke: %s, time elapsed is %d milliseconds.\n", dateFormat.format(t2), (t2.getTime() - t1.getTime()));
             System.out.println("======== RESPONSE XML ========|<= ");
             System.out.println(xml);
         }
