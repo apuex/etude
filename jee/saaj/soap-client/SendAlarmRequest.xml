@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<Request>
+
+  <PK_Type>
+    <Name>SEND_ALARM</Name>
+  </PK_Type>
+
+  <Info>
+    <FSUID>${FSUID}</FSUID>
+    <Values>
+      <TAlarmList>
+        <TAlarm>
+          <SerialNo>${SerialNO}</SerialNo>
+          <NMAlarmID>${NM_ALARM_ID}</NMAlarmID>
+          <DeviceID>${DeviceID}</DeviceID>
+          <ID>${SignalID}</ID>
+          <SignalNumber>${SignalNumber}</SignalNumber>
+          <AlarmTime>${END_TIME}</AlarmTime>
+          <AlarmLevel>${AlarmLevel}</AlarmLevel>
+          <AlarmFlag>END</AlarmFlag>
+          <AlarmDesc>${AlarmDesc}</AlarmDesc>
+          <EventValue>0</EventValue>
+          <AlarmRemark></AlarmRemark>
+        </TAlarm>
+      </TAlarmList>
+    </Values>
+  </Info>
+
+</Request>
