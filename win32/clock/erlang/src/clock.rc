@@ -1,0 +1,10 @@
+#include <windows.h>
+#include "resource.h"
+#include "version.h"
+
+
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
