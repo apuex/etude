@@ -23,8 +23,8 @@ CtrlHandler(DWORD fdwCtrlType)
 
 void
 WaitStdIO
-( DWORD dwMilliseconds
-)
+  ( DWORD dwMilliseconds
+  )
 {
   BYTE lpBuffer[0xffff];
   DWORD dwBytesRead = 0;
@@ -44,6 +44,7 @@ WaitStdIO
       if(ReadFile(hStdInput, lpBuffer, sizeof(lpBuffer), &dwBytesRead, NULL))
       {
         // TODO: parse request
+        // FIXME: just ECHOed back, for testing..
         const BOOL bResult = WriteFile
                  ( hStdOutput
                  , lpBuffer
@@ -85,11 +86,11 @@ WaitStdIO
 int
 WINAPI
 wWinMain
-( HINSTANCE hInstance
-, HINSTANCE hPrevInstance
-, PWSTR lpCmdLine
-, int nCmdShow
-)
+  ( HINSTANCE hInstance
+  , HINSTANCE hPrevInstance
+  , PWSTR lpCmdLine
+  , int nCmdShow
+  )
 {
   DWORD dwMilliseconds = INFINITE;
 

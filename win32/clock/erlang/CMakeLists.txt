@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 2.8...3.20)
 
 project(clock_port C)
 
-ADD_DEFINITIONS(-DWINVER=0x0502)
-ADD_DEFINITIONS(-D_WIN32_WINNT=0x0502)
+#ADD_DEFINITIONS(-DWINVER=0x0502)
+#ADD_DEFINITIONS(-D_WIN32_WINNT=0x0502)
 ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS)
 ADD_DEFINITIONS(-D_UNICODE)
 ADD_DEFINITIONS(-DUNICODE)
@@ -27,7 +27,7 @@ link_directories(
 
 set(CLOCK_SRCS
   src/clock.c
-  src/clock_port.erl
+  src/clock.erl
   src/clock.rc
   src/resource.h
   src/version.h
