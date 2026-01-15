@@ -4,7 +4,22 @@
 
 -export([call_port/1, cast_port/1]).
 
+-export([currentmillis/0]).
+
 -export([convert_to_os_encoding/1]).
+
+%% ------------------------------------------------------------------
+%% API Function Definitions
+%% ------------------------------------------------------------------
+
+currentmillis() ->
+  <<CurrentMillis:64/big-unsigned-integer>> = call_port(<<0:16, 0:16>>),
+  CurrentMillis.
+    
+
+%% ------------------------------------------------------------------
+%% Erlang Port Function Definitions
+%% ------------------------------------------------------------------
 
 start(ExtPrg) ->
   spawn(?MODULE, init, [ExtPrg]).
@@ -25,16 +40,23 @@ cast_port(Msg) ->
 init(ExtPrg) ->
   register(clock_port, self()),
   process_flag(trap_exit, true),
-  Port = open_port({spawn, ExtPrg}, [{packet, 4}, binary]),
+  Port = open_port( { spawn, ExtPrg }
+                  , [ binary
+                    , {packet, 2} % {packet, N :: 1 | 2 | 4} | stream
+                    , use_stdio
+                    , exit_status
+                    , stderr_to_stdout
+                    ]
+                  ),
   loop(Port).
 
 receive_response(Port, Caller, _Req) ->
   receive
     {Port, {data, Data}} ->
-      driver_log("Reply Data=[~ts]", [format_byte_list(Data)]),
+      console_log("Reply Data = <<~ts>>.", [format_byte_list(Data)]),
       Caller ! {clock_port, Data};
     M ->
-      driver_log("Unhandled Message=~p", [M])
+      console_log("Unhandled Message=~p", [M])
   end.
 
 loop(Port) ->
@@ -47,12 +69,13 @@ loop(Port) ->
       Port ! {self(), {command, Msg}},
       loop(Port);
     {Port, {data, Data}} ->
-      driver_log("Push Data=[~ts]", [format_byte_list(Data)]),
+      console_log("Push Data = <<~ts>>.", [format_byte_list(Data)]),
       loop(Port);
     stop ->
       Port ! {self(), close},
       receive
         {Port, closed} ->
+          port_close(Port),
           exit(normal)
       end;
     {'EXIT', Port, _Reason} ->
@@ -92,10 +115,10 @@ join(D, L) ->
   end.
 
 format_byte_list(Bin) ->
-  LS = lists:map(fun(X) -> format_byte(X) end, binary_to_list(Bin)),
-  join(" ", LS).
+  LS = lists:map(fun(X) -> "16#" ++ format_byte(X) end, binary_to_list(Bin)),
+  join(", ", LS).
 
-driver_log(Msg, Param) ->
+console_log(Msg, Param) ->
   {{Y,Mon,D}, {H,Min,S}} = calendar:local_time(),
   TS = io_lib:format("~4.10.0B-~2.10.0B-~2.10.0B ~2.10.0B:~2.10.0B:~2.10.0B", [Y,Mon,D, H,Min,S]),
   io:format(lists:concat(["[~ts] ", Msg, "~n"]), lists:concat([[TS], Param])).

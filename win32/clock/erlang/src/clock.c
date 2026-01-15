@@ -9,9 +9,15 @@
 #include <shellapi.h>
 #include <tchar.h>
 
+#define EPOCH_DIFF 116444736000000000 // times 100 nano seconds.
+
 HANDLE g_hStopEvent = NULL;
 BOOL g_bStopped = FALSE;
 
+BYTE lpReadBuffer[6]; // 2-byte length, 2-byte wRequestID and 2-byte wParam
+DWORD dwTotalBytesRead = 0;
+BYTE lpWriteBuffer[16]; // 2-byte length, 8-byte currentmillis.
+DWORD dwTotalBytesWritten = 0;
 
 BOOL
 WINAPI
@@ -21,14 +27,46 @@ CtrlHandler(DWORD fdwCtrlType)
   return TRUE;
 }
 
+BOOL HandleRequest
+  ( HANDLE hStdOutput
+  , WORD wRequestID
+  , WORD wParam
+  )
+{
+  BOOL bResult = FALSE;
+  FILETIME ft;
+  ULONGLONG nanosecs;
+  ULONGLONG currentmillis;
+  GetSystemTimeAsFileTime(&ft);
+  nanosecs = ((LONGLONG)ft.dwHighDateTime << 32) | ft.dwLowDateTime;
+  currentmillis = (nanosecs - EPOCH_DIFF) / 10000;
+
+  lpWriteBuffer[9] = (currentmillis >> 0 & 0xff);
+  lpWriteBuffer[8] = (currentmillis >> 8 & 0xff);
+  lpWriteBuffer[7] = (currentmillis >> 16 & 0xff);
+  lpWriteBuffer[6] = (currentmillis >> 24 & 0xff);
+  lpWriteBuffer[5] = (currentmillis >> 32 & 0xff);
+  lpWriteBuffer[4] = (currentmillis >> 40 & 0xff);
+  lpWriteBuffer[3] = (currentmillis >> 48 & 0xff);
+  lpWriteBuffer[2] = (currentmillis >> 56 & 0xff);
+  lpWriteBuffer[1] = 8;
+  lpWriteBuffer[0] = 0;
+
+  bResult = WriteFile
+           ( hStdOutput
+           , lpWriteBuffer
+           , 10 //sizeof(lpWriteBuffer)
+           , &dwTotalBytesWritten
+           , NULL
+           );
+  return bResult;
+}
+
 void
 WaitStdIO
   ( DWORD dwMilliseconds
   )
 {
-  BYTE lpBuffer[0xffff];
-  DWORD dwBytesRead = 0;
-  DWORD dwBytesWritten = 0;
   HANDLE hStdInput = GetStdHandle(STD_INPUT_HANDLE);
   HANDLE hStdOutput = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -36,30 +74,43 @@ WaitStdIO
   handles[0] = hStdInput;
   handles[1] = g_hStopEvent;
 
+  dwTotalBytesRead = 0;
   while(!g_bStopped)
   {
+    DWORD dwBytesRead = 0;
     switch(WaitForMultipleObjects(2, handles, FALSE, dwMilliseconds))
     {
     case WAIT_OBJECT_0:
-      if(ReadFile(hStdInput, lpBuffer, sizeof(lpBuffer), &dwBytesRead, NULL))
+      if(ReadFile(hStdInput, (lpReadBuffer + dwTotalBytesRead), (sizeof(lpReadBuffer) - dwTotalBytesRead), &dwBytesRead, NULL))
       {
-        // TODO: parse request
-        // FIXME: just ECHOed back, for testing..
-        const BOOL bResult = WriteFile
-                 ( hStdOutput
-                 , lpBuffer
-                 , dwBytesRead
-                 , &dwBytesWritten
-                 , NULL
-                 );
-        if(bResult)
+        dwTotalBytesRead += dwBytesRead;
+        if(sizeof(lpReadBuffer) == dwTotalBytesRead)
         {
-          // success written
-        }
-        else
-        {
-          // write failed.
-          g_bStopped = TRUE;
+          // already read the request message.
+          // process request.
+          WORD wLength = (lpReadBuffer[0] << 8 | lpReadBuffer[1]);
+          WORD wRequestID = (lpReadBuffer[2] << 8 | lpReadBuffer[3]);
+          WORD wParam = (lpReadBuffer[4] << 8 | lpReadBuffer[5]);
+          BOOL bResult = FALSE;
+          dwTotalBytesRead = 0;
+          if(4 == wLength)
+          {
+            bResult = HandleRequest(hStdOutput, wRequestID, wParam);
+            if(bResult)
+            {
+              // success written
+            }
+            else
+            {
+              // write failed.
+              g_bStopped = TRUE;
+            }
+          }
+          else
+          {
+            // length error.
+            g_bStopped = TRUE;
+          }
         }
       }
       else
