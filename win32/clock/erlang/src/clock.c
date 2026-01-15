@@ -44,6 +44,22 @@ WaitStdIO
       if(ReadFile(hStdInput, lpBuffer, sizeof(lpBuffer), &dwBytesRead, NULL))
       {
         // TODO: parse request
+        const BOOL bResult = WriteFile
+                 ( hStdOutput
+                 , lpBuffer
+                 , dwBytesRead
+                 , &dwBytesWritten
+                 , NULL
+                 );
+        if(bResult)
+        {
+          // success written
+        }
+        else
+        {
+          // write failed.
+          g_bStopped = TRUE;
+        }
       }
       else
       {
