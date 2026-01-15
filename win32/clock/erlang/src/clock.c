@@ -81,7 +81,13 @@ WaitStdIO
     switch(WaitForMultipleObjects(2, handles, FALSE, dwMilliseconds))
     {
     case WAIT_OBJECT_0:
-      if(ReadFile(hStdInput, (lpReadBuffer + dwTotalBytesRead), (sizeof(lpReadBuffer) - dwTotalBytesRead), &dwBytesRead, NULL))
+      if(ReadFile( hStdInput
+                 , (lpReadBuffer + dwTotalBytesRead)
+                 , (sizeof(lpReadBuffer) - dwTotalBytesRead)
+                 , &dwBytesRead
+                 , NULL
+                 )
+         )
       {
         dwTotalBytesRead += dwBytesRead;
         if(sizeof(lpReadBuffer) == dwTotalBytesRead)
