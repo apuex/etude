@@ -5,6 +5,7 @@
 -export([call_port/1, cast_port/1]).
 
 -export([ currentmillis/0
+        , system_time/1
         , benchmark/1
         ]).
 
@@ -17,6 +18,23 @@
 currentmillis() ->
   <<CurrentMillis:64/big-unsigned-integer>> = call_port(<<0:16, 1:16>>),
   CurrentMillis.
+
+system_time(Unit) ->
+  case Unit of
+    second ->
+      <<Time:64/big-unsigned-integer>> = call_port(<<0:16, 0:16>>),
+      Time;
+    millisecond ->
+      currentmillis();
+    microsecond ->
+      <<Time:64/big-unsigned-integer>> = call_port(<<0:16, 2:16>>),
+      Time;
+    nanosecond ->
+      <<Time:64/big-unsigned-integer>> = call_port(<<0:16, 3:16>>),
+      Time;
+    _ ->
+      currentmillis()
+  end.
 
 benchmark(Count) ->
   Start = currentmillis(),
