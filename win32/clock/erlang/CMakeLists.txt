@@ -2,15 +2,12 @@ cmake_minimum_required(VERSION 2.8...3.20)
 
 project(clock_port C)
 
-#ADD_DEFINITIONS(-DWINVER=0x0502)
-#ADD_DEFINITIONS(-D_WIN32_WINNT=0x0502)
 ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS)
 ADD_DEFINITIONS(-D_UNICODE)
 ADD_DEFINITIONS(-DUNICODE)
-ADD_DEFINITIONS(-DNDEBUG)
 
 if(MSVC)
-  SET(CMAKE_C_FLAGS "/MT /GS- /O2")
+  SET(CMAKE_C_FLAGS "/GS-")
 else()
 endif()
 
@@ -33,11 +30,11 @@ set(CLOCK_SRCS
   src/version.h
   )
 
-add_executable(clock WIN32 ${CLOCK_SRCS})
-target_link_libraries(clock bufferoverflowu)
+add_executable(clock_port WIN32 ${CLOCK_SRCS})
+target_link_libraries(clock_port bufferoverflowu)
 
 install(TARGETS
-  clock
+  clock_port
   CONFIGURATIONS Release
   RUNTIME DESTINATION bin
   LIBRARY DESTINATION lib
@@ -45,7 +42,7 @@ install(TARGETS
   )
 
 install(TARGETS
-  clock
+  clock_port
   CONFIGURATIONS Debug
   RUNTIME DESTINATION bin
   LIBRARY DESTINATION lib
