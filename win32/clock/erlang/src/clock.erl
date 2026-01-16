@@ -4,7 +4,9 @@
 
 -export([call_port/1, cast_port/1]).
 
--export([currentmillis/0]).
+-export([ currentmillis/0
+        , benchmark/1
+        ]).
 
 -export([convert_to_os_encoding/1]).
 
@@ -13,9 +15,16 @@
 %% ------------------------------------------------------------------
 
 currentmillis() ->
-  <<CurrentMillis:64/big-unsigned-integer>> = call_port(<<0:16, 0:16>>),
+  <<CurrentMillis:64/big-unsigned-integer>> = call_port(<<0:16, 1:16>>),
   CurrentMillis.
-    
+
+benchmark(Count) ->
+  Start = currentmillis(),
+  lists:foreach( fun(_) -> clock:currentmillis() end
+               , lists:duplicate(Count, 0)
+               ),
+  Stop= currentmillis(),
+  Stop - Start.
 
 %% ------------------------------------------------------------------
 %% Erlang Port Function Definitions
@@ -53,7 +62,7 @@ init(ExtPrg) ->
 receive_response(Port, Caller, _Req) ->
   receive
     {Port, {data, Data}} ->
-      console_log("Reply Data = <<~ts>>.", [format_byte_list(Data)]),
+      %console_log("Reply Data = <<~ts>>.", [format_byte_list(Data)]),
       Caller ! {clock_port, Data};
     M ->
       console_log("Unhandled Message=~p", [M])

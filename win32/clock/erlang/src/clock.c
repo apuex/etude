@@ -16,7 +16,7 @@ BOOL g_bStopped = FALSE;
 
 BYTE lpReadBuffer[6]; // 2-byte length, 2-byte wRequestID and 2-byte wParam
 DWORD dwTotalBytesRead = 0;
-BYTE lpWriteBuffer[16]; // 2-byte length, 8-byte currentmillis.
+BYTE lpWriteBuffer[16]; // 2-byte length, 8-byte ullTimestamp.
 DWORD dwTotalBytesWritten = 0;
 
 BOOL
@@ -27,7 +27,9 @@ CtrlHandler(DWORD fdwCtrlType)
   return TRUE;
 }
 
-BOOL HandleRequest
+static __inline
+BOOL
+HandleWallClock
   ( HANDLE hStdOutput
   , WORD wRequestID
   , WORD wParam
@@ -35,20 +37,39 @@ BOOL HandleRequest
 {
   BOOL bResult = FALSE;
   FILETIME ft;
-  ULONGLONG nanosecs;
-  ULONGLONG currentmillis;
-  GetSystemTimeAsFileTime(&ft);
-  nanosecs = ((LONGLONG)ft.dwHighDateTime << 32) | ft.dwLowDateTime;
-  currentmillis = (nanosecs - EPOCH_DIFF) / 10000;
+  ULONGLONG ullTimeVal;
+  ULONGLONG ullTimestamp;
 
-  lpWriteBuffer[9] = (currentmillis >> 0 & 0xff);
-  lpWriteBuffer[8] = (currentmillis >> 8 & 0xff);
-  lpWriteBuffer[7] = (currentmillis >> 16 & 0xff);
-  lpWriteBuffer[6] = (currentmillis >> 24 & 0xff);
-  lpWriteBuffer[5] = (currentmillis >> 32 & 0xff);
-  lpWriteBuffer[4] = (currentmillis >> 40 & 0xff);
-  lpWriteBuffer[3] = (currentmillis >> 48 & 0xff);
-  lpWriteBuffer[2] = (currentmillis >> 56 & 0xff);
+  GetSystemTimeAsFileTime(&ft);
+  ullTimeVal = ((LONGLONG)ft.dwHighDateTime << 32) | ft.dwLowDateTime;
+
+  switch(wParam)
+  {
+  case 0://second
+    ullTimestamp = (ullTimeVal - EPOCH_DIFF) / 10000000;
+    break;
+  case 1://millisecond
+    ullTimestamp = (ullTimeVal - EPOCH_DIFF) / 10000;
+    break;
+  case 2://microsecond
+    ullTimestamp = (ullTimeVal - EPOCH_DIFF) / 10;
+    break;
+  case 3://nanosecond
+    ullTimestamp = (ullTimeVal - EPOCH_DIFF) * 100;
+    break;
+  default://millisecond
+    ullTimestamp = (ullTimeVal - EPOCH_DIFF) / 10000;
+    break;
+  }
+
+  lpWriteBuffer[9] = (ullTimestamp >> 0 & 0xff);
+  lpWriteBuffer[8] = (ullTimestamp >> 8 & 0xff);
+  lpWriteBuffer[7] = (ullTimestamp >> 16 & 0xff);
+  lpWriteBuffer[6] = (ullTimestamp >> 24 & 0xff);
+  lpWriteBuffer[5] = (ullTimestamp >> 32 & 0xff);
+  lpWriteBuffer[4] = (ullTimestamp >> 40 & 0xff);
+  lpWriteBuffer[3] = (ullTimestamp >> 48 & 0xff);
+  lpWriteBuffer[2] = (ullTimestamp >> 56 & 0xff);
   lpWriteBuffer[1] = 8;
   lpWriteBuffer[0] = 0;
 
@@ -59,7 +80,36 @@ BOOL HandleRequest
            , &dwTotalBytesWritten
            , NULL
            );
+
   return bResult;
+}
+
+static __inline
+BOOL
+HandleSteadyClock
+  ( HANDLE hStdOutput
+  , WORD wRequestID
+  , WORD wParam
+  )
+{
+  return HandleWallClock(hStdOutput, wRequestID, wParam);
+}
+
+static __inline BOOL HandleRequest
+  ( HANDLE hStdOutput
+  , WORD wRequestID
+  , WORD wParam
+  )
+{
+  switch(wRequestID)
+  {
+  case 0: // get wall clock
+    return HandleWallClock(hStdOutput, wRequestID, wParam);
+  case 1: // get steady clock
+    return HandleSteadyClock(hStdOutput, wRequestID, wParam);
+  default:
+    return HandleWallClock(hStdOutput, wRequestID, wParam);
+  }
 }
 
 void
@@ -89,6 +139,11 @@ WaitStdIO
                  )
          )
       {
+        if (0 == dwBytesRead) {
+          g_bStopped = TRUE;  // EOF
+          break;
+        }
+
         dwTotalBytesRead += dwBytesRead;
         if(sizeof(lpReadBuffer) == dwTotalBytesRead)
         {
