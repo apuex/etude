@@ -17,7 +17,7 @@ static BOOL g_bStopped = FALSE;
 static LARGE_INTEGER g_PerfFrequency = {0};
 static LARGE_INTEGER g_PerfCounterStart = {0};
 
-static BYTE lpReadBuffer[6] = {0}; // 2-byte length, 2-byte wRequestID and 2-byte wParam
+static BYTE lpReadBuffer[8] = {0}; // 2-byte length, 2-byte wRequestID and 2-byte wParam
 static DWORD dwTotalBytesRead = 0;
 static BYTE lpWriteBuffer[16] = {0}; // 2-byte length, 8-byte ullTimestamp.
 static DWORD dwTotalBytesWritten = 0;
@@ -57,7 +57,9 @@ GetSteadyClockNano()
   //return g_PerfFrequency.QuadPart;
 }
 
-static __inline BOOL HandleRequest
+static __inline
+BOOL
+HandleRequest
   ( HANDLE hStdOutput
   , WORD wRequestID
   , WORD wParam
@@ -154,7 +156,7 @@ WaitStdIO
         }
 
         dwTotalBytesRead += dwBytesRead;
-        if(sizeof(lpReadBuffer) == dwTotalBytesRead)
+        if(6 == dwTotalBytesRead)
         {
           // already read the request message.
           // process request.

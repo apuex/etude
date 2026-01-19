@@ -121,7 +121,6 @@ loop(Port) ->
       Port ! {self(), close},
       receive
         {Port, closed} ->
-          port_close(Port),
           exit(normal)
       end;
     {'EXIT', Port, _Reason} ->

@@ -1,0 +1,10 @@
+file:set_cwd("E:/github/apuex/etude/win32/clock/erlang/src").
+c(clock).
+clock:start("E:/usr64/bin/clock_port.exe").
+clock:system_time(second).
+clock:system_time(second).
+clock:system_time(millisecond).
+clock:steady_time(second).
+clock:steady_time(millisecond).
+clock:stop().
+q().
