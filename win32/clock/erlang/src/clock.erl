@@ -6,6 +6,7 @@
 
 -export([ currentmillis/0
         , system_time/1
+        , steady_time/1
         , benchmark/1
         ]).
 
@@ -31,6 +32,24 @@ system_time(Unit) ->
       Time;
     nanosecond ->
       <<Time:64/big-unsigned-integer>> = call_port(<<0:16, 3:16>>),
+      Time;
+    _ ->
+      currentmillis()
+  end.
+
+steady_time(Unit) ->
+  case Unit of
+    second ->
+      <<Time:64/big-unsigned-integer>> = call_port(<<1:16, 0:16>>),
+      Time;
+    millisecond ->
+      <<Time:64/big-unsigned-integer>> = call_port(<<1:16, 1:16>>),
+      Time;
+    microsecond ->
+      <<Time:64/big-unsigned-integer>> = call_port(<<1:16, 2:16>>),
+      Time;
+    nanosecond ->
+      <<Time:64/big-unsigned-integer>> = call_port(<<1:16, 3:16>>),
       Time;
     _ ->
       currentmillis()

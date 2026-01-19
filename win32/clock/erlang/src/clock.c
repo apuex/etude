@@ -11,13 +11,16 @@
 
 #define EPOCH_DIFF 116444736000000000 // times 100 nano seconds.
 
-HANDLE g_hStopEvent = NULL;
-BOOL g_bStopped = FALSE;
+static HANDLE g_hStopEvent = NULL;
+static BOOL g_bStopped = FALSE;
 
-BYTE lpReadBuffer[6]; // 2-byte length, 2-byte wRequestID and 2-byte wParam
-DWORD dwTotalBytesRead = 0;
-BYTE lpWriteBuffer[16]; // 2-byte length, 8-byte ullTimestamp.
-DWORD dwTotalBytesWritten = 0;
+static LARGE_INTEGER g_PerfFrequency = {0};
+static LARGE_INTEGER g_PerfCounterStart = {0};
+
+static BYTE lpReadBuffer[6] = {0}; // 2-byte length, 2-byte wRequestID and 2-byte wParam
+static DWORD dwTotalBytesRead = 0;
+static BYTE lpWriteBuffer[16] = {0}; // 2-byte length, 8-byte ullTimestamp.
+static DWORD dwTotalBytesWritten = 0;
 
 BOOL
 WINAPI
@@ -28,37 +31,71 @@ CtrlHandler(DWORD fdwCtrlType)
 }
 
 static __inline
-BOOL
-HandleWallClock
+ULONGLONG
+GetWallClockNano()
+{
+  FILETIME ft;
+  ULONGLONG ullTimeVal;
+
+  GetSystemTimeAsFileTime(&ft);
+  ullTimeVal = ((LONGLONG)ft.dwHighDateTime << 32) | ft.dwLowDateTime;
+  return (ullTimeVal - EPOCH_DIFF) * 100;
+}
+
+static __inline
+ULONGLONG
+GetSteadyClockNano()
+{
+  LARGE_INTEGER now;
+
+  QueryPerformanceCounter(&now);
+  //3392000000
+  //1000000000
+  return (now.QuadPart / (g_PerfFrequency.QuadPart / 1000000000.0f));
+  //return ((now.QuadPart - g_PerfCounterStart.QuadPart) / (g_PerfFrequency.QuadPart / 1000000000.0f));
+  //return ((now.QuadPart - g_PerfCounterStart.QuadPart) / g_PerfFrequency.QuadPart) * 1000000000;
+  //return g_PerfFrequency.QuadPart;
+}
+
+static __inline BOOL HandleRequest
   ( HANDLE hStdOutput
   , WORD wRequestID
   , WORD wParam
   )
 {
   BOOL bResult = FALSE;
-  FILETIME ft;
-  ULONGLONG ullTimeVal;
-  ULONGLONG ullTimestamp;
+  ULONGLONG ullTimeVal = 0;
+  ULONGLONG ullTimestamp = 0;
 
-  GetSystemTimeAsFileTime(&ft);
-  ullTimeVal = ((LONGLONG)ft.dwHighDateTime << 32) | ft.dwLowDateTime;
+  switch(wRequestID)
+  {
+    case 0:
+      ullTimeVal = GetWallClockNano();
+      break;
+    case 1:
+      ullTimeVal = GetSteadyClockNano();
+      break;
+    default:
+      ullTimeVal = GetWallClockNano();
+      break;
+  }
 
   switch(wParam)
   {
   case 0://second
-    ullTimestamp = (ullTimeVal - EPOCH_DIFF) / 10000000;
+    ullTimestamp = ullTimeVal / 1000000000;
     break;
   case 1://millisecond
-    ullTimestamp = (ullTimeVal - EPOCH_DIFF) / 10000;
+    ullTimestamp = ullTimeVal / 1000000;
     break;
   case 2://microsecond
-    ullTimestamp = (ullTimeVal - EPOCH_DIFF) / 10;
+    ullTimestamp = ullTimeVal / 1000;
     break;
   case 3://nanosecond
-    ullTimestamp = (ullTimeVal - EPOCH_DIFF) * 100;
+    ullTimestamp = ullTimeVal;
     break;
   default://millisecond
-    ullTimestamp = (ullTimeVal - EPOCH_DIFF) / 10000;
+    ullTimestamp = ullTimeVal / 1000000;
     break;
   }
 
@@ -82,34 +119,6 @@ HandleWallClock
            );
 
   return bResult;
-}
-
-static __inline
-BOOL
-HandleSteadyClock
-  ( HANDLE hStdOutput
-  , WORD wRequestID
-  , WORD wParam
-  )
-{
-  return HandleWallClock(hStdOutput, wRequestID, wParam);
-}
-
-static __inline BOOL HandleRequest
-  ( HANDLE hStdOutput
-  , WORD wRequestID
-  , WORD wParam
-  )
-{
-  switch(wRequestID)
-  {
-  case 0: // get wall clock
-    return HandleWallClock(hStdOutput, wRequestID, wParam);
-  case 1: // get steady clock
-    return HandleSteadyClock(hStdOutput, wRequestID, wParam);
-  default:
-    return HandleWallClock(hStdOutput, wRequestID, wParam);
-  }
 }
 
 void
@@ -212,6 +221,12 @@ wWinMain
   {
     dwMilliseconds = _wtol(argv[1]);
   }
+
+  QueryPerformanceCounter(&g_PerfCounterStart);
+  if(!QueryPerformanceFrequency(&g_PerfFrequency))
+  {
+    g_PerfFrequency.QuadPart = 1;
+  };
 
   g_hStopEvent = CreateEvent(NULL, TRUE, FALSE, _T("StopEvent"));
 
