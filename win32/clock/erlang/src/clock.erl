@@ -9,7 +9,7 @@
         , steady_time/1
         , system_time_rfc3339/0
         , local_time_rfc3339/0
-        , benchmark/1
+        , benchmark/2
         ]).
 
 -export([convert_to_os_encoding/1]).
@@ -61,12 +61,23 @@ system_time_rfc3339() ->
 local_time_rfc3339() ->
   binary_to_list(call_port(<<3:16, 0:16>>)).
 
-benchmark(Count) ->
+benchmark(Fun, Count) ->
   Start = currentmillis(),
-  lists:foreach( fun(_) -> clock:currentmillis() end
-               , lists:duplicate(Count, 0)
-               ),
-  Stop= currentmillis(),
+  case Fun of
+    currentmillis ->
+      lists:foreach( fun(_) -> currentmillis() end
+                   , lists:duplicate(Count, 0)
+                   );
+    system_time_rfc3339 ->
+      lists:foreach( fun(_) -> system_time_rfc3339() end
+                   , lists:duplicate(Count, 0)
+                   );
+    local_time_rfc3339 ->
+      lists:foreach( fun(_) -> local_time_rfc3339() end
+                   , lists:duplicate(Count, 0)
+                   )
+  end,
+  Stop = currentmillis(),
   Stop - Start.
 
 %% ------------------------------------------------------------------
