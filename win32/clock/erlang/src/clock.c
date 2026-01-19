@@ -19,7 +19,7 @@ static LARGE_INTEGER g_PerfCounterStart = {0};
 
 static BYTE lpReadBuffer[8] = {0}; // 2-byte length, 2-byte wRequestID and 2-byte wParam
 static DWORD dwTotalBytesRead = 0;
-static BYTE lpWriteBuffer[16] = {0}; // 2-byte length, 8-byte ullTimestamp.
+static BYTE lpWriteBuffer[64] = {0}; // 2-byte length, 8-byte ullTimestamp.
 static DWORD dwTotalBytesWritten = 0;
 
 BOOL
@@ -49,12 +49,7 @@ GetSteadyClockNano()
   LARGE_INTEGER now;
 
   QueryPerformanceCounter(&now);
-  //3392000000
-  //1000000000
   return (now.QuadPart / (g_PerfFrequency.QuadPart / 1000000000.0f));
-  //return ((now.QuadPart - g_PerfCounterStart.QuadPart) / (g_PerfFrequency.QuadPart / 1000000000.0f));
-  //return ((now.QuadPart - g_PerfCounterStart.QuadPart) / g_PerfFrequency.QuadPart) * 1000000000;
-  //return g_PerfFrequency.QuadPart;
 }
 
 static __inline
@@ -68,6 +63,7 @@ HandleRequest
   BOOL bResult = FALSE;
   ULONGLONG ullTimeVal = 0;
   ULONGLONG ullTimestamp = 0;
+  WORD wSize = 8;
 
   switch(wRequestID)
   {
@@ -76,6 +72,27 @@ HandleRequest
       break;
     case 1:
       ullTimeVal = GetSteadyClockNano();
+      break;
+    case 2:
+      {
+        int bytes = 0;
+        SYSTEMTIME st;
+        GetSystemTime(&st);
+        bytes = sprintf((lpWriteBuffer + 2),
+          "%04d-%02d-%02d %02d:%02d:%02d.%03dZ",
+          st.wYear,
+          st.wMonth,
+          st.wDay,
+          st.wHour,
+          st.wMinute,
+          st.wSecond,
+          st.wMilliseconds
+          );
+        if(0 < bytes)
+        {
+          wSize = (0xffff & bytes);
+        }
+      }
       break;
     default:
       ullTimeVal = GetWallClockNano();
@@ -96,26 +113,31 @@ HandleRequest
   case 3://nanosecond
     ullTimestamp = ullTimeVal;
     break;
-  default://millisecond
-    ullTimestamp = ullTimeVal / 1000000;
+  default:// to nothing.
     break;
   }
 
-  lpWriteBuffer[9] = (ullTimestamp >> 0 & 0xff);
-  lpWriteBuffer[8] = (ullTimestamp >> 8 & 0xff);
-  lpWriteBuffer[7] = (ullTimestamp >> 16 & 0xff);
-  lpWriteBuffer[6] = (ullTimestamp >> 24 & 0xff);
-  lpWriteBuffer[5] = (ullTimestamp >> 32 & 0xff);
-  lpWriteBuffer[4] = (ullTimestamp >> 40 & 0xff);
-  lpWriteBuffer[3] = (ullTimestamp >> 48 & 0xff);
-  lpWriteBuffer[2] = (ullTimestamp >> 56 & 0xff);
-  lpWriteBuffer[1] = 8;
-  lpWriteBuffer[0] = 0;
+  if(2 > wRequestID || 2 < wRequestID)
+  {
+    lpWriteBuffer[9] = (ullTimestamp >> 0 & 0xff);
+    lpWriteBuffer[8] = (ullTimestamp >> 8 & 0xff);
+    lpWriteBuffer[7] = (ullTimestamp >> 16 & 0xff);
+    lpWriteBuffer[6] = (ullTimestamp >> 24 & 0xff);
+    lpWriteBuffer[5] = (ullTimestamp >> 32 & 0xff);
+    lpWriteBuffer[4] = (ullTimestamp >> 40 & 0xff);
+    lpWriteBuffer[3] = (ullTimestamp >> 48 & 0xff);
+    lpWriteBuffer[2] = (ullTimestamp >> 56 & 0xff);
+  }
+  else
+  {
+  }
+  lpWriteBuffer[1] = (wSize >> 0 & 0xff);
+  lpWriteBuffer[0] = (wSize >> 8 & 0xff);;
 
   bResult = WriteFile
            ( hStdOutput
            , lpWriteBuffer
-           , 10 //sizeof(lpWriteBuffer)
+           , (wSize + 2)
            , &dwTotalBytesWritten
            , NULL
            );

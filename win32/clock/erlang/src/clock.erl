@@ -7,6 +7,7 @@
 -export([ currentmillis/0
         , system_time/1
         , steady_time/1
+        , system_time_rfc3339/0
         , benchmark/1
         ]).
 
@@ -33,8 +34,7 @@ system_time(Unit) ->
     nanosecond ->
       <<Time:64/big-unsigned-integer>> = call_port(<<0:16, 3:16>>),
       Time;
-    _ ->
-      currentmillis()
+    _ -> error
   end.
 
 steady_time(Unit) ->
@@ -51,9 +51,11 @@ steady_time(Unit) ->
     nanosecond ->
       <<Time:64/big-unsigned-integer>> = call_port(<<1:16, 3:16>>),
       Time;
-    _ ->
-      currentmillis()
+    _ -> error
   end.
+
+system_time_rfc3339() ->
+  binary_to_list(call_port(<<2:16, 0:16>>)).
 
 benchmark(Count) ->
   Start = currentmillis(),
