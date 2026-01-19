@@ -26,7 +26,14 @@ int main(int argc, char *argv[]) {
   ULONGLONG millsec;
   time_t ts1 = 0x0fffffff00000000;
   TIME_ZONE_INFORMATION tz;
+
   GetTimeZoneInformation(&tz);
+  wprintf(TEXT("Local Time TZ(StandardName=\"%s\", DaylightName=\"%s\", Bias=%d)\n"),
+      tz.StandardName,
+      tz.DaylightName,
+      tz.Bias
+      );
+
   GetSystemTimeAsFileTime(&ft);
   time(&ts1);
   wprintf(TEXT("time(&ts1)       => %Iu\n"), ts1);
