@@ -94,6 +94,55 @@ HandleRequest
         }
       }
       break;
+    case 3:
+      {
+        int bytes = 0;
+        int sign = 1;
+        int bias = 0;
+        int offsetHour = 0;
+        int offsetMinute = 0;
+        SYSTEMTIME st = {0};
+        TIME_ZONE_INFORMATION tz = {0};
+        GetTimeZoneInformation(&tz);
+        if(0 == tz.Bias)
+        {
+          sign = '+';
+          offsetHour = 0;
+          offsetMinute = 0;
+        }
+        else
+        {
+          bias = abs(tz.Bias);
+          if(0 <= bias/tz.Bias) {
+            sign = '-';
+          }
+          else
+          {
+            sign = '+';
+          }
+          offsetHour = bias / 60;
+          offsetMinute = bias % 60;
+        }
+        GetLocalTime(&st);
+        bytes = sprintf((lpWriteBuffer + 2),
+          "%04d-%02d-%02d %02d:%02d:%02d.%03d%c%02d:%02d",
+          st.wYear,
+          st.wMonth,
+          st.wDay,
+          st.wHour,
+          st.wMinute,
+          st.wSecond,
+          st.wMilliseconds,
+          sign,
+          offsetHour,
+          offsetMinute
+          );
+        if(0 < bytes)
+        {
+          wSize = (0xffff & bytes);
+        }
+      }
+      break;
     default:
       ullTimeVal = GetWallClockNano();
       break;
@@ -117,7 +166,7 @@ HandleRequest
     break;
   }
 
-  if(2 > wRequestID || 2 < wRequestID)
+  if(2 > wRequestID || 3 < wRequestID)
   {
     lpWriteBuffer[9] = (ullTimestamp >> 0 & 0xff);
     lpWriteBuffer[8] = (ullTimestamp >> 8 & 0xff);

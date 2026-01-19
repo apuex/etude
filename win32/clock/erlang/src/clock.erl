@@ -8,6 +8,7 @@
         , system_time/1
         , steady_time/1
         , system_time_rfc3339/0
+        , local_time_rfc3339/0
         , benchmark/1
         ]).
 
@@ -56,6 +57,9 @@ steady_time(Unit) ->
 
 system_time_rfc3339() ->
   binary_to_list(call_port(<<2:16, 0:16>>)).
+
+local_time_rfc3339() ->
+  binary_to_list(call_port(<<3:16, 0:16>>)).
 
 benchmark(Count) ->
   Start = currentmillis(),
