@@ -22,12 +22,12 @@ $
 ### Generating `.boot`, `.script`, and create `.tar.gz` 
 
 ```
-systools:make_script("clock-win64-otp17", [{path, ["apps/*/ebin"]}]).
-systools:make_tar("clock-win64-otp17", [{erts, code:root_dir()}, {path, ["apps/*/ebin"]}, {outdir, "dist"}]).
+systools:make_script("clock-win-x64-otp17", [{path, ["apps/*/ebin"]}]).
+systools:make_tar("clock-win-x64-otp17", [{erts, code:root_dir()}, {path, ["apps/*/ebin"]}, {outdir, "dist"}]).
 ```
 
 ## Test run
 ```
-erl -pa apps/clock/ebin -boot clock-win64-otp17 -config sys
+erl -pa apps/clock/ebin -boot clock-win-x64-otp17 -config sys
 ```
 
