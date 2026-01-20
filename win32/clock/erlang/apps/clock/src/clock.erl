@@ -54,10 +54,12 @@ init([ServerProg]) ->
   end.
 
 handle_call(Request, _From, State = #state { port = Port }) ->
+  % console_log("Request = <<~ts>>.", [format_byte_list(Request)]),
   Port ! {self(), {command, Request}},
   receive
-    {Port, {data, Result}} ->
-      {reply, Result, State};
+    {Port, {data, Response}} ->
+      % console_log("Response = <<~ts>>.", [format_byte_list(Response)]),
+      {reply, Response, State};
     X ->
       io:format("X=~p~n", [X]),
       {reply, X, State}
@@ -130,10 +132,10 @@ steady_time(Unit) ->
   end.
 
 system_time_rfc3339() ->
-  binary_to_list(call_port(<<2:16, 0:16>>)).
+  call_port(<<2:16, 0:16>>).
 
 local_time_rfc3339() ->
-  binary_to_list(call_port(<<3:16, 0:16>>)).
+  call_port(<<3:16, 0:16>>).
 
 benchmark(Fun, Count) ->
   Start = currentmillis(),
