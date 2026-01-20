@@ -1,0 +1,11 @@
+{release
+, {"clock", "1.0.0"}
+, {erts, "6.4"}
+, [ {compiler, "5.0.4"}
+  , {kernel, "3.2"}
+  , {stdlib, "2.4"}
+  , {inets, "5.10.6"}
+  , {sasl, "2.4.1"}
+  , {clock, "1.0.0"}
+  ]
+}.

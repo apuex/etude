@@ -23,39 +23,51 @@
 
 -record(state, { port }).
 
-start_link() ->
-  io:format("clock:start_link()~n", []),
-  ExtPrg = application:get_env(?MODULE, clock_port, "clock_port"),
-  gen_server:start_link({local, ?MODULE}, ?MODULE, [ExtPrg], []).
+%% Path to the c-program.
+-define(SERVERDIR, filename:nativename(
+		     filename:join(code:priv_dir(clock), "bin"))).
 
-init([ExtPrg]) ->
+%% Name of the C program
+-define(SERVERPROG, "clock_port").
+
+start_link() ->
+  ServerProg = application:get_env(?MODULE, clock_port, ?SERVERPROG),
+  gen_server:start_link({local, ?MODULE}, ?MODULE, [ServerProg], []).
+
+init([ServerProg]) ->
   process_flag(trap_exit, true),
-  OpenPortResult = open_port( { spawn, ExtPrg }
-                            , [ binary
-                              , {packet, 2} % {packet, N :: 1 | 2 | 4} | stream
-                              , use_stdio
-                              , exit_status
-                              , stderr_to_stdout
-                              ]
-                            ),
-  case OpenPortResult of
-    {ok, Port} ->
+  %% Start the port program (a c program) that utilizes the clock driver
+  case os:find_executable(ServerProg, ?SERVERDIR) of
+    FileName when is_list(FileName)->
+      Port = open_port( {spawn, "\""++FileName++"\""}
+                      , [ binary
+                        , {packet, 2} % {packet, N :: 1 | 2 | 4} | stream
+                        , use_stdio
+                        , exit_status
+                        , stderr_to_stdout
+                        ]
+                      ),
       {ok, #state { port = Port } };
-    {error, Reason} ->
-      {stop, {port_start_failed, Reason}}
+    false ->
+      io:format("ServerProg=~p Not Found~n", [ServerProg]),
+      {stop, port_program_executable_not_found}
   end.
 
 handle_call(Request, _From, State = #state { port = Port }) ->
-  Port ! {call, self(), Request},
+  Port ! {self(), {command, Request}},
   receive
     {Port, {data, Result}} ->
-      {reply, Result, State}
+      {reply, Result, State};
+    X ->
+      io:format("X=~p~n", [X]),
+      {reply, X, State}
   end.
 
 handle_cast(_Msg, State) ->
   {noreply, State}.
 
 handle_info(Info, State = #state { port = Port }) ->
+  io:format("Info=~p~n", [Info]),
   case Info of
     {Port, {data, Data}} ->
       console_log("Push Data = <<~ts>>.", [format_byte_list(Data)]);
@@ -66,8 +78,7 @@ handle_info(Info, State = #state { port = Port }) ->
   end,
   {noreply, State}.
 
-terminate(Reason, State = #state { port = Port }) ->
-  io:format("terminate, reason: ~p, state: ~p~n", [Reason, State]),
+terminate(_Reason, _State = #state { port = Port }) ->
   Port ! stop,
   ok.
 
@@ -79,7 +90,7 @@ code_change(_OldVsn, State, _Extra) ->
 %% ------------------------------------------------------------------
 
 call_port(Request) ->
-  gen_server:call(clock_port, Request).
+  gen_server:call(?MODULE, Request).
 
 currentmillis() ->
   <<CurrentMillis:64/big-unsigned-integer>> = call_port(<<0:16, 1:16>>),
