@@ -16,7 +16,8 @@ rep.bits.bit7 = 1
 $
 */
 
-struct uint8_bits {
+// struct __attribute__((packed)) is a MUST!
+struct __attribute__((packed)) uint8_bits {
   unsigned int bit0:1;
   unsigned int bit1:1;
   unsigned int bit2:1;
