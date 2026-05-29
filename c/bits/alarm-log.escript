@@ -31,7 +31,7 @@ decode_plan_A(Bin) ->
    , AlarmDay:5
    , AlarmCode:7
   >> = reverse_binary(Bin, <<>>), % little endian, reverse order.
-  io:format( "[ ", []),
+  io:format( "         [ ", []),
   lists:foreach(fun(X) -> io:format("~2.16.0B ", [X]) end, binary_to_list(Bin)),
   io:format( "] => (\"~4.10.0B-~2.10.0B-~2.10.0B ~2.10.0B:~2.10.0B:~2.10.0B\", 0x~4.16.0B)\r\n"
                , [ AlarmYear + 2000
@@ -45,7 +45,8 @@ decode_plan_A(Bin) ->
 
 decode_plan_B(Bin) ->
   io:format("Plan B : keep fields order, and keep bytes order,\r\n", []),
-  io:format("  numbers defined by a list of bit-sizes(META-DATA).\r\n", []),
+  io:format("         numbers defined by a list of bit-sizes(META-DATA).\r\n", []),
+
   NumberDefinitions = [ 7 % AlarmCode
                       , 5 % AlarmDay
                       , 4 % AlarmMonth
@@ -62,7 +63,7 @@ decode_plan_B(Bin) ->
   , AlarmMin
   , AlarmSec
   ] = decode_numbers(NumberDefinitions, Bin),
-  io:format( "[ ", []),
+  io:format( "         [ ", []),
   lists:foreach(fun(X) -> io:format("~2.16.0B ", [X]) end, binary_to_list(Bin)),
   io:format( "] + ~p => (\"~4.10.0B-~2.10.0B-~2.10.0B ~2.10.0B:~2.10.0B:~2.10.0B\", 0x~4.16.0B)\r\n"
                , [ NumberDefinitions
