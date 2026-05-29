@@ -31,7 +31,9 @@ decode_plan_A(Bin) ->
    , AlarmDay:5
    , AlarmCode:7
   >> = reverse_binary(Bin, <<>>), % little endian, reverse order.
-  io:format( "~4.10.0B-~2.10.0B-~2.10.0B ~2.10.0B:~2.10.0B:~2.10.0B => 0x~4.16.0B\r\n"
+  io:format( "[ ", []),
+  lists:foreach(fun(X) -> io:format("~2.16.0B ", [X]) end, binary_to_list(Bin)),
+  io:format( "] => (\"~4.10.0B-~2.10.0B-~2.10.0B ~2.10.0B:~2.10.0B:~2.10.0B\", 0x~4.16.0B)\r\n"
                , [ AlarmYear + 2000
                  , AlarmMonth
                  , AlarmDay
@@ -42,7 +44,8 @@ decode_plan_A(Bin) ->
                  ]).
 
 decode_plan_B(Bin) ->
-  io:format("Plan B : keep fields order, and keep bytes order.\r\n", []),
+  io:format("Plan B : keep fields order, and keep bytes order,\r\n", []),
+  io:format("  numbers defined by a list of bit-sizes(META-DATA).\r\n", []),
   NumberDefinitions = [ 7 % AlarmCode
                       , 5 % AlarmDay
                       , 4 % AlarmMonth
@@ -59,8 +62,11 @@ decode_plan_B(Bin) ->
   , AlarmMin
   , AlarmSec
   ] = decode_numbers(NumberDefinitions, Bin),
-  io:format( "~4.10.0B-~2.10.0B-~2.10.0B ~2.10.0B:~2.10.0B:~2.10.0B => 0x~4.16.0B\r\n"
-               , [ AlarmYear + 2000
+  io:format( "[ ", []),
+  lists:foreach(fun(X) -> io:format("~2.16.0B ", [X]) end, binary_to_list(Bin)),
+  io:format( "] + ~p => (\"~4.10.0B-~2.10.0B-~2.10.0B ~2.10.0B:~2.10.0B:~2.10.0B\", 0x~4.16.0B)\r\n"
+               , [ NumberDefinitions
+                 , AlarmYear + 2000
                  , AlarmMonth
                  , AlarmDay
                  , AlarmHour
@@ -99,32 +105,12 @@ decode_numbers([], _BitList, NumberList) ->
 decode_numbers(_NumberDefinitions, [], NumberList) ->
   NumberList;
 
-decode_numbers([ND|Rest], BitList, NumberList) ->
-  {Number, RestBitList} = case ND of
-                            4 -> decode_number(4, BitList);
-                            5 -> decode_number(5, BitList);
-                            6 -> decode_number(6, BitList);
-                            7 -> decode_number(7, BitList)
-                          end,
+decode_numbers([NBit|Rest], BitList, NumberList) ->
+  {Number, RestBitList} = decode_number(NBit, BitList),
   decode_numbers(Rest, RestBitList, [Number|NumberList]).
 
-decode_number(4, XS) ->
-  { BL, Rest } = lists:split(4, XS),
-  <<Number:4>> = << <<X:1>> || X <- lists:reverse(BL) >>,
-  { Number, Rest };
-
-decode_number(5, XS) ->
-  { BL, Rest } = lists:split(5, XS),
-  <<Number:5>> = << <<X:1>> || X <- lists:reverse(BL) >>,
-  { Number, Rest };
-
-decode_number(6, XS) ->
-  { BL, Rest } = lists:split(6, XS),
-  <<Number:6>> = << <<X:1>> || X <- lists:reverse(BL) >>,
-  { Number, Rest };
-
-decode_number(7, XS) ->
-  { BL, Rest } = lists:split(7, XS),
-  <<Number:7>> = << <<X:1>> || X <- lists:reverse(BL) >>,
+decode_number(NBit, XS) ->
+  { BL, Rest } = lists:split(NBit, XS),
+  <<Number:NBit>> = << <<X:1>> || X <- lists:reverse(BL) >>,
   { Number, Rest }.
 
